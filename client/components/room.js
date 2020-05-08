@@ -15,13 +15,8 @@ class Room extends React.Component {
     }
   }
 
-  // updateCodeInState = (newText) => {
-  //   this.setState({code: newText})
-  // }
-
   updateCodeInState = (newText) => {
-    const functionized = new Function(newText).toString()
-    this.setState({code: functionized})
+    this.setState({code: newText})
   }
 
   render() {
