@@ -24,8 +24,6 @@ const Worker = () => {
 
     f()
 
-    // console.oldLog('--------RESULT FROM NEW FUNC---------', result)
-    // var workerResult = 'Received from main: ' + e.data
     console.oldLog('Posting message back to main script')
     self.postMessage(outputStream)
   }
