@@ -1,6 +1,12 @@
 import React, {Component} from 'react'
-import workerScript from './worker'
-import WorkerOutput from './workerOutput'
+const io = require('socket.io-client')
+const socket = io()
+import Codemirror from 'react-codemirror'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/monokai.css'
+import 'codemirror/mode/javascript/javascript.js'
+import workerScript from './replWorker'
+import WorkerOutput from './replTerminal'
 
 const f = function () {
   function sum(a, b) {
@@ -16,24 +22,18 @@ const f = function () {
 
 const TIMEOUT = 10000
 
-class Webworkermain extends Component {
+class Repl extends Component {
   constructor() {
     super()
     this.state = {
-      userCode: `
-      function sum(a, b) {
-        return a + b
-      }
-
-      function hello() {
-        return 'hello world'
-      }
-
-      console.log(sum(3, 4))
-      console.log(hello())
-      `,
+      code: '',
       result: '',
+      guestList: [],
     }
+  }
+
+  updateCodeInState = (newText) => {
+    this.setState({code: newText})
   }
 
   handleTerminal = (data) => {
@@ -52,7 +52,7 @@ class Webworkermain extends Component {
       this.setState({result: m.data})
     }
 
-    myWorker.postMessage([typeof f, this.functionWrapper(this.state.userCode)])
+    myWorker.postMessage([typeof f, this.functionWrapper(this.state.code)])
 
     setTimeout(() => {
       console.log('Terminating!!!!!')
@@ -61,11 +61,22 @@ class Webworkermain extends Component {
   }
 
   render() {
+    const options = {
+      lineNumbers: true,
+      mode: 'javascript',
+      theme: 'monokai',
+    }
+
     return (
       <div>
-        <h2>In web worker main file</h2>
+        {console.log(this.state.code)}
+        <Codemirror
+          value={this.state.code}
+          onChange={this.updateCodeInState}
+          options={options}
+        />
         <button type="button" onClick={() => this.handleWebWorker()}>
-          Run code
+          Run
         </button>
         <WorkerOutput output={this.state.result} />
       </div>
@@ -73,4 +84,4 @@ class Webworkermain extends Component {
   }
 }
 
-export default Webworkermain
+export default Repl

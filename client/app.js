@@ -1,13 +1,13 @@
 import React from 'react'
 
 import {Navbar} from './components'
-import Webworkermain from './components/webworkermain'
+import Repl from './components/repl/repl'
 import Routes from './routes'
 
 const App = () => {
   return (
     <div>
-      <Webworkermain />
+      <Repl />
       <Navbar />
       <Routes />
     </div>
