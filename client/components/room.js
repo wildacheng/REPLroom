@@ -15,8 +15,13 @@ class Room extends React.Component {
     }
   }
 
+  // updateCodeInState = (newText) => {
+  //   this.setState({code: newText})
+  // }
+
   updateCodeInState = (newText) => {
-    this.setState({code: newText})
+    const functionized = new Function(newText).toString()
+    this.setState({code: functionized})
   }
 
   render() {
@@ -28,6 +33,7 @@ class Room extends React.Component {
 
     return (
       <div>
+        {console.log(this.state.code)}
         <Codemirror
           value={this.state.code}
           onChange={this.updateCodeInState}
