@@ -1,9 +1,15 @@
 import React from 'react'
 
 const WorkerOutput = (props) => {
-  console.log('props------->', props)
-  console.log(props)
-  return <div></div>
+  const {output} = props
+  const strArr = output.split('^+')
+  return (
+    <div>
+      {strArr.map((line, i) => (
+        <div key={i}>{line}</div>
+      ))}
+    </div>
+  )
 }
 
 export default WorkerOutput

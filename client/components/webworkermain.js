@@ -14,21 +14,25 @@ const f = function () {
   console.log(hello())
 }
 
-const TIMEOUT = 15000
+const TIMEOUT = 10000
 
 class Webworkermain extends Component {
   constructor() {
     super()
     this.state = {
-      userCode: `function sum(a, b) {
+      userCode: `
+      function sum(a, b) {
         return a + b
       }
+
       function hello() {
         return 'hello world'
       }
 
-      console.log(sum(3,4))
-      console.log(hello())`,
+      console.log(sum(3, 4))
+      console.log(hello())
+      `,
+      result: '',
     }
   }
 
@@ -45,13 +49,15 @@ class Webworkermain extends Component {
 
     myWorker.onmessage = (m) => {
       console.log('result of function ', m.data)
-      // <WorkerOutput />
-      this.handleTerminal(m.data)
+      this.setState({result: m.data})
     }
 
     myWorker.postMessage([typeof f, this.functionWrapper(this.state.userCode)])
 
-    setTimeout(() => myWorker.terminate(), TIMEOUT)
+    setTimeout(() => {
+      console.log('Terminating!!!!!')
+      myWorker.terminate()
+    }, TIMEOUT)
   }
 
   render() {
@@ -61,25 +67,10 @@ class Webworkermain extends Component {
         <button type="button" onClick={() => this.handleWebWorker()}>
           Run code
         </button>
+        <WorkerOutput output={this.state.result} />
       </div>
     )
   }
 }
 
 export default Webworkermain
-
-// blobForWorker(data) {
-//   const jsFile = CodeWorker.toString()
-//   return new Blob(['(' + jsFile + ')()'])
-// }
-// runWorker(input) {
-//   //input get passed to CodeWorker
-//   const myBlob = this.blobForWorker();
-//   this.worker = new Worker(URL.createObjectURL(myBlob));
-//   this.worker.addEventListener('message', (evt) => {
-//     console.log('<WorkerHandler>--->', evt.data);
-//   })
-//   this.worker.postMessage(input)
-//   //this.worker.postMessage(bigStr)
-//   setTimeout(() => this.worker.terminate(), 10000)
-// }
