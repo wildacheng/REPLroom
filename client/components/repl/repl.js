@@ -7,20 +7,9 @@ import 'codemirror/theme/monokai.css'
 import 'codemirror/mode/javascript/javascript.js'
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
+import parseCode from './parser'
 
-const f = function () {
-  function sum(a, b) {
-    return a + b
-  }
-  function hello() {
-    return 'hello world'
-  }
-
-  console.log(sum(3, 4))
-  console.log(hello())
-}
-
-const TIMEOUT = 10000
+const TIMEOUT = 8000
 
 class Repl extends Component {
   constructor() {
@@ -28,7 +17,7 @@ class Repl extends Component {
     this.state = {
       code: '',
       result: '',
-      guestList: [],
+      //guestList: [],
     }
   }
 
@@ -41,6 +30,7 @@ class Repl extends Component {
   }
 
   functionWrapper = (str) => {
+    // eslint-disable-next-line no-new-func
     return new Function(str).toString()
   }
 
@@ -48,14 +38,16 @@ class Repl extends Component {
     const myWorker = new Worker(workerScript)
 
     myWorker.onmessage = (m) => {
-      console.log('result of function ', m.data)
+      //console.log('result of function ', m.data)
       this.setState({result: m.data})
     }
 
-    myWorker.postMessage([typeof f, this.functionWrapper(this.state.code)])
+    const parsedCode = parseCode(this.state.code)
+
+    myWorker.postMessage([typeof f, this.functionWrapper(parsedCode)])
 
     setTimeout(() => {
-      console.log('Terminating!!!!!')
+      console.log('Terminating!!!')
       myWorker.terminate()
     }, TIMEOUT)
   }
@@ -69,7 +61,6 @@ class Repl extends Component {
 
     return (
       <div>
-        {console.log(this.state.code)}
         <Codemirror
           value={this.state.code}
           onChange={this.updateCodeInState}
