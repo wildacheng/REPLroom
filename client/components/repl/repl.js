@@ -1,13 +1,19 @@
 import React, {Component} from 'react'
-const io = require('socket.io-client')
-const socket = io()
+
+//CODEMIRROR
 import Codemirror from 'react-codemirror'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/monokai.css'
 import 'codemirror/mode/javascript/javascript.js'
+
+//WEBWORKERS/REPL
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
+
+//SOCKET
+const io = require('socket.io-client')
+const socket = io()
 
 const TIMEOUT = 6000
 
