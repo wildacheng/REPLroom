@@ -1,21 +1,21 @@
 import React, {Component} from 'react'
 const io = require('socket.io-client')
 const socket = io()
-import Codemirror from 'react-codemirror'
+import {Controlled as Codemirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/monokai.css'
-import 'codemirror/mode/javascript/javascript.js'
+require('codemirror/mode/javascript/javascript.js')
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
 
-const TIMEOUT = 6000
+const TIMEOUT = 8000
 
 class Repl extends Component {
   constructor() {
     super()
     this.state = {
-      code: '',
+      code: '// your code here\n',
       result: '',
       //guestList: [],
     }
@@ -38,7 +38,6 @@ class Repl extends Component {
     const myWorker = new Worker(workerScript)
 
     myWorker.onmessage = (m) => {
-      //console.log('result of function ', m.data)
       this.setState({result: m.data})
     }
 
@@ -63,8 +62,10 @@ class Repl extends Component {
       <div>
         <Codemirror
           value={this.state.code}
-          onChange={this.updateCodeInState}
           options={options}
+          onBeforeChange={(editor, data, value) => {
+            this.updateCodeInState(value)
+          }}
         />
         <button type="button" onClick={() => this.handleWebWorker()}>
           Run
