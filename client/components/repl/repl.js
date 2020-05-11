@@ -9,7 +9,7 @@ import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
 
-const TIMEOUT = 8000
+const TIMEOUT = 6000
 
 class Repl extends Component {
   constructor() {

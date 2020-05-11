@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Worker = () => {
   self.onmessage = function (e) {
     let outputStream = ''
@@ -10,7 +8,6 @@ const Worker = () => {
       outputStream += '^+'
     }
 
-    console.oldLog('Message received from main script************', e.data[1])
     let code = e.data[1]
 
     let f = new Function('return ' + code)()
@@ -26,7 +23,6 @@ const Worker = () => {
       outputStream += ': ' + err.message
     }
 
-    console.oldLog('Posting message back to main script')
     self.postMessage(outputStream)
   }
 }
