@@ -1,15 +1,11 @@
 import React from 'react'
 
-//import {Navbar} from './components'
-import Repl from './components/repl/repl'
-import Routes from './routes'
+import HomePage from './components/repl/replHomePage'
 
 const App = () => {
   return (
     <div>
-      {/* <Repl /> */}
-      {/* <Navbar /> */}
-      <Routes />
+      <HomePage />
     </div>
   )
 }

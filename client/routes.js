@@ -6,6 +6,10 @@ import {Login, Signup, UserHome} from './components'
 import {me} from './store'
 import Room from './components/room/room'
 
+//REPL routes
+import ReplHomePage from './components/repl/replHomePage'
+import Repl from './components/repl/repl'
+
 /**
  * COMPONENT
  */
@@ -21,6 +25,12 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/room" component={Room} />
+        <Route exact path="/" component={ReplHomePage} />
+        <Route
+          exact
+          path="/:roomId"
+          render={(routeProps) => <Repl {...routeProps} />}
+        />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {isLoggedIn && (

@@ -1,15 +1,16 @@
 import React, {Component} from 'react'
-//const io = require('socket.io-client')
-//const socket = io()
 import {Controlled as Codemirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/monokai.css'
-require('codemirror/mode/javascript/javascript.js') //look into this
+import 'codemirror/mode/javascript/javascript.js' //look into this
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
 
-const TIMEOUT = 8000
+//SOCKET
+import io from 'socket.io-client'
+
+const TIMEOUT = 6000
 
 class Repl extends Component {
   constructor() {
@@ -18,11 +19,28 @@ class Repl extends Component {
       code: '// your code here\n',
       result: '',
     }
+    //maybe add params here
+    this.socket = io(window.location.origin)
+    this.socket.on('updating code', ({code}) => {
+      this.getNewCodeFromServer(code)
+    })
   }
 
   updateCodeInState = (newText) => {
     this.setState({code: newText})
+    this.socket.emit('updating code', {code: this.state.code})
   }
+
+  getNewCodeFromServer = (code) => {
+    this.setState({code: code})
+    console.log(this.state)
+  }
+
+  // componentDidMount() {
+  //   this.socket.on('updating code', ({code}) => {
+  //     console.log(code)
+  //   })
+  // }
 
   handleTerminal = (data) => {
     return <WorkerOutput output={data} />
@@ -59,6 +77,7 @@ class Repl extends Component {
 
     return (
       <div>
+        {console.log(this.props)}
         <Codemirror
           value={this.state.code}
           options={options}
