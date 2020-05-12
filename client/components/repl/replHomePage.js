@@ -9,9 +9,18 @@ class HomePage extends Component {
       roomName: '',
     }
   }
+
+  generateRoomName = () => {
+    return Math.random().toString(36).substring(7)
+  }
+
+  createRoom = (event) => {
+    event.preventDefault()
+    this.setState({[event.target.name]: this.generateRoomName()})
+  }
+
   joinRoom = (event) => {
     event.preventDefault()
-    console.log(this.state.name, 'IM NAME', this.state.roomName)
   }
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value})
@@ -42,6 +51,12 @@ class HomePage extends Component {
             onClick={this.joinRoom}
             type="submit"
             value="Join Room"
+          ></input>
+          <input
+            onClick={this.createRoom}
+            type="submit"
+            name="roomName"
+            value="Create Room"
           ></input>
         </form>
         <hr />
