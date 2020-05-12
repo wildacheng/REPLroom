@@ -12,8 +12,7 @@ import WorkerOutput from './replTerminal'
 import parseCode from './parser'
 
 //SOCKET
-const io = require('socket.io-client')
-const socket = io()
+import io from 'socket.io-client'
 
 const TIMEOUT = 6000
 
@@ -21,15 +20,32 @@ class Repl extends Component {
   constructor() {
     super()
     this.state = {
-      code: '',
+      code: 'Your code here',
       result: '',
       //guestList: [],
     }
+    //maybe add params here
+    this.socket = io(window.location.origin)
+    this.socket.on('updating code', ({code}) => {
+      this.getNewCodeFromServer(code)
+    })
   }
 
   updateCodeInState = (newText) => {
     this.setState({code: newText})
+    this.socket.emit('updating code', {code: this.state.code})
   }
+
+  getNewCodeFromServer = (code) => {
+    this.setState({code: code})
+    console.log(this.state)
+  }
+
+  // componentDidMount() {
+  //   this.socket.on('updating code', ({code}) => {
+  //     console.log(code)
+  //   })
+  // }
 
   handleTerminal = (data) => {
     return <WorkerOutput output={data} />
