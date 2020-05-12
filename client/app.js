@@ -8,10 +8,8 @@ import Routes from './routes'
 const App = () => {
   return (
     <div>
-      <HomePage />
-      {/* <Repl /> */}
       {/* <Navbar /> */}
-      {/* <Routes /> */}
+      <Routes />
     </div>
   )
 }

@@ -13,27 +13,32 @@ import parseCode from './parser'
 
 //SOCKET
 import io from 'socket.io-client'
+const socket = io(window.location.origin)
 
 const TIMEOUT = 6000
 
 class Repl extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       code: 'Your code here',
       result: '',
-      //guestList: [],
+      //collaborators: [],
     }
     //maybe add params here
-    this.socket = io(window.location.origin)
-    this.socket.on('updating code', ({code}) => {
+
+    socket.on('updating code', ({code}) => {
       this.getNewCodeFromServer(code)
     })
   }
 
+  // componentDidUpdate() {
+  //   if (this.state.code !== this.state.)
+  // }
+
   updateCodeInState = (newText) => {
     this.setState({code: newText})
-    this.socket.emit('updating code', {code: this.state.code})
+    socket.emit('updating code', {code: this.state.code})
   }
 
   getNewCodeFromServer = (code) => {

@@ -14,9 +14,12 @@ class HomePage extends Component {
   generateRoomName = () => {
     return Math.random().toString(36).substring(7)
   }
+
   createRoom = (event) => {
     event.preventDefault()
-    this.setState({[event.target.name]: this.generateRoomName()})
+    let roomName = this.generateRoomName()
+    this.setState({[event.target.name]: roomName})
+    this.props.history.push(`/${roomName}`)
   }
 
   joinRoom = (event) => {
@@ -35,6 +38,7 @@ class HomePage extends Component {
   }
   render() {
     const {name, roomName} = this.state
+
     return (
       <div>
         <form>
@@ -61,7 +65,13 @@ class HomePage extends Component {
             type="submit"
             value="Join Room"
           ></input>
-          <Link to={`/${roomName}`}>Link Test</Link>
+          <input
+            onClick={this.createRoom}
+            type="submit"
+            name="roomName"
+            value="Create Room"
+          ></input>
+          {/* <Link to={`/room/${this.state.roomName}`}>Link Test</Link> */}
         </form>
         <hr />
       </div>
