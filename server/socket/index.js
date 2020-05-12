@@ -5,7 +5,7 @@ module.exports = (io) => {
 
     socket.on('updating code', (code) => {
       console.log('updated code', code)
-      io.emit('updating code', code)
+      io.sockets.emit('updating code', code)
     })
 
     socket.on('disconnect', () => {

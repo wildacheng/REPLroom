@@ -9,7 +9,7 @@ const App = () => {
   return (
     <div>
       <HomePage />
-      <Repl />
+      {/* <Repl /> */}
       {/* <Navbar /> */}
       {/* <Routes /> */}
     </div>

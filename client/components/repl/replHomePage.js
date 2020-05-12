@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 class HomePage extends Component {
   constructor(props) {
@@ -11,7 +12,14 @@ class HomePage extends Component {
   }
   joinRoom = (event) => {
     event.preventDefault()
-    console.log(this.state.name, 'IM NAME', this.state.roomName)
+    console.log(
+      'NAME: ',
+      this.state.name,
+      'ROOM: ',
+      this.state.roomName,
+      'PROPS: ',
+      this.props
+    )
   }
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value})
@@ -38,11 +46,13 @@ class HomePage extends Component {
             value={roomName}
           />
           <br />
+
           <input
             onClick={this.joinRoom}
             type="submit"
             value="Join Room"
           ></input>
+          <Link to={`/${roomName}`}>Link Test</Link>
         </form>
         <hr />
       </div>

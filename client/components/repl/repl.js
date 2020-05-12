@@ -83,6 +83,7 @@ class Repl extends Component {
 
     return (
       <div>
+        {console.log(this.props)}
         <Codemirror
           value={this.state.code}
           onChange={this.updateCodeInState}
