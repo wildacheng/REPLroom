@@ -10,6 +10,15 @@ class HomePage extends Component {
       roomName: '',
     }
   }
+
+  generateRoomName = () => {
+    return Math.random().toString(36).substring(7)
+  }
+  createRoom = (event) => {
+    event.preventDefault()
+    this.setState({[event.target.name]: this.generateRoomName()})
+  }
+
   joinRoom = (event) => {
     event.preventDefault()
     console.log(
