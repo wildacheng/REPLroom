@@ -1,0 +1,79 @@
+body {
+  background-color: #27222b;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #484041;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  /* padding: 10px 1%; */
+}
+
+.headerbtn {
+  font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS',
+    sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #70ee9c;
+  text-decoration: none;
+  background-color: #434371;
+  border: none;
+  padding: 15px 32px;
+  margin: 0;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+#activeUser {
+  color: #70ee9c;
+  text-decoration: none;
+  background-color: #52494a;
+  /* background-image: linear-gradient(to bottom right, #352f2f, #4f4647); */
+  border-width: 2px;
+  border-style: solid;
+  border-color: #27222b;
+  font-size: smaller;
+  padding: 14px;
+  margin: 2px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #79aea3;
+  padding: 12px 16px;
+  text-decoration: none;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content p {
+  color: #434371;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #79aea3;
+  color: #434371;
+}

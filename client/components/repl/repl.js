@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-const io = require('socket.io-client')
-const socket = io()
+//const io = require('socket.io-client')
+//const socket = io()
 import {Controlled as Codemirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/monokai.css'
-require('codemirror/mode/javascript/javascript.js')
+require('codemirror/mode/javascript/javascript.js') //look into this
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
@@ -17,7 +17,6 @@ class Repl extends Component {
     this.state = {
       code: '// your code here\n',
       result: '',
-      //guestList: [],
     }
   }
 
