@@ -2,6 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
+import io from 'socket.io-client'
+const socket = io()
+
 class HomePage extends Component {
   constructor(props) {
     super(props)
@@ -20,6 +23,7 @@ class HomePage extends Component {
     let roomName = this.generateRoomName()
     this.setState({[event.target.name]: roomName})
     this.props.history.push(`/${roomName}`)
+    socket.emit('createdRoom', {name: this.state.name, roomName: roomName})
   }
 
   joinRoom = (event) => {

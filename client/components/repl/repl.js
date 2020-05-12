@@ -13,7 +13,7 @@ import parseCode from './parser'
 
 //SOCKET
 import io from 'socket.io-client'
-const socket = io(window.location.origin)
+const socket = io()
 
 const TIMEOUT = 6000
 
@@ -23,18 +23,34 @@ class Repl extends Component {
     this.state = {
       code: 'Your code here',
       result: '',
-      //collaborators: [],
+      collaborators: [],
     }
     //maybe add params here
 
     socket.on('updating code', ({code}) => {
       this.getNewCodeFromServer(code)
     })
+    socket.on('createdRoom', (data) => {
+      console.log(data, 'IM NAME')
+      this.joinUser(data.name)
+    })
+  }
+
+  componentDidMount() {
+    const collaborators = this.state.collaborators
+    socket.emit('join', {
+      room: this.props.match.params.roomId,
+      collaborators: collaborators,
+    })
+    this.setState({collaborators: collaborators})
   }
 
   // componentDidUpdate() {
   //   if (this.state.code !== this.state.)
   // }
+  joinUser = (name) => {
+    this.setState({collaborators: name})
+  }
 
   updateCodeInState = (newText) => {
     this.setState({code: newText})
