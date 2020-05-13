@@ -21,6 +21,11 @@ module.exports = (io) => {
       io.sockets.in(data.roomName).emit('updating code', data.code)
     })
 
+    socket.on('leave room', (data) => {
+      io.socket.in(data.roomName).emit('user left room', {user: data.user})
+      socket.leave(data.room)
+    })
+
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
     })

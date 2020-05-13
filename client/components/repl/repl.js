@@ -24,6 +24,7 @@ class Repl extends Component {
       code: 'Your code here',
       result: '',
       users: [],
+      currentUser: '',
     }
   }
 
@@ -45,15 +46,27 @@ class Repl extends Component {
       this.getNewCodeFromServer(code)
     })
 
+    socket.on('user left room', (user) => {
+      this.removeUser(user)
+    })
+
     const name = this.props.location.state.name
     const roomName = this.props.match.params.roomId
     socket.emit('connectToRoom', {name: name, roomName: roomName})
+  }
+
+  componentWillUnmount() {
+    socket.emit('leave room', {
+      roomName: this.state.roomName,
+      user: this.state.currentUser,
+    })
   }
 
   componentDidUpdate() {
     // const roomName = this.props.match.params.roomId
     // socket.emit('connectToRoom', {name: name, roomName: roomName})
     console.log(this.state.users, 'USERS')
+    console.log(this.state.currentUser, 'current user')
   }
 
   sendUsersAndCode = () => {
@@ -71,7 +84,7 @@ class Repl extends Component {
     const cleanUsers = newUsers.filter((user) => {
       return user.length > 1
     })
-    this.setState({users: cleanUsers})
+    this.setState({users: cleanUsers, currentUser: name})
   }
 
   updateUsersAndCodeInState = (data) => {
@@ -81,6 +94,17 @@ class Repl extends Component {
       return user.length > 1
     })
     this.setState({users: cleanUsers, code: data.code})
+  }
+
+  removeUser(user) {
+    const newUsers = Object.assign([], this.state.users)
+    const indexOfUserToDelete = this.state.users.findIndex((Olduser) => {
+      return Olduser === user.user
+    })
+    newUsers.splice(indexOfUserToDelete, 1)
+    this.setState((prevState) => {
+      return {users: newUsers}
+    })
   }
 
   updateCodeInState = (newText) => {
