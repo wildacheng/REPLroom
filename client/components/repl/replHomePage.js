@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
-import io from 'socket.io-client'
-const socket = io()
+// import io from 'socket.io-client'
+import socket from '../../socket'
 
 class HomePage extends Component {
   constructor(props) {
@@ -22,20 +22,14 @@ class HomePage extends Component {
     event.preventDefault()
     let roomName = this.generateRoomName()
     this.setState({[event.target.name]: roomName})
+    console.log(this.state)
     this.props.history.push(`/${roomName}`)
-    socket.emit('createdRoom', {name: this.state.name, roomName: roomName})
+    socket.emit('created room', {name: this.state.name, roomName: roomName})
   }
 
   joinRoom = (event) => {
     event.preventDefault()
-    console.log(
-      'NAME: ',
-      this.state.name,
-      'ROOM: ',
-      this.state.roomName,
-      'PROPS: ',
-      this.props
-    )
+    socket.emit('joined room', this.state)
   }
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value})
@@ -75,7 +69,6 @@ class HomePage extends Component {
             name="roomName"
             value="Create Room"
           ></input>
-          {/* <Link to={`/room/${this.state.roomName}`}>Link Test</Link> */}
         </form>
         <hr />
       </div>

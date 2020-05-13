@@ -1,11 +1,19 @@
 module.exports = (io) => {
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
-    //by "name" to "room"
-    // const nsp = io.of()
-    socket.on('createdRoom', (data) => {
-      console.log(data, 'IM BACK DATA')
-      io.in(`${data.roomName}`).emit('joined', data.name)
+
+    //CREATED ROOM (FROM HOMEPAGE, JOIN ROOM AND BROADCAST TO ROOM THAT THEY JOINED WITH THE NAME OF ROOM AND NAME OF PERSON)
+    socket.on('created room', (data) => {
+      console.log('CREATED ROOM DATA:', data)
+      socket.join(data.roomName)
+      io.to(`${data.roomName}`).emit('joined room', data)
+    })
+
+    //JOINED PREEXISTING ROOM (FROM HOMEPAGE), JOIN ROOM AND BROADCAST TO ROOM THAT THEY JOINED WITH THE NAME OF ROOM AND NAME OF PERSON)
+    socket.on('joined room', (data) => {
+      console.log('JOINED ROOM DATA:', data)
+      socket.join(data.roomName)
+      io.to(`${data.roomName}`).emit('joined room', data)
     })
 
     socket.on('updating code', (code) => {

@@ -12,8 +12,7 @@ import WorkerOutput from './replTerminal'
 import parseCode from './parser'
 
 //SOCKET
-import io from 'socket.io-client'
-const socket = io()
+import socket from '../../socket'
 
 const TIMEOUT = 6000
 
@@ -24,32 +23,25 @@ class Repl extends Component {
       code: 'Your code here',
       result: '',
       collaborators: [],
+      roomName: '',
     }
-    //maybe add params here
 
     socket.on('updating code', ({code}) => {
       this.getNewCodeFromServer(code)
     })
-    socket.on('createdRoom', (data) => {
-      console.log(data, 'IM NAME')
-      this.joinUser(data.name)
+
+    socket.on('joined room', (data) => {
+      let collaborators = [...this.state.collaborators, data.name]
+      this.setState({collaborators: collaborators, roomName: data.roomName})
+      console.log('JOINED ROOM IN REPL:', this.state)
     })
   }
 
+  //if someone joins from URL
   componentDidMount() {
-    const collaborators = this.state.collaborators
-    socket.emit('join', {
-      room: this.props.match.params.roomId,
-      collaborators: collaborators,
-    })
-    this.setState({collaborators: collaborators})
-  }
-
-  // componentDidUpdate() {
-  //   if (this.state.code !== this.state.)
-  // }
-  joinUser = (name) => {
-    this.setState({collaborators: name})
+    const name = Math.random().toString(36).substring(7)
+    this.setState({name: name})
+    socket.emit('joined room', this.state)
   }
 
   updateCodeInState = (newText) => {
@@ -61,12 +53,6 @@ class Repl extends Component {
     this.setState({code: code})
     console.log(this.state)
   }
-
-  // componentDidMount() {
-  //   this.socket.on('updating code', ({code}) => {
-  //     console.log(code)
-  //   })
-  // }
 
   handleTerminal = (data) => {
     return <WorkerOutput output={data} />
@@ -104,7 +90,14 @@ class Repl extends Component {
 
     return (
       <div>
-        {console.log(this.props)}
+        <div id="collaborators">
+          <h3>Collaborators:</h3>
+          <ol>
+            {this.state.collaborators.map((collab, i) => (
+              <li key={i}>{collab}</li>
+            ))}
+          </ol>
+        </div>
         <Codemirror
           value={this.state.code}
           onChange={this.updateCodeInState}
