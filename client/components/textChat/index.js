@@ -3,7 +3,7 @@ import io from 'socket.io-client'
 const socket = io(window.location.origin)
 import './index.css'
 
-class Chat extends Component {
+class TextChat extends Component {
   constructor(props) {
     super()
     this.state = {
@@ -11,10 +11,12 @@ class Chat extends Component {
       message: '',
       broadcastedMsg: [],
     }
-
     this.socket = io(window.location.origin)
 
-    const room = props.roomId
+    let room
+
+    if (props.length) room = props.match.params.roomId
+
     socket.emit('join-room', room)
 
     socket.on('chat-message', (message) => {
@@ -28,7 +30,7 @@ class Chat extends Component {
   handleChat = () => {
     socket.emit('send-chat-message', {
       message: this.state.message,
-      roomId: this.props.roomId,
+      roomId: this.props.match.params.roomId,
     })
     this.setState({
       // chatOpen: !this.state.chatOpen,
@@ -68,4 +70,4 @@ class Chat extends Component {
   }
 }
 
-export default Chat
+export default TextChat

@@ -3,8 +3,9 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
-import VideoChat from './components/video-chat'
-import Chat from './components/chat'
+// import VideoChat from './components/video-chat'
+// import Chat from './components/chat'
+import Communication from './components/communication'
 import {me} from './store'
 
 /**
@@ -21,8 +22,8 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/roomId/:roomId" component={Chat} />
-        <Route path="/roomId/:roomId" component={VideoChat} />
+        <Route path="/roomId/:roomId" component={Communication} />
+        {/* <Route path="/roomId/:roomId" component={VideoChat} /> */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {isLoggedIn && (
