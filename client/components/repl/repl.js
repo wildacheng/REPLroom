@@ -23,10 +23,16 @@ class Repl extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      // code: '// your code here\n',
+      // result: '',
       height: 350, //height of the editor
       width: 400, //width of left panel
     }
   }
+
+  // componentDidMount() {
+
+  // }
 
   handleTerminal = (data) => {
     return <WorkerOutput output={data} />
