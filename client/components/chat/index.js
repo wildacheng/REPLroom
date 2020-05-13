@@ -8,6 +8,7 @@ class Chat extends Component {
     super()
     this.state = {
       chatOpen: false,
+      name: 'Mohana',
       message: '',
       broadcastedMsg: [],
     }
@@ -31,7 +32,6 @@ class Chat extends Component {
       roomId: this.props.roomId,
     })
     this.setState({
-      // chatOpen: !this.state.chatOpen,
       message: '',
       broadcastedMsg: [...this.state.broadcastedMsg, this.state.message],
     })
@@ -51,13 +51,40 @@ class Chat extends Component {
 
   render() {
     return (
-      <div className="chat">
-        <div className="chat-window">
-          {this.state.chatOpen && (
-            <div className="chatbox">
+      // <div className="chat">
+      //   <div className="chat-window">
+      //     {this.state.chatOpen && (
+      //       <div className="chatbox">
+      //         {this.state.broadcastedMsg.map((msg) => {
+      //           return <div>{msg}</div>
+      //         })}
+      //         <input
+      //           type="text"
+      //           placeholder="Type your message here"
+      //           value={this.state.message}
+      //           onChange={this.handleChange}
+      //         />
+      //         <button type="button" onClick={this.handleChat}>
+      //           {' '}
+      //           Send{' '}
+      //         </button>
+      //       </div>
+      //     )}
+      //   </div>
+      //   <button type="button" className = "chat-open-button" onClick={this.handleChatWindow}>
+      //     Chat
+      //   </button>
+      // </div>
+      <div className="chat-pop">
+        {/* <div className="chat-window"> */}
+        {this.state.chatOpen && (
+          <div className="chat-window">
+            <div className="text-area">
               {this.state.broadcastedMsg.map((msg) => {
                 return <div>{msg}</div>
               })}
+            </div>
+            <div className="msg-input-bar">
               <input
                 type="text"
                 placeholder="Type your message here"
@@ -69,9 +96,14 @@ class Chat extends Component {
                 Send{' '}
               </button>
             </div>
-          )}
-        </div>
-        <button type="button" onClick={this.handleChatWindow}>
+          </div>
+        )}
+        {/* </div> */}
+        <button
+          type="button"
+          className="chat-open-button"
+          onClick={this.handleChatWindow}
+        >
           Chat
         </button>
       </div>
