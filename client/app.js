@@ -1,11 +1,13 @@
 import React from 'react'
 
 import HomePage from './components/repl/replHomePage'
+import Room from './components/room/room'
 
 const App = () => {
   return (
     <div>
-      <HomePage />
+      <Room />
+      {/* <HomePage /> */}
     </div>
   )
 }

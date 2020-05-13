@@ -4,7 +4,6 @@ module.exports = (io) => {
     //by "name" to "room"
 
     socket.on('updating code', (code) => {
-      console.log('updated code', code)
       io.sockets.emit('updating code', code)
     })
 

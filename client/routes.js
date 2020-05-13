@@ -24,13 +24,13 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/room" component={Room} />
-        <Route exact path="/" component={ReplHomePage} />
-        <Route
+        <Route exact path="/" component={Room} />
+        {/* <Route exact path="/" component={ReplHomePage} /> */}
+        {/* <Route
           exact
           path="/:roomId"
           render={(routeProps) => <Repl {...routeProps} />}
-        />
+        /> */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {isLoggedIn && (

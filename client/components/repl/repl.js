@@ -1,16 +1,21 @@
 import React, {Component} from 'react'
+import SplitPane, {Pane} from 'react-split-pane'
+//Code Mirror
 import {Controlled as Codemirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/monokai.css'
+//import 'codemirror/theme/monokai.css'
+import 'codemirror/theme/material-palenight.css'
 import 'codemirror/mode/javascript/javascript.js' //look into this
+//local scripts
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
-
 //SOCKET
 import io from 'socket.io-client'
+//CSS
+import './repl.css'
 
-const TIMEOUT = 6000
+const TIMEOUT = 8000
 
 class Repl extends Component {
   constructor() {
@@ -18,6 +23,8 @@ class Repl extends Component {
     this.state = {
       code: '// your code here\n',
       result: '',
+      height: 350, //height of the editor
+      width: 400, //width of left panel
     }
     //maybe add params here
     this.socket = io(window.location.origin)
@@ -36,12 +43,6 @@ class Repl extends Component {
     console.log(this.state)
   }
 
-  // componentDidMount() {
-  //   this.socket.on('updating code', ({code}) => {
-  //     console.log(code)
-  //   })
-  // }
-
   handleTerminal = (data) => {
     return <WorkerOutput output={data} />
   }
@@ -59,7 +60,6 @@ class Repl extends Component {
     }
 
     const parsedCode = parseCode(this.state.code)
-
     myWorker.postMessage([typeof f, this.functionWrapper(parsedCode)])
 
     setTimeout(() => {
@@ -72,24 +72,28 @@ class Repl extends Component {
     const options = {
       lineNumbers: true,
       mode: 'javascript',
-      theme: 'monokai',
+      theme: 'material-palenight',
+      viewportMargin: Infinity,
     }
 
     return (
-      <div>
-        {console.log(this.props)}
-        <Codemirror
-          value={this.state.code}
-          options={options}
-          onBeforeChange={(editor, data, value) => {
-            this.updateCodeInState(value)
-          }}
-        />
-        <button type="button" onClick={() => this.handleWebWorker()}>
-          Run
-        </button>
-        <WorkerOutput output={this.state.result} />
-      </div>
+      <SplitPane split="horizontal" defaultSize={this.state.height}>
+        <Pane className="pane">
+          <Codemirror
+            value={this.state.code}
+            options={options}
+            onBeforeChange={(_editor, _data, value) => {
+              this.updateCodeInState(value)
+            }}
+          />
+        </Pane>
+        <Pane className="pane">
+          <WorkerOutput
+            output={this.state.result}
+            handleRun={this.handleWebWorker}
+          />
+        </Pane>
+      </SplitPane>
     )
   }
 }
