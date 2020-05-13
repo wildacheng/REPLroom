@@ -25,31 +25,31 @@ class Repl extends Component {
       result: '',
       collaborators: [],
     }
-    //maybe add params here
 
     socket.on('updating code', ({code}) => {
       this.getNewCodeFromServer(code)
     })
-    socket.on('createdRoom', (data) => {
-      console.log(data, 'IM NAME')
-      this.joinUser(data.name)
+
+    socket.on('user joined room', (data) => {
+      console.log(data, 'IM CONNECTED TO A ROOM')
+      this.joinUser(data)
     })
   }
 
   componentDidMount() {
-    const collaborators = this.state.collaborators
-    socket.emit('join', {
-      room: this.props.match.params.roomId,
-      collaborators: collaborators,
-    })
-    this.setState({collaborators: collaborators})
+    const name = this.props.location.state.name
+    const roomName = this.props.match.params.roomId
+    socket.emit('connectToRoom', {name: name, roomName: roomName})
+  }
+  componentDidUpdate() {
+    console.log(this.state.collaborators, 'THE COLLABORTA')
   }
 
-  // componentDidUpdate() {
-  //   if (this.state.code !== this.state.)
-  // }
   joinUser = (name) => {
-    this.setState({collaborators: name})
+    console.log('hello....')
+    this.setState((prevState) => {
+      return {collaborators: [...prevState.collaborators, name]}
+    })
   }
 
   updateCodeInState = (newText) => {

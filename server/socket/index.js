@@ -3,9 +3,13 @@ module.exports = (io) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
     //by "name" to "room"
     // const nsp = io.of()
-    socket.on('createdRoom', (data) => {
-      console.log(data, 'IM BACK DATA')
-      io.in(`${data.roomName}`).emit('joined', data.name)
+
+    socket.on('connectToRoom', (data) => {
+      console.log(data, 'CONNECTED TO ROOM')
+      socket.join(data.roomName)
+      // io.sockets.emit('connectedToRoom', data.name)
+      io.sockets.in(data.roomName).emit('user joined room', data.name)
+      console.log('EMITTED')
     })
 
     socket.on('updating code', (code) => {
