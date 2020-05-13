@@ -12,8 +12,8 @@ import WorkerOutput from './replTerminal'
 import parseCode from './parser'
 
 //SOCKET
-import io from 'socket.io-client'
-const socket = io()
+const io = require('socket.io-client')
+const socket = io(window.location.origin)
 
 const TIMEOUT = 6000
 
@@ -23,34 +23,72 @@ class Repl extends Component {
     this.state = {
       code: 'Your code here',
       result: '',
-      collaborators: [],
+      users: [],
     }
+  }
 
-    socket.on('updating code', ({code}) => {
-      this.getNewCodeFromServer(code)
+  componentDidMount() {
+    socket.on('load users and code', () => {
+      this.sendUsersAndCode()
     })
 
     socket.on('user joined room', (data) => {
       console.log(data, 'IM CONNECTED TO A ROOM')
       this.joinUser(data)
     })
-  }
+    socket.on('users', (data) => {
+      console.log('RECEIVED', data)
+      this.updateUsersAndCodeInState(data)
+    })
 
-  componentDidMount() {
+    socket.on('updating code', (code) => {
+      this.getNewCodeFromServer(code)
+    })
+
     const name = this.props.location.state.name
     const roomName = this.props.match.params.roomId
     socket.emit('connectToRoom', {name: name, roomName: roomName})
   }
 
-  joinUser = (name) => {
-    this.setState((prevState) => {
-      return {collaborators: [...prevState.collaborators, name]}
+  componentDidUpdate() {
+    // const roomName = this.props.match.params.roomId
+    // socket.emit('connectToRoom', {name: name, roomName: roomName})
+    console.log(this.state.users, 'USERS')
+  }
+
+  sendUsersAndCode = () => {
+    socket.emit('send users and code', {
+      roomName: this.props.match.params.roomId,
+      users: this.state.users,
+      code: this.state.code,
     })
+  }
+
+  joinUser = (name) => {
+    //Array.from creates a new array from the new Set
+    const combinedUsers = [...this.state.users, name]
+    const newUsers = Array.from(new Set(combinedUsers))
+    const cleanUsers = newUsers.filter((user) => {
+      return user.length > 1
+    })
+    this.setState({users: cleanUsers})
+  }
+
+  updateUsersAndCodeInState = (data) => {
+    const combinedUsers = this.state.users.concat(data.users)
+    const newUsers = Array.from(new Set(combinedUsers))
+    const cleanUsers = newUsers.filter((user) => {
+      return user.length > 1
+    })
+    this.setState({users: cleanUsers, code: data.code})
   }
 
   updateCodeInState = (newText) => {
     this.setState({code: newText})
-    socket.emit('updating code', {code: this.state.code})
+    socket.emit('updating code', {
+      roomName: this.props.match.params.roomId,
+      code: this.state.code,
+    })
   }
 
   getNewCodeFromServer = (code) => {

@@ -6,12 +6,19 @@ module.exports = (io) => {
       console.log(data, 'CONNECTED TO ROOM')
       socket.join(data.roomName)
       io.sockets.in(data.roomName).emit('user joined room', data.name)
+      io.sockets.in(data.roomName).emit('load users and code')
       console.log('EMITTED')
     })
 
-    socket.on('updating code', (code) => {
-      console.log('updated code', code)
-      io.sockets.emit('updating code', code)
+    socket.on('send users and code', (data) => {
+      console.log(data, 'GOT USER AND CODE')
+      socket.join(data.roomName)
+      io.sockets.in(data.roomName).emit('users', data)
+    })
+
+    socket.on('updating code', (data) => {
+      console.log('updated code', data)
+      io.sockets.in(data.roomName).emit('updating code', data.code)
     })
 
     socket.on('disconnect', () => {
