@@ -19,8 +19,10 @@ const Worker = () => {
       // }, 10000)
       f()
     } catch (err) {
+      outputStream += '  <  '
       outputStream += err.name
       outputStream += ': ' + err.message
+      outputStream += '\n'
     }
 
     self.postMessage(outputStream)

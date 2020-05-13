@@ -40,7 +40,6 @@ class Repl extends Component {
 
   getNewCodeFromServer = (code) => {
     this.setState({code: code})
-    console.log(this.state)
   }
 
   handleTerminal = (data) => {
@@ -77,7 +76,12 @@ class Repl extends Component {
     }
 
     return (
-      <SplitPane split="horizontal" defaultSize={this.state.height}>
+      <SplitPane
+        split="horizontal"
+        minSize={5}
+        maxSize={-5}
+        defaultSize={this.state.height}
+      >
         <Pane className="pane">
           <Codemirror
             value={this.state.code}

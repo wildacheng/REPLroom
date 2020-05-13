@@ -9,12 +9,12 @@ export default class RoomNav extends Component {
     return (
       <div>
         <header>
-          <div className="logo">logo</div>
+          <img className="logo" src="/logo.png" alt="logo" />
           <div>
             <div id="activeUser">Person X is typing...</div>
           </div>
           <div className="dropdown">
-            <button className="dropbtn" className="headerbtn" type="button">
+            <button className="dropbtn headerbtn" type="button">
               Collaborators
             </button>
             <div className="dropdown-content">

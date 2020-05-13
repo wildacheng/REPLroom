@@ -7,7 +7,7 @@ export default class Room extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      width: '45%', //width of left pane
+      width: '50%', //width of left pane
     }
   }
 
@@ -15,7 +15,12 @@ export default class Room extends Component {
     return (
       <div>
         <RoomNav />
-        <SplitPane split="vertical" minSize={50} defaultSize={this.state.width}>
+        <SplitPane
+          split="vertical"
+          minSize={5}
+          maxSize={-5}
+          defaultSize={this.state.width}
+        >
           <Repl />
           <Pane className="pane">
             <div> WHITEBOARD</div>
