@@ -1,0 +1,90 @@
+.CodeMirror {
+  height: 100%;
+  min-height: 100%;
+  border-radius: 6px;
+}
+
+.react-codemirror2 {
+  height: 100%;
+  min-height: 100%;
+}
+
+.pane {
+  padding: 10px;
+}
+
+.output {
+  height: 300px;
+  min-height: 100%;
+}
+
+.runbtn {
+  position: absolute;
+  z-index: 1;
+  left: 82%;
+  font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS',
+    sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #b5f44a;
+  text-decoration: none;
+  background-color: #434371;
+  border: none;
+  border-radius: 6px;
+  padding: 15px 32px;
+  margin: 0;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.Resizer {
+  background: #000;
+  opacity: 0.2;
+  z-index: 1;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+}
+
+.Resizer:hover {
+  -webkit-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
+.Resizer.horizontal {
+  height: 11px;
+  margin: -5px 0;
+  border-top: 5px solid #484041;
+  border-bottom: 5px solid #000000;
+  cursor: row-resize;
+  width: 100%;
+}
+
+.Resizer.horizontal:hover {
+  border-top: 5px solid #70ee9c;
+  border-bottom: 5px solid #79aea3;
+}
+
+.Resizer.vertical {
+  width: 11px;
+  margin: 0 -5px;
+  border-left: 5px solid #484041;
+  border-right: 5px solid #000000;
+  cursor: col-resize;
+}
+
+.Resizer.vertical:hover {
+  border-left: 5px solid #70ee9c;
+  border-right: 5px solid #79aea3;
+}
+.Resizer.disabled {
+  cursor: not-allowed;
+}
+.Resizer.disabled:hover {
+  border-color: transparent;
+}

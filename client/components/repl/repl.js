@@ -1,28 +1,46 @@
 import React, {Component} from 'react'
-const io = require('socket.io-client')
-const socket = io()
-import Codemirror from 'react-codemirror'
+import SplitPane, {Pane} from 'react-split-pane'
+//Code Mirror
+import {Controlled as Codemirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/monokai.css'
-import 'codemirror/mode/javascript/javascript.js'
+//import 'codemirror/theme/monokai.css'
+import 'codemirror/theme/material-palenight.css'
+import 'codemirror/mode/javascript/javascript.js' //look into this
+//local scripts
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
+//SOCKET
+import io from 'socket.io-client'
+//CSS
+import './repl.css'
 
-const TIMEOUT = 6000
+const TIMEOUT = 8000
 
 class Repl extends Component {
   constructor() {
     super()
     this.state = {
-      code: '',
+      code: '// your code here\n',
       result: '',
-      //guestList: [],
+      height: 350, //height of the editor
+      width: 400, //width of left panel
     }
+    //maybe add params here
+    this.socket = io(window.location.origin)
+    this.socket.on('updating code', ({code}) => {
+      this.getNewCodeFromServer(code)
+    })
   }
 
   updateCodeInState = (newText) => {
     this.setState({code: newText})
+    this.socket.emit('updating code', {code: this.state.code})
+  }
+
+  getNewCodeFromServer = (code) => {
+    this.setState({code: code})
+    console.log(this.state)
   }
 
   handleTerminal = (data) => {
@@ -38,12 +56,10 @@ class Repl extends Component {
     const myWorker = new Worker(workerScript)
 
     myWorker.onmessage = (m) => {
-      //console.log('result of function ', m.data)
       this.setState({result: m.data})
     }
 
     const parsedCode = parseCode(this.state.code)
-
     myWorker.postMessage([typeof f, this.functionWrapper(parsedCode)])
 
     setTimeout(() => {
@@ -56,21 +72,28 @@ class Repl extends Component {
     const options = {
       lineNumbers: true,
       mode: 'javascript',
-      theme: 'monokai',
+      theme: 'material-palenight',
+      viewportMargin: Infinity,
     }
 
     return (
-      <div>
-        <Codemirror
-          value={this.state.code}
-          onChange={this.updateCodeInState}
-          options={options}
-        />
-        <button type="button" onClick={() => this.handleWebWorker()}>
-          Run
-        </button>
-        <WorkerOutput output={this.state.result} />
-      </div>
+      <SplitPane split="horizontal" defaultSize={this.state.height}>
+        <Pane className="pane">
+          <Codemirror
+            value={this.state.code}
+            options={options}
+            onBeforeChange={(_editor, _data, value) => {
+              this.updateCodeInState(value)
+            }}
+          />
+        </Pane>
+        <Pane className="pane">
+          <WorkerOutput
+            output={this.state.result}
+            handleRun={this.handleWebWorker}
+          />
+        </Pane>
+      </SplitPane>
     )
   }
 }
