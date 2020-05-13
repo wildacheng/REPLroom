@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import io from 'socket.io-client'
 const socket = io(window.location.origin)
+// import 'font-awesome/css/font-awesome.min.css';
+// import '../../../../node_modules/font-awesome/css/font-awesome.min.css'
+// import chat from '../../../public/chat.png'
 import './index.css'
 
 class Chat extends Component {
@@ -51,32 +54,7 @@ class Chat extends Component {
 
   render() {
     return (
-      // <div className="chat">
-      //   <div className="chat-window">
-      //     {this.state.chatOpen && (
-      //       <div className="chatbox">
-      //         {this.state.broadcastedMsg.map((msg) => {
-      //           return <div>{msg}</div>
-      //         })}
-      //         <input
-      //           type="text"
-      //           placeholder="Type your message here"
-      //           value={this.state.message}
-      //           onChange={this.handleChange}
-      //         />
-      //         <button type="button" onClick={this.handleChat}>
-      //           {' '}
-      //           Send{' '}
-      //         </button>
-      //       </div>
-      //     )}
-      //   </div>
-      //   <button type="button" className = "chat-open-button" onClick={this.handleChatWindow}>
-      //     Chat
-      //   </button>
-      // </div>
       <div className="chat-pop">
-        {/* <div className="chat-window"> */}
         {this.state.chatOpen && (
           <div className="chat-window">
             <div className="text-area">
@@ -98,13 +76,13 @@ class Chat extends Component {
             </div>
           </div>
         )}
-        {/* </div> */}
+
         <button
           type="button"
           className="chat-open-button"
           onClick={this.handleChatWindow}
         >
-          Chat
+          <img src="../chat.png"></img>
         </button>
       </div>
     )

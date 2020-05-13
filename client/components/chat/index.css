@@ -9,7 +9,7 @@
 
 .chat-pop {
   position: fixed;
-  bottom: 45px;
+  bottom: 85px;
   right: 15px;
   border: 3px solid #f1f1f1;
   z-index: 9;
@@ -36,12 +36,20 @@
 }
 
 .chat-open-button {
+  /* background-image: url('../chat.png'); */
   position: fixed;
   bottom: 15px;
   right: 15px;
-  width: 199px;
-  height: 25px;
-  border-radius: 5px;
+  width: 80px;
+  height: 65px;
+  border: none;
+}
+
+.chat-open-button img {
+  bottom: 15px;
+  right: 15px;
+  width: inherit;
+  height: inherit;
 }
 
 .msg-input-bar {
@@ -50,8 +58,6 @@
 }
 
 .msg-input-bar input {
-  /* position: absolute;
-  right: 45px; */
   width: 145px;
   bottom: 0;
   height: 20px;
@@ -62,14 +68,3 @@
   margin-left: 4px;
   border-radius: 5px;
 }
-
-/* .chatbox button {
-  bottom: 0;
-} */
-
-/* .chatbox {
-
-  max-width: 300px;
-  padding: 10px;
-  background-color: white;
-} */
