@@ -24,6 +24,7 @@ class Repl extends Component {
       result: '',
       collaborators: [],
       roomName: '',
+      name: '',
     }
 
     socket.on('updating code', ({code}) => {
@@ -32,7 +33,11 @@ class Repl extends Component {
 
     socket.on('joined room', (data) => {
       let collaborators = [...this.state.collaborators, data.name]
-      this.setState({collaborators: collaborators, roomName: data.roomName})
+      this.setState({
+        collaborators: collaborators,
+        roomName: data.roomName,
+        name: data.name,
+      })
       console.log('JOINED ROOM IN REPL:', this.state)
     })
   }
