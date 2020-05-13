@@ -11,6 +11,11 @@
   position: absolute;
   right: 45px;
   width: 324px;
+  bottom: 0;
+}
+
+.chatbox button {
+  bottom: 0;
 }
 
 .chatbox {

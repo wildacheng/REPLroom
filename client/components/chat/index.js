@@ -7,7 +7,7 @@ class Chat extends Component {
   constructor(props) {
     super()
     this.state = {
-      chatOpen: true,
+      chatOpen: false,
       message: '',
       broadcastedMsg: [],
     }
@@ -43,25 +43,36 @@ class Chat extends Component {
     })
   }
 
+  handleChatWindow = () => {
+    this.setState({
+      chatOpen: !this.state.chatOpen,
+    })
+  }
+
   render() {
     return (
       <div className="chat">
-        {this.state.chatOpen && (
-          <div className="chatbox">
-            {this.state.broadcastedMsg.map((msg) => {
-              return <div>{msg}</div>
-            })}
-          </div>
-        )}
-        <input
-          type="text"
-          placeholder="Type your message here"
-          value={this.state.message}
-          onChange={this.handleChange}
-        />
-        <button type="button" onClick={this.handleChat}>
-          {' '}
-          Chat{' '}
+        <div className="chat-window">
+          {this.state.chatOpen && (
+            <div className="chatbox">
+              {this.state.broadcastedMsg.map((msg) => {
+                return <div>{msg}</div>
+              })}
+              <input
+                type="text"
+                placeholder="Type your message here"
+                value={this.state.message}
+                onChange={this.handleChange}
+              />
+              <button type="button" onClick={this.handleChat}>
+                {' '}
+                Send{' '}
+              </button>
+            </div>
+          )}
+        </div>
+        <button type="button" onClick={this.handleChatWindow}>
+          Chat
         </button>
       </div>
     )
