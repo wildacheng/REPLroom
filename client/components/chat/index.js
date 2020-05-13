@@ -4,7 +4,7 @@ const socket = io(window.location.origin)
 import './index.css'
 
 class Chat extends Component {
-  constructor() {
+  constructor(props) {
     super()
     this.state = {
       chatOpen: true,
@@ -12,12 +12,12 @@ class Chat extends Component {
       broadcastedMsg: [],
     }
     this.socket = io(window.location.origin)
+
+    const room = props.match.params.roomId
+    socket.emit('join-room', room)
+
     socket.on('chat-message', (message) => {
       console.log('message recieved', message)
-      // let parent = document.getElementsByClassName('chat')
-      // let element = document.getElementsByClassName('chatbox')
-      // element.innerText = message;
-      // parent.append(element)
       this.setState({
         broadcastedMsg: [...this.state.broadcastedMsg, message],
       })
@@ -25,7 +25,10 @@ class Chat extends Component {
   }
 
   handleChat = () => {
-    socket.emit('send-chat-message', this.state.message)
+    socket.emit('send-chat-message', {
+      message: this.state.message,
+      roomId: this.props.match.params.roomId,
+    })
     this.setState({
       // chatOpen: !this.state.chatOpen,
       message: '',
@@ -46,7 +49,7 @@ class Chat extends Component {
         {this.state.chatOpen && (
           <div className="chatbox">
             {this.state.broadcastedMsg.map((msg) => {
-              return <span>{msg}</span>
+              return <div>{msg}</div>
             })}
           </div>
         )}
