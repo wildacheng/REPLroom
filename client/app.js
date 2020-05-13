@@ -1,13 +1,10 @@
 import React from 'react'
-
-import HomePage from './components/repl/replHomePage'
-import Room from './components/room/room'
+import Routes from './routes'
 
 const App = () => {
   return (
     <div>
-      <Room />
-      {/* <HomePage /> */}
+      <Routes />
     </div>
   )
 }
