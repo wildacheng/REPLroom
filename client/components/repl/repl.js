@@ -41,12 +41,8 @@ class Repl extends Component {
     const roomName = this.props.match.params.roomId
     socket.emit('connectToRoom', {name: name, roomName: roomName})
   }
-  componentDidUpdate() {
-    console.log(this.state.collaborators, 'THE COLLABORTA')
-  }
 
   joinUser = (name) => {
-    console.log('hello....')
     this.setState((prevState) => {
       return {collaborators: [...prevState.collaborators, name]}
     })
@@ -61,12 +57,6 @@ class Repl extends Component {
     this.setState({code: code})
     console.log(this.state)
   }
-
-  // componentDidMount() {
-  //   this.socket.on('updating code', ({code}) => {
-  //     console.log(code)
-  //   })
-  // }
 
   handleTerminal = (data) => {
     return <WorkerOutput output={data} />

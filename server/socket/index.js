@@ -1,13 +1,10 @@
 module.exports = (io) => {
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
-    //by "name" to "room"
-    // const nsp = io.of()
 
     socket.on('connectToRoom', (data) => {
       console.log(data, 'CONNECTED TO ROOM')
       socket.join(data.roomName)
-      // io.sockets.emit('connectedToRoom', data.name)
       io.sockets.in(data.roomName).emit('user joined room', data.name)
       console.log('EMITTED')
     })
