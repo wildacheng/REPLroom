@@ -25,6 +25,7 @@ class Repl extends Component {
     this.state = {
       // code: '// your code here\n',
       // result: '',
+      // currentUser:
       height: 350, //height of the editor
       width: 400, //width of left panel
     }

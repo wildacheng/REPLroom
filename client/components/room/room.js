@@ -10,10 +10,10 @@ export default class Room extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      code: '// your code here\n',
-      result: '',
+      // code: '// your code here\n',
+      // result: '',
       users: [],
-      currentUser: '',
+      // currentUser: '', !! PUT IN REPL
       width: '45%', //width of left pane
     }
   }
