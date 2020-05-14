@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
-import {Button, Modal} from 'react-bootstrap'
+// import Modal from 'react-modal'
+import {Modal} from 'react-bootstrap'
 import InviteByEmail from './inviteByEmail'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
 
 class Invite extends Component {
@@ -25,6 +27,10 @@ class Invite extends Component {
   render() {
     return (
       <div>
+        {/* <Modal isOpen = {this.props.show } >
+          <h1>This is a Modal</h1>
+          <p>This will the the Modal's body</p>
+        </Modal> */}
         <Modal
           {...this.props}
           size="lg"
@@ -49,7 +55,9 @@ class Invite extends Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.props.onHide}>Close</Button>
+            <button type="button" onClick={this.props.onHide}>
+              Close
+            </button>
           </Modal.Footer>
         </Modal>
       </div>
