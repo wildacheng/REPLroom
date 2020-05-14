@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {withRouter} from 'react-router'
 import SplitPane, {Pane} from 'react-split-pane'
 //Code Mirror
 import {Controlled as Codemirror} from 'react-codemirror2'
@@ -10,35 +11,17 @@ import 'codemirror/mode/javascript/javascript.js' //look into this
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
-//SOCKET
-import io from 'socket.io-client'
 //CSS
 import './repl.css'
 
 const TIMEOUT = 8000
 
 class Repl extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      code: '// your code here\n',
-      result: '',
       height: '65%', //height of the editor
     }
-    //maybe add params here
-    this.socket = io(window.location.origin)
-    this.socket.on('updating code', ({code}) => {
-      this.getNewCodeFromServer(code)
-    })
-  }
-
-  updateCodeInState = (newText) => {
-    this.setState({code: newText})
-    this.socket.emit('updating code', {code: this.state.code})
-  }
-
-  getNewCodeFromServer = (code) => {
-    this.setState({code: code})
   }
 
   handleTerminal = (data) => {
@@ -54,10 +37,11 @@ class Repl extends Component {
     const myWorker = new Worker(workerScript)
 
     myWorker.onmessage = (m) => {
-      this.setState({result: m.data})
+      // this.setState({result: m.data})
+      this.props.updateResult(m.data)
     }
 
-    const parsedCode = parseCode(this.state.code)
+    const parsedCode = parseCode(this.props.code)
     myWorker.postMessage([typeof f, this.functionWrapper(parsedCode)])
 
     setTimeout(() => {
@@ -83,16 +67,16 @@ class Repl extends Component {
       >
         <Pane className="pane">
           <Codemirror
-            value={this.state.code}
+            value={this.props.code}
             options={options}
             onBeforeChange={(_editor, _data, value) => {
-              this.updateCodeInState(value)
+              this.props.updateCode(value)
             }}
           />
         </Pane>
         <Pane className="pane">
           <WorkerOutput
-            output={this.state.result}
+            output={this.props.result}
             handleRun={this.handleWebWorker}
           />
         </Pane>
@@ -101,4 +85,4 @@ class Repl extends Component {
   }
 }
 
-export default Repl
+export default withRouter(Repl)

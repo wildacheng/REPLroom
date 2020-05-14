@@ -1,0 +1,25 @@
+.video-button {
+  position: fixed;
+  bottom: 15px;
+  background-color: #27222b;
+  /* right: 250px; */
+  right: 85px;
+  width: 50px;
+  height: 45px;
+  border: none;
+  outline: none;
+}
+.video-button img {
+  bottom: 15px;
+  right: 15px;
+  width: inherit;
+  height: inherit;
+}
+
+.video {
+  width: fit-content;
+  position: fixed;
+  bottom: 62px;
+  right: 15px;
+  z-index: 7;
+}

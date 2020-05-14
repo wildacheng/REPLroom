@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 
 class HomePage extends Component {
   constructor(props) {
@@ -14,27 +12,36 @@ class HomePage extends Component {
   generateRoomName = () => {
     return Math.random().toString(36).substring(7)
   }
+
   createRoom = (event) => {
     event.preventDefault()
-    this.setState({[event.target.name]: this.generateRoomName()})
+    let roomName = this.generateRoomName()
+    this.setState({[event.target.name]: roomName})
+    console.log(this.props)
+    this.props.history.push({
+      pathname: `/${roomName}`,
+      state: {
+        name: this.state.name,
+      },
+    })
   }
 
   joinRoom = (event) => {
     event.preventDefault()
-    console.log(
-      'NAME: ',
-      this.state.name,
-      'ROOM: ',
-      this.state.roomName,
-      'PROPS: ',
-      this.props
-    )
+    this.props.history.push({
+      pathname: `/${this.state.roomName}`,
+      state: {
+        name: this.state.name,
+      },
+    })
   }
+
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value})
   }
   render() {
     const {name, roomName} = this.state
+
     return (
       <div>
         <form>
@@ -61,11 +68,17 @@ class HomePage extends Component {
             type="submit"
             value="Join Room"
           ></input>
-          <Link to={`/${roomName}`}>Link Test</Link>
+          <input
+            onClick={this.createRoom}
+            type="submit"
+            name="roomName"
+            value="Create Room"
+          ></input>
         </form>
         <hr />
       </div>
     )
   }
 }
+
 export default HomePage
