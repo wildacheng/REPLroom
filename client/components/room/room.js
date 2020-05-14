@@ -12,8 +12,10 @@ export default class Room extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      socketId: socket.id,
+      roomId: this.props.match.params.roomId,
+      username: this.props.location.state.name,
       users: [],
-      currentUser: '',
       width: '45%', //width of left pane
     }
   }
@@ -87,11 +89,8 @@ export default class Room extends Component {
             <div> WHITEBOARD</div>
           </Pane>
         </SplitPane>
-        <VideoChat roomName={this.props.match.params.roomId} />
-        <Chat
-          roomName={this.props.match.params.roomId}
-          userName={this.props.location.state.name}
-        />
+        <VideoChat roomName={this.state.roomId} />
+        <Chat roomName={this.state.roomId} userName={this.state.name} />
       </div>
     )
   }
