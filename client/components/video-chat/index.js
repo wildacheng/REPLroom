@@ -35,7 +35,7 @@ class VideoChat extends Component {
             className="video-button"
             onClick={this.handleVideo}
           >
-            <img src="../videochat.png"></img>
+            <img src="../videoChatNew.png"></img>
           </button>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import io from 'socket.io-client'
-const socket = io(window.location.origin)
+// const socket = io(window.location.origin)
+import socket from '../../socket'
 import './index.css'
 
 class Chat extends Component {
@@ -85,7 +86,7 @@ class Chat extends Component {
           className="chat-open-button"
           onClick={this.handleChatWindow}
         >
-          <img src="../chat.png"></img>
+          <img src="../chatV3.png"></img>
         </button>
       </div>
     )
