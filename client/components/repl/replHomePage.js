@@ -5,17 +5,17 @@ class HomePage extends Component {
     super(props)
     this.state = {
       name: '',
-      roomName: '',
+      roomId: '',
     }
   }
 
   //SUBMIT EVENT FOR CREATING NEW ROOM
   createRoom = (event) => {
     event.preventDefault()
-    let roomName = Math.random().toString(36).substring(7)
-    this.setState({roomName: roomName})
+    const roomId = Math.random().toString(36).substring(7)
+    this.setState({roomId: roomId})
     this.props.history.push({
-      pathname: `/${roomName}`,
+      pathname: `/${roomId}`,
       state: {
         name: this.state.name,
       },
@@ -26,7 +26,7 @@ class HomePage extends Component {
   joinRoom = (event) => {
     event.preventDefault()
     this.props.history.push({
-      pathname: `/${this.state.roomName}`,
+      pathname: `/${this.state.roomId}`,
       state: {
         name: this.state.name,
       },
@@ -56,7 +56,7 @@ class HomePage extends Component {
             onChange={this.handleChange}
             type="text"
             id="room"
-            name="roomName"
+            name="roomId"
             value={roomName}
           />
           <br />
@@ -69,7 +69,7 @@ class HomePage extends Component {
           <input
             onClick={this.createRoom}
             type="submit"
-            name="roomName"
+            name="roomId"
             value="Create Room"
           ></input>
         </form>

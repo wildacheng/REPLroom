@@ -1,12 +1,32 @@
 module.exports = (io) => {
   const users = {}
 
+  //dummy DB storage
+  const db = {
+    sampleRoomId: {
+      sampleCode: '',
+      sampleCollaborators: [{sampleSocketId: 2, sampleName: ''}],
+    },
+  }
+
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
-    // socket.on('join-room', (room) => {
-    //   socket.join(room)
-    // })
+    socket.on('fetch code from server', (data) => {
+      if (!db[data.roomId]) {
+        //fill in with required fields later
+        db[data.roomId] = {code: data.code}
+      } else {
+        db[data.roomId].code = data.code
+      }
+      io.sockets.in(data.roomId).emit('code from server', db[data.roomId])
+    })
+
+    socket.on('updating code', (data) => {
+      console.log('updated code', data)
+      db[data.roomId].code = data.code
+      io.sockets.in(data.roomId).emit('code from server', db[data.roomId])
+    })
 
     socket.on('new-user-joined', (name) => {
       users[socket.id] = name
@@ -27,17 +47,6 @@ module.exports = (io) => {
         io.sockets.in(data.roomName).emit('user joined room', data.name)
       }
       console.log('EMITTED')
-    })
-
-    socket.on('send users and code', (data) => {
-      console.log(data, 'GOT USER AND CODE')
-      socket.join(data.roomName)
-      io.sockets.in(data.roomName).emit('users', data)
-    })
-
-    socket.on('updating code', (data) => {
-      console.log('updated code', data)
-      io.sockets.in(data.roomName).emit('updating code', data.code)
     })
 
     socket.on('leave room', (data) => {

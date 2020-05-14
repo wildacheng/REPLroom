@@ -19,17 +19,9 @@ export default class Room extends Component {
   }
 
   componentDidMount() {
-    socket.on('load users and code', () => {
-      this.sendUsersAndCode()
-    })
-
-    socket.on('user joined room', (data) => {
+    socket.on('join room', (data) => {
       console.log(data, 'IM CONNECTED TO A ROOM')
       this.joinUser(data)
-    })
-    socket.on('users', (data) => {
-      console.log('RECEIVED', data)
-      this.updateUsersAndCodeInState(data)
     })
 
     socket.on('user left room', (user) => {
@@ -53,14 +45,6 @@ export default class Room extends Component {
     // socket.emit('connectToRoom', {name: name, roomName: roomName})
     console.log(this.state.users, 'USERS')
     console.log(this.state.currentUser, 'current user')
-  }
-
-  sendUsersAndCode = () => {
-    socket.emit('send users and code', {
-      roomName: this.props.match.params.roomId,
-      users: this.state.users,
-      code: this.state.code,
-    })
   }
 
   joinUser = (name) => {
@@ -98,9 +82,7 @@ export default class Room extends Component {
       <div>
         <RoomNav />
         <SplitPane split="vertical" minSize={50} defaultSize={this.state.width}>
-          <Repl
-          // result={this.state.result} updateResult={this.updateResult}
-          />
+          <Repl roomName={this.state.room} />
           <Pane className="pane">
             <div> WHITEBOARD</div>
           </Pane>

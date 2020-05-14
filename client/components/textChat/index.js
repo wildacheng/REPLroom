@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
-import io from 'socket.io-client'
-const socket = io(window.location.origin)
+import socket from '../../socket'
 import './index.css'
 
 class TextChat extends Component {
@@ -11,7 +10,6 @@ class TextChat extends Component {
       message: '',
       broadcastedMsg: [],
     }
-    this.socket = io(window.location.origin)
 
     let room
 

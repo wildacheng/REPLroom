@@ -11,8 +11,8 @@ import 'codemirror/mode/javascript/javascript.js' //look into this
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
+
 //SOCKET
-import io from 'socket.io-client'
 import socket from '../../socket'
 //CSS
 import './repl.css'
@@ -23,26 +23,27 @@ class Repl extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      code: '// your code here\n',
-      result: '',
       height: 350, //height of the editor
       width: 400, //width of left panel
+      roomId: this.props.match.params.roomId,
+      code: '// your code here\n',
+      result: '',
+      typer: '',
     }
+    socket.on('code from server', (roomData) => {
+      this.setState({code: roomData.code})
+      //eventually put person typing
+      console.log(this.state)
+    })
   }
 
   //HANDLE CODEMIRROR INPUT/SANDBOX DISPLAY METHODS
-  updateCodeInState = (newText) => {
-    this.setState({code: newText})
+  updateCodeInState = (code) => {
+    this.setState({code: code})
     socket.emit('updating code', {
-      roomName: this.props.match.params.roomId,
+      roomId: this.state.roomId,
       code: this.state.code,
     })
-    console.log(this.state)
-  }
-
-  getNewCodeFromServer = (code) => {
-    this.setState({code: code})
-    console.log(this.state)
   }
 
   //HANDLE OUTPUT TERMINAL METHODS
@@ -54,6 +55,7 @@ class Repl extends Component {
     return <WorkerOutput output={data} />
   }
 
+  //WEBWORKER METHODS
   functionWrapper = (str) => {
     // eslint-disable-next-line no-new-func
     return new Function(str).toString()
@@ -76,6 +78,15 @@ class Repl extends Component {
     }, TIMEOUT)
   }
 
+  //REACT LIFECYCLE HOOKS / SOCKETS
+  componentDidMount() {
+    //need to make a DB call here - or set up a makeshift one for now
+    socket.emit('fetch code from server', {
+      code: this.state.code,
+      roomId: this.state.roomId,
+    })
+  }
+
   render() {
     const options = {
       lineNumbers: true,
@@ -87,6 +98,7 @@ class Repl extends Component {
     return (
       <SplitPane split="horizontal" defaultSize={this.state.height}>
         <Pane className="pane">
+          {/* put "typer" component here */}
           <Codemirror
             value={this.state.code}
             options={options}
@@ -108,3 +120,9 @@ class Repl extends Component {
 }
 
 export default withRouter(Repl)
+
+//THIS MAY BE UNECESSARY
+// getNewCodeFromServer = (code) => {
+//   this.setState({code: code})
+//   console.log(this.state)
+// }
