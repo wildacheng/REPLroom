@@ -12,8 +12,6 @@ export default class Room extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      //moved code over
-      result: '',
       users: [],
       currentUser: '',
       width: '45%', //width of left pane
@@ -95,21 +93,13 @@ export default class Room extends Component {
     })
   }
 
-  //WebWorker Functions Prop
-  updateResult = (data) => {
-    this.setState({result: data})
-  }
-
   render() {
     return (
       <div>
         <RoomNav />
         <SplitPane split="vertical" minSize={50} defaultSize={this.state.width}>
           <Repl
-            // code={this.state.code} moved to repl
-            result={this.state.result}
-            updateResult={this.updateResult}
-            // updateCode={this.updateCodeInState} moved to repl
+          // result={this.state.result} updateResult={this.updateResult}
           />
           <Pane className="pane">
             <div> WHITEBOARD</div>

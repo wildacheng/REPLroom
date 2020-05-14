@@ -24,6 +24,7 @@ class Repl extends Component {
     super(props)
     this.state = {
       code: '// your code here\n',
+      result: '',
       height: 350, //height of the editor
       width: 400, //width of left panel
     }
@@ -45,6 +46,10 @@ class Repl extends Component {
   }
 
   //HANDLE OUTPUT TERMINAL METHODS
+  updateResult = (data) => {
+    this.setState({result: data})
+  }
+
   handleTerminal = (data) => {
     return <WorkerOutput output={data} />
   }
@@ -59,10 +64,10 @@ class Repl extends Component {
 
     myWorker.onmessage = (m) => {
       // this.setState({result: m.data})
-      this.props.updateResult(m.data)
+      this.updateResult(m.data)
     }
 
-    const parsedCode = parseCode(this.props.code)
+    const parsedCode = parseCode(this.state.code)
     myWorker.postMessage([typeof f, this.functionWrapper(parsedCode)])
 
     setTimeout(() => {
@@ -93,7 +98,7 @@ class Repl extends Component {
         </Pane>
         <Pane className="pane">
           <WorkerOutput
-            output={this.props.result}
+            output={this.state.result}
             handleRun={this.handleWebWorker}
           />
         </Pane>
