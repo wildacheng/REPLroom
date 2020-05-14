@@ -121,7 +121,7 @@ export default class Room extends Component {
   render() {
     return (
       <div>
-        <RoomNav />
+        <RoomNav roomId={this.props.match.params.roomId} />
         <SplitPane split="vertical" minSize={50} defaultSize={this.state.width}>
           <Repl
             code={this.state.code}
