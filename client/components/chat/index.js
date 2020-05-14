@@ -86,7 +86,7 @@ class Chat extends Component {
           className="chat-open-button"
           onClick={this.handleChatWindow}
         >
-          <img src="../chatV3.png"></img>
+          <img src="../chatBlueV1.png"></img>
         </button>
       </div>
     )
