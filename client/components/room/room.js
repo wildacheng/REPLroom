@@ -13,7 +13,7 @@ export default class Room extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      code: '// your code here\n',
+      // code: '// your code here\n',
       result: '',
       users: [],
       currentUser: '',

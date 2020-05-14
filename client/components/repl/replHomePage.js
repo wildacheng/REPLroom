@@ -9,15 +9,11 @@ class HomePage extends Component {
     }
   }
 
-  generateRoomName = () => {
-    return Math.random().toString(36).substring(7)
-  }
-
+  //SUBMIT EVENT FOR CREATING NEW ROOM
   createRoom = (event) => {
     event.preventDefault()
-    let roomName = this.generateRoomName()
-    this.setState({[event.target.name]: roomName})
-    console.log(this.props)
+    let roomName = Math.random().toString(36).substring(7)
+    this.setState({roomName: roomName})
     this.props.history.push({
       pathname: `/${roomName}`,
       state: {
@@ -26,6 +22,7 @@ class HomePage extends Component {
     })
   }
 
+  //SUBMIT EVENT FOR JOINING PREEXISTING ROOM
   joinRoom = (event) => {
     event.preventDefault()
     this.props.history.push({
@@ -36,6 +33,7 @@ class HomePage extends Component {
     })
   }
 
+  //TYPIING IN CONTROLLED COMPONENT
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value})
   }

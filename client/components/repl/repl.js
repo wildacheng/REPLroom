@@ -23,6 +23,7 @@ class Repl extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      code: '// your code here\n',
       height: 350, //height of the editor
       width: 400, //width of left panel
     }
@@ -66,8 +67,9 @@ class Repl extends Component {
       <SplitPane split="horizontal" defaultSize={this.state.height}>
         <Pane className="pane">
           <Codemirror
-            value={this.props.code}
+            value={this.state.code}
             options={options}
+            //fix update code to be on local state
             onBeforeChange={(_editor, _data, value) => {
               this.props.updateCode(value)
             }}
