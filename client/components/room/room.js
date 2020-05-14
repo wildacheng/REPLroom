@@ -5,6 +5,8 @@ import Repl from '../repl/repl'
 //SOCKET
 import io from 'socket.io-client'
 import socket from '../../socket'
+import VideoChat from '../video-chat'
+import Chat from '../chat'
 
 export default class Room extends Component {
   constructor(props) {
@@ -130,6 +132,11 @@ export default class Room extends Component {
             <div> WHITEBOARD</div>
           </Pane>
         </SplitPane>
+        <VideoChat roomName={this.props.match.params.roomId} />
+        <Chat
+          roomName={this.props.match.params.roomId}
+          userName={this.props.location.state.name}
+        />
       </div>
     )
   }
