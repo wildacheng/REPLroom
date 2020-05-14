@@ -29,6 +29,22 @@ class Repl extends Component {
     }
   }
 
+  //HANDLE CODEMIRROR INPUT/SANDBOX DISPLAY METHODS
+  updateCodeInState = (newText) => {
+    this.setState({code: newText})
+    socket.emit('updating code', {
+      roomName: this.props.match.params.roomId,
+      code: this.state.code,
+    })
+    console.log(this.state)
+  }
+
+  getNewCodeFromServer = (code) => {
+    this.setState({code: code})
+    console.log(this.state)
+  }
+
+  //HANDLE OUTPUT TERMINAL METHODS
   handleTerminal = (data) => {
     return <WorkerOutput output={data} />
   }
@@ -71,7 +87,7 @@ class Repl extends Component {
             options={options}
             //fix update code to be on local state
             onBeforeChange={(_editor, _data, value) => {
-              this.props.updateCode(value)
+              this.updateCodeInState(value)
             }}
           />
         </Pane>

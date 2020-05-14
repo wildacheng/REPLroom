@@ -3,7 +3,6 @@ import SplitPane, {Pane} from 'react-split-pane'
 import RoomNav from './roomNav'
 import Repl from '../repl/repl'
 //SOCKET
-import io from 'socket.io-client'
 import socket from '../../socket'
 
 import VideoChat from '../video-chat'
@@ -13,7 +12,7 @@ export default class Room extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // code: '// your code here\n',
+      //moved code over
       result: '',
       users: [],
       currentUser: '',
@@ -33,10 +32,6 @@ export default class Room extends Component {
     socket.on('users', (data) => {
       console.log('RECEIVED', data)
       this.updateUsersAndCodeInState(data)
-    })
-
-    socket.on('updating code', (code) => {
-      this.getNewCodeFromServer(code)
     })
 
     socket.on('user left room', (user) => {
@@ -100,19 +95,6 @@ export default class Room extends Component {
     })
   }
 
-  updateCodeInState = (newText) => {
-    this.setState({code: newText})
-    socket.emit('updating code', {
-      roomName: this.props.match.params.roomId,
-      code: this.state.code,
-    })
-  }
-
-  getNewCodeFromServer = (code) => {
-    this.setState({code: code})
-    console.log(this.state)
-  }
-
   //WebWorker Functions Prop
   updateResult = (data) => {
     this.setState({result: data})
@@ -124,10 +106,10 @@ export default class Room extends Component {
         <RoomNav />
         <SplitPane split="vertical" minSize={50} defaultSize={this.state.width}>
           <Repl
-            code={this.state.code}
+            // code={this.state.code} moved to repl
             result={this.state.result}
             updateResult={this.updateResult}
-            updateCode={this.updateCodeInState}
+            // updateCode={this.updateCodeInState} moved to repl
           />
           <Pane className="pane">
             <div> WHITEBOARD</div>
