@@ -1,9 +1,6 @@
 import React, {Component} from 'react'
 import io from 'socket.io-client'
 const socket = io(window.location.origin)
-// import 'font-awesome/css/font-awesome.min.css';
-// import '../../../../node_modules/font-awesome/css/font-awesome.min.css'
-// import chat from '../../../public/chat.png'
 import './index.css'
 
 class Chat extends Component {
@@ -11,20 +8,23 @@ class Chat extends Component {
     super()
     this.state = {
       chatOpen: false,
-      name: 'Mohana',
       message: '',
       broadcastedMsg: [],
     }
 
     this.socket = io(window.location.origin)
 
-    const room = props.roomId
-    socket.emit('join-room', room)
+    const room = props.roomName
+    socket.emit('connectToRoom', {roomName: room})
 
-    socket.on('chat-message', (message) => {
-      console.log('message recieved', message)
+    socket.emit('new-user-joined', props.userName)
+
+    socket.on('chat-message', (data) => {
       this.setState({
-        broadcastedMsg: [...this.state.broadcastedMsg, message],
+        broadcastedMsg: [
+          ...this.state.broadcastedMsg,
+          {message: data.message, name: data.name},
+        ],
       })
     })
   }
@@ -32,11 +32,14 @@ class Chat extends Component {
   handleChat = () => {
     socket.emit('send-chat-message', {
       message: this.state.message,
-      roomId: this.props.roomId,
+      roomId: this.props.roomName,
     })
     this.setState({
       message: '',
-      broadcastedMsg: [...this.state.broadcastedMsg, this.state.message],
+      broadcastedMsg: [
+        ...this.state.broadcastedMsg,
+        {message: this.state.message, name: this.props.userName},
+      ],
     })
   }
 
@@ -58,8 +61,8 @@ class Chat extends Component {
         {this.state.chatOpen && (
           <div className="chat-window">
             <div className="text-area">
-              {this.state.broadcastedMsg.map((msg) => {
-                return <div>{msg}</div>
+              {this.state.broadcastedMsg.map((item) => {
+                return <div>{`${item.name}: ${item.message}`}</div>
               })}
             </div>
             <div className="msg-input-bar">
