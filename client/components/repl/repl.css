@@ -13,8 +13,12 @@
   padding: 10px;
 }
 
+.whiteboardPane {
+  height: 98%;
+}
+
 .output {
-  height: 300px;
+  height: 350px;
   min-height: 100%;
 }
 

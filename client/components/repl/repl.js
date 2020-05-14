@@ -23,8 +23,7 @@ class Repl extends Component {
     this.state = {
       code: '// your code here\n',
       result: '',
-      height: 350, //height of the editor
-      width: 400, //width of left panel
+      height: '65%', //height of the editor
     }
     //maybe add params here
     this.socket = io(window.location.origin)

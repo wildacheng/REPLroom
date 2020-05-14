@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import SplitPane, {Pane} from 'react-split-pane'
 import RoomNav from './roomNav'
 import Repl from '../repl/repl'
+import Whiteboard from '../whiteboard/whiteboard'
 
 export default class Room extends Component {
   constructor(props) {
@@ -22,8 +23,8 @@ export default class Room extends Component {
           defaultSize={this.state.width}
         >
           <Repl />
-          <Pane className="pane">
-            <div> WHITEBOARD</div>
+          <Pane className="pane whiteboardPane">
+            <Whiteboard />
           </Pane>
         </SplitPane>
       </div>
