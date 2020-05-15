@@ -94,7 +94,10 @@ export default class Room extends Component {
   render() {
     return (
       <div>
-        <RoomNav users={this.state.users} />
+        <RoomNav
+          users={this.state.users}
+          roomId={this.props.match.params.roomId}
+        />
         <SplitPane split="vertical" minSize={50} defaultSize={this.state.width}>
           <Repl />
           <Pane className="pane">
