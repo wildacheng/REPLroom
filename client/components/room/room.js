@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import SplitPane, {Pane} from 'react-split-pane'
+import {Modal} from 'react-bootstrap'
 import RoomNav from './roomNav'
 import Repl from '../repl/repl'
 import Whiteboard from '../whiteboard/whiteboard'
@@ -8,6 +9,7 @@ import Chat from '../chat'
 //SOCKET
 //import io from 'socket.io-client'
 import socket from '../../socket'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default class Room extends Component {
   constructor(props) {
@@ -43,7 +45,13 @@ export default class Room extends Component {
       this.removeUser(user)
     })
 
-    const name = this.props.location.state.name
+    if (this.props.location.state) {
+      this.setState({
+        userName: this.props.location.state.name,
+      })
+    }
+
+    // const name = this.props.location.state.name
     const roomName = this.props.match.params.roomId
     socket.emit('connectToRoom', {name: name, roomName: roomName})
   }
@@ -70,15 +78,20 @@ export default class Room extends Component {
     })
   }
 
-  joinUser = (name) => {
-    //Array.from creates a new array from the new Set
-    const combinedUsers = [...this.state.users, name]
-    const newUsers = Array.from(new Set(combinedUsers))
-    const cleanUsers = newUsers.filter((user) => {
-      return user.length > 1
-    })
-    this.setState({users: cleanUsers, currentUser: name})
+  joinUser = (users) => {
+    console.log(users, 'IM JOIN NAME')
+    this.setState({users: users})
   }
+
+  // joinUser = (name) => {
+  //   //Array.from creates a new array from the new Set
+  //   const combinedUsers = [...this.state.users, name]
+  //   const newUsers = Array.from(new Set(combinedUsers))
+  //   const cleanUsers = newUsers.filter((user) => {
+  //     return user.length > 1
+  //   })
+  //   this.setState({users: cleanUsers, currentUser: name})
+  // }
 
   updateUsersAndCodeInState = (data) => {
     const combinedUsers = this.state.users.concat(data.users)
@@ -122,6 +135,30 @@ export default class Room extends Component {
     return (
       <div>
         <RoomNav roomId={this.props.match.params.roomId} />
+        {!this.state.currentUser && (
+          <div>
+            <Modal
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+              show={!this.state.currentUser}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  Please Enter your name to proceed
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="container">
+                  <label>Name</label>
+                  <input type="text" name="name"></input>
+                  <button type="button"> Enter Name </button>
+                </div>
+              </Modal.Body>
+            </Modal>
+          </div>
+        )}
         <SplitPane
           split="vertical"
           minSize={5}
@@ -139,10 +176,10 @@ export default class Room extends Component {
           </Pane>
         </SplitPane>
         <VideoChat roomName={this.props.match.params.roomId} />
-        <Chat
+        {/* <Chat
           roomName={this.props.match.params.roomId}
           userName={this.props.location.state.name}
-        />
+        /> */}
       </div>
     )
   }
