@@ -1,11 +1,32 @@
 import React, {Component} from 'react'
+import Invite from '../invite'
 import './roomNav.css'
 
 export default class RoomNav extends Component {
   //keep active collaborators on state to change typing display
   //map (or store) all collaborators on state for display
 
+  constructor() {
+    super()
+    this.state = {
+      inviteClicked: false,
+    }
+  }
+
+  handleInvite = () => {
+    this.setState({
+      inviteClicked: !this.state.inviteClicked,
+    })
+  }
+
+  onInviteHide = () => {
+    this.setState({
+      inviteClicked: false,
+    })
+  }
+
   render() {
+    console.log('show', this.state.inviteClicked)
     return (
       <div>
         <header>
@@ -24,9 +45,18 @@ export default class RoomNav extends Component {
             </div>
           </div>
           <div>
-            <button type="button" className="headerbtn">
+            <button
+              type="button"
+              className="headerbtn"
+              onClick={this.handleInvite}
+            >
               Invite
             </button>
+            <Invite
+              show={this.state.inviteClicked}
+              onHide={this.onInviteHide}
+              roomId={this.props.roomId}
+            />
           </div>
         </header>
       </div>
