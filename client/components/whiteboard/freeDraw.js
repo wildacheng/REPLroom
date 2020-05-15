@@ -1,4 +1,6 @@
 import Konva from 'konva'
+//import {EventEmitter} from 'events'
+//const lineEvent = new EventEmitter()
 
 export const addLine = (stage, layer, color, width = 5, mode = 'inactive') => {
   let isPaint = false
@@ -21,6 +23,8 @@ export const addLine = (stage, layer, color, width = 5, mode = 'inactive') => {
         draggable: false,
       })
       layer.add(lastLine)
+      //emitted the last line for socket-->commented out for delpoy
+      // lineEvent.emit(layer, lastLine) //not sure layer can transmit
     })
 
     stage.on('mouseup touchend', function () {

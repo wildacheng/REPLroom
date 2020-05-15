@@ -73,6 +73,7 @@ export default function Whiteboard() {
   }
 
   const eraseLine = () => {
+    deactivateLine()
     activeLine = false
     addLine(
       stageEl.current.getStage(),
