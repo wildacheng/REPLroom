@@ -23,6 +23,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="/room" component={Room} />
         <Route exact path="/:roomId" component={Room} />
         <Route exact path="/" component={ReplHomePage} />
       </Switch>
@@ -69,5 +70,5 @@ export default withRouter(connect(mapState, mapDispatch)(Routes))
  */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
+  // isLoggedIn: PropTypes.bool.isRequired,
 }
