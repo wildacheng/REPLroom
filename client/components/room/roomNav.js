@@ -37,7 +37,7 @@ export default class RoomNav extends Component {
             <div id="activeUser">Person X is typing...</div>
           </div>
           <div className="dropdown">
-            <button className="dropbtn" className="headerbtn " type="button">
+            <button className="dropbtn headerbtn" type="button">
               Collaborators
             </button>
             <div className="dropdown-content">
