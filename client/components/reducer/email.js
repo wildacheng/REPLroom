@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export const sendEmail = (data) => {
-  console.log('data in reducer', data)
   return async () => {
     try {
       await axios.post('/api/sendEmail', {

@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import {sendEmail} from '../reducer/email'
 
 class InviteByEmail extends Component {
@@ -17,29 +16,64 @@ class InviteByEmail extends Component {
     })
   }
 
-  // sendEmail = async () => {
-  //   await axios.post('/')
-  // }
+  handleShowEmail = () => {
+    console.log('function called')
+    sendEmail({
+      firstName: this.state.firstName,
+      email: this.state.email,
+      url: 'http://localhost:8080/',
+      roomId: this.props.roomId,
+    })
+  }
 
   render() {
+    console.log(
+      '****',
+      this.state.firstName,
+      this.state.email,
+      'result',
+      this.state.firstName.length && this.state.email.length
+    )
     return (
-      <div>
-        <label>Enter FirstName: </label>
+      <div className="email-details">
+        <div className="required-fields">
+          <label>FirstName </label>
+          <span
+            className={
+              !this.state.firstName.trim() ? 'required-red' : 'required-green'
+            }
+          >
+            (required)
+          </span>
+        </div>
         <input
           type="text"
           name="firstName"
+          placeholder="Enter FirstName"
           value={this.state.firstName}
           onChange={this.handleChange}
+          autoFocus
         ></input>
-        <label>Enter Email: </label>
+        <div className="required-fields">
+          <label>Email </label>
+          <span
+            className={
+              !this.state.email.trim() ? 'required-red' : 'required-green'
+            }
+          >
+            (required)
+          </span>
+        </div>
         <input
           type="text"
           name="email"
+          placeholder="Enter email"
           value={this.state.email}
           onChange={this.handleChange}
         ></input>
         <button
           type="button"
+          disabled={!this.state.firstName || !this.state.email}
           onClick={sendEmail({
             firstName: this.state.firstName,
             email: this.state.email,
