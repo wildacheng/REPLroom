@@ -12,6 +12,15 @@ module.exports = (io) => {
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
+    socket.on('connectToRoom', (data) => {
+      socket.join(data.roomName)
+      io.sockets.in(data.roomName).emit('load users and code')
+      if (data.name) {
+        io.sockets.in(data.roomName).emit('user joined room', data.name)
+      }
+      console.log('EMITTED')
+    })
+
     socket.on('join room', (data) => {
       socket.join(data.roomId)
       if (db[data.roomId] === undefined) {
@@ -42,16 +51,6 @@ module.exports = (io) => {
       socket
         .to(data.roomId)
         .emit('chat-message', {message: data.message, name: users[socket.id]})
-    })
-
-    socket.on('connectToRoom', (data) => {
-      console.log(data, 'CONNECTED TO ROOM')
-      socket.join(data.roomName)
-      io.sockets.in(data.roomName).emit('load users and code')
-      if (data.name) {
-        io.sockets.in(data.roomName).emit('user joined room', data.name)
-      }
-      console.log('EMITTED')
     })
 
     socket.on('leave room', (data) => {
