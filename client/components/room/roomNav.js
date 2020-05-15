@@ -6,6 +6,8 @@ export default class RoomNav extends Component {
   //map (or store) all collaborators on state for display
 
   render() {
+    let users = this.props.users
+
     return (
       <div>
         <header>
@@ -18,9 +20,9 @@ export default class RoomNav extends Component {
               Collaborators
             </button>
             <div className="dropdown-content">
-              <p>Ruby</p>
-              <p>Dakota</p>
-              <p>Scout</p>
+              {users.map((user) => (
+                <p key={user}>{user}</p>
+              ))}
             </div>
           </div>
           <div>

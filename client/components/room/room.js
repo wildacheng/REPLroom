@@ -13,39 +13,36 @@ export default class Room extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      code: '// your code here\n',
-      result: '',
       users: [],
-      currentUser: '',
       width: '45%', //width of left pane
     }
   }
 
   componentDidMount() {
-    socket.on('load users and code', () => {
-      this.sendUsersAndCode()
+    const name = this.props.location.state.name
+    const roomName = this.props.match.params.roomId
+
+    if (name && roomName) {
+      socket.emit('connectToRoom', {name: name, roomName: roomName})
+    }
+
+    socket.on('load users', () => {
+      this.sendUsers()
     })
 
     socket.on('user joined room', (data) => {
       console.log(data, 'IM CONNECTED TO A ROOM')
       this.joinUser(data)
     })
-    socket.on('users', (data) => {
-      console.log('RECEIVED', data)
-      this.updateUsersAndCodeInState(data)
-    })
 
-    socket.on('updating code', (code) => {
-      this.getNewCodeFromServer(code)
+    socket.on('receive users', (users) => {
+      console.log('RECEIVED USERS', users)
+      this.updateUsersForAll(users)
     })
 
     socket.on('user left room', (user) => {
       this.removeUser(user)
     })
-
-    const name = this.props.location.state.name
-    const roomName = this.props.match.params.roomId
-    socket.emit('connectToRoom', {name: name, roomName: roomName})
   }
 
   componentWillUnmount() {
@@ -55,80 +52,51 @@ export default class Room extends Component {
     })
   }
 
-  componentDidUpdate() {
-    // const roomName = this.props.match.params.roomId
-    // socket.emit('connectToRoom', {name: name, roomName: roomName})
-    console.log(this.state.users, 'USERS')
-    console.log(this.state.currentUser, 'current user')
+  // componentDidUpdate() {
+  // const roomName = this.props.match.params.roomId
+  // socket.emit('connectToRoom', {name: name, roomName: roomName})
+  //   console.log(this.state.users, 'USERS')
+  //   console.log(this.state.currentUser, 'current user')
+  // }
+
+  joinUser = (users) => {
+    console.log(users, 'IM JOIN NAME')
+    this.setState((prevState) => ({users: users}))
   }
 
-  sendUsersAndCode = () => {
-    socket.emit('send users and code', {
-      roomName: this.props.match.params.roomId,
-      users: this.state.users,
-      code: this.state.code,
-    })
+  updateUsersForAll = (users) => {
+    this.setState((prevState) => ({users: users}))
   }
 
-  joinUser = (name) => {
-    //Array.from creates a new array from the new Set
-    const combinedUsers = [...this.state.users, name]
-    const newUsers = Array.from(new Set(combinedUsers))
-    const cleanUsers = newUsers.filter((user) => {
-      return user.length > 1
-    })
-    this.setState({users: cleanUsers, currentUser: name})
+  sendUsers = () => {
+    this.state.users && this.state.users.length
+      ? socket.emit('send users', {
+          roomName: this.props.match.params.roomId,
+          users: this.state.users,
+        })
+      : socket.emit('send users', {
+          roomName: this.props.match.params.roomId,
+        })
   }
 
-  updateUsersAndCodeInState = (data) => {
-    const combinedUsers = this.state.users.concat(data.users)
-    const newUsers = Array.from(new Set(combinedUsers))
-    const cleanUsers = newUsers.filter((user) => {
-      return user.length > 1
-    })
-    this.setState({users: cleanUsers, code: data.code})
-  }
+  // removeUser(user) {
+  //   const newUsers = Object.assign([], this.state.users)
+  //   const indexOfUserToDelete = this.state.users.findIndex((Olduser) => {
+  //     return Olduser === user.user
+  //   })
+  //   newUsers.splice(indexOfUserToDelete, 1)
+  //   this.setState((prevState) => {
+  //     return {users: newUsers}
+  //   })
+  // }
 
-  removeUser(user) {
-    const newUsers = Object.assign([], this.state.users)
-    const indexOfUserToDelete = this.state.users.findIndex((Olduser) => {
-      return Olduser === user.user
-    })
-    newUsers.splice(indexOfUserToDelete, 1)
-    this.setState((prevState) => {
-      return {users: newUsers}
-    })
-  }
-
-  updateCodeInState = (newText) => {
-    this.setState({code: newText})
-    socket.emit('updating code', {
-      roomName: this.props.match.params.roomId,
-      code: this.state.code,
-    })
-  }
-
-  getNewCodeFromServer = (code) => {
-    this.setState({code: code})
-    console.log(this.state)
-  }
-
-  //WebWorker Functions Prop
-  updateResult = (data) => {
-    this.setState({result: data})
-  }
-
+  //ADD PROPS TO ROOMNAV FOR COLLABS
   render() {
     return (
       <div>
-        <RoomNav />
+        <RoomNav users={this.state.users} />
         <SplitPane split="vertical" minSize={50} defaultSize={this.state.width}>
-          <Repl
-            code={this.state.code}
-            result={this.state.result}
-            updateResult={this.updateResult}
-            updateCode={this.updateCodeInState}
-          />
+          <Repl />
           <Pane className="pane">
             <div> WHITEBOARD</div>
           </Pane>

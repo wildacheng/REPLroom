@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {withRouter} from 'react-router'
 import SplitPane, {Pane} from 'react-split-pane'
+import {withRouter} from 'react-router'
 //Code Mirror
 import {Controlled as Codemirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
@@ -23,9 +23,52 @@ class Repl extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      code: '// your code here\n',
+      result: '',
+      // currentUser: '',
       height: 350, //height of the editor
       width: 400, //width of left panel
     }
+  }
+
+  componentDidMount() {
+    socket.on('load code', () => {
+      this.sendCode()
+    })
+
+    socket.on('receive code for all', (code) => {
+      console.log('RECEIVED CODE FOR ALL', code)
+      this.updateCodeForAll(code)
+    })
+
+    socket.on('updating code', (code) => {
+      this.getNewCodeFromServer(code)
+    })
+  }
+
+  sendCode = () => {
+    socket.emit('send code', {
+      roomName: this.props.match.params.roomId,
+      code: this.state.code,
+    })
+  }
+
+  updateCodeForAll = (code) => {
+    this.setState({code: code})
+  }
+
+  updateCodeInState = (newCode) => {
+    this.setState({code: newCode})
+    socket.emit('coding event', {
+      roomName: this.props.match.params.roomId,
+      code: newCode,
+      socketId: socket.id,
+    })
+  }
+
+  getNewCodeFromServer = (code) => {
+    this.setState({code: code})
+    console.log(this.state)
   }
 
   handleTerminal = (data) => {
@@ -37,15 +80,19 @@ class Repl extends Component {
     return new Function(str).toString()
   }
 
+  updateResult = (data) => {
+    this.setState({result: data})
+  }
+
   handleWebWorker = () => {
     const myWorker = new Worker(workerScript)
 
     myWorker.onmessage = (m) => {
       // this.setState({result: m.data})
-      this.props.updateResult(m.data)
+      this.updateResult(m.data)
     }
 
-    const parsedCode = parseCode(this.props.code)
+    const parsedCode = parseCode(this.code)
     myWorker.postMessage([typeof f, this.functionWrapper(parsedCode)])
 
     setTimeout(() => {
@@ -66,16 +113,16 @@ class Repl extends Component {
       <SplitPane split="horizontal" defaultSize={this.state.height}>
         <Pane className="pane">
           <Codemirror
-            value={this.props.code}
+            value={this.state.code}
             options={options}
             onBeforeChange={(_editor, _data, value) => {
-              this.props.updateCode(value)
+              this.updateCodeInState(value)
             }}
           />
         </Pane>
         <Pane className="pane">
           <WorkerOutput
-            output={this.props.result}
+            output={this.state.result}
             handleRun={this.handleWebWorker}
           />
         </Pane>
