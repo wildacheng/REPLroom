@@ -9,9 +9,10 @@ module.exports = (io) => {
     }) //Might not be needed
 
     socket.on('send-chat-message', (data) => {
-      socket
-        .to(data.roomId)
-        .emit('chat-message', {message: data.message, name: users[socket.id]})
+      io.in(data.roomId).emit('chat-message', {
+        message: data.message,
+        name: users[socket.id],
+      })
       //UPDATE NAME VALUE W NEW DB OBJECT
     })
 

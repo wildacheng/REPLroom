@@ -77,7 +77,6 @@ class Repl extends Component {
 
   getNewResultFromServer = (result) => {
     this.setState({result: result})
-    console.log(result, 'RESULT FOR ALL')
   }
 
   handleTerminal = (data) => {
