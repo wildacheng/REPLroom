@@ -26,10 +26,10 @@ input {
   height: 30px;
   width: 150px;
   box-shadow: inset 0px 1px 0px 0px #f7c5c0;
-  background: linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
-  background-color: #fc8d83;
+  background: linear-gradient(to bottom, #444444 5%, #333333 100%);
+  background-color: #444444;
   border-radius: 6px;
-  border: 1px solid #d83526;
+  border: 1px solid #333333;
   display: inline-block;
   cursor: pointer;
   color: #ffffff;
@@ -38,12 +38,12 @@ input {
   font-weight: bold;
   padding: 6px 24px;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #b23e35;
+  text-shadow: 0px 1px 0px #222222;
 }
 
 .button:hover {
-  background: linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
-  background-color: #e4685d;
+  background: linear-gradient(to bottom, #333333 5%, #444444 100%);
+  background-color: #333333;
 }
 .button:active {
   position: relative;
@@ -69,7 +69,7 @@ input {
 }
 
 p:nth-child(1) a {
-  color: #ee94b0;
+  color: #3792cb;
   font-family: Monoton;
   -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
   -moz-animation: neon1 1.5s ease-in-out infinite alternate;
@@ -84,19 +84,19 @@ p:nth-child(1) a:hover {
 }
 
 p a:hover {
-  color: #ee94b0;
+  color: #3792cb;
 }
 /*glow for webkit*/
 
 @-webkit-keyframes neon1 {
   from {
-    text-shadow: 0 0 10px #882b57, 0 0 20px #882b57, 0 0 30px #882b57,
+    text-shadow: 0 0 10px #1c4966, 0 0 20px #1c4966, 0 0 30px #1c4966,
       0 0 40px #464646, 0 0 70px #464646, 0 0 80px #464646, 0 0 100px #464646,
       0 0 150px #464646;
   }
   to {
-    text-shadow: 0 0 5px #882b57, 0 0 10px #882b57, 0 0 15px #882b57,
-      0 0 20px #ee94b0, 0 0 35px #464646, 0 0 40px #464646, 0 0 50px #464646,
+    text-shadow: 0 0 5px #1c4966, 0 0 10px #1c4966, 0 0 15px #1c4966,
+      0 0 20px #3792cb, 0 0 35px #464646, 0 0 40px #464646, 0 0 50px #464646,
       0 0 75px #464646;
   }
 }
@@ -104,12 +104,12 @@ p a:hover {
 
 @-moz-keyframes neon1 {
   from {
-    text-shadow: 0 0 10px #882b57, 0 0 20px #882b57, 0 0 30px #ee94b0,
+    text-shadow: 0 0 10px #1c4966, 0 0 20px #1c4966, 0 0 30px #3792cb,
       0 0 40px #464646, 0 0 70px #464646, 0 0 80px #464646, 0 0 100px #464646,
       0 0 150px #464646;
   }
   to {
-    text-shadow: 0 0 5px #882b57, 0 0 10px #882b57, 0 0 15px #ee94b0,
+    text-shadow: 0 0 5px #1c4966, 0 0 10px #1c4966, 0 0 15px #3792cb,
       0 0 20px #464646, 0 0 35px #464646, 0 0 40px #464646, 0 0 50px #464646,
       0 0 75px #464646;
   }
@@ -119,12 +119,12 @@ p a:hover {
 
 @keyframes neon1 {
   from {
-    text-shadow: 0 0 10px #882b57, 0 0 20px #882b57, 0 0 30px #ee94b0,
+    text-shadow: 0 0 10px #1c4966, 0 0 20px #1c4966, 0 0 30px #3792cb,
       0 0 40px #464646, 0 0 70px #464646, 0 0 80px #464646, 0 0 100px #464646,
       0 0 150px #464646;
   }
   to {
-    text-shadow: 0 0 5px #882b57, 0 0 10px #882b57, 0 0 15px #ee94b0,
+    text-shadow: 0 0 5px #1c4966, 0 0 10px #1c4966, 0 0 15px #3792cb,
       0 0 20px #464646, 0 0 35px #464646, 0 0 40px #464646, 0 0 50px #464646,
       0 0 75px #464646;
   }
