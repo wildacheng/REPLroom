@@ -18,7 +18,7 @@ const WorkerOutput = (props) => {
 
   return (
     <div>
-      <button className="runbtn" type="button" onClick={() => handleRun()}>
+      <button className="runbtn" type="button" onClick={handleRun}>
         Run
       </button>
       <Codemirror

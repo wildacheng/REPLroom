@@ -17,51 +17,55 @@ module.exports = (io) => {
 
     socket.on('connectToRoom', (data) => {
       console.log(data, 'CONNECTED TO ROOM')
-      if (data.name && data.roomName) {
+      if (data.name && data.roomId) {
         //just in case
 
-        socket.join(data.roomName)
+        socket.join(data.roomId)
 
-        // console.log(io.clients(data.roomName), "IM SOCKET CLIENT")
+        // console.log(io.clients(data.roomId), "IM SOCKET CLIENT")
 
-        if (!users[data.roomName]) {
-          users[data.roomName] = {}
+        if (!users[data.roomId]) {
+          users[data.roomId] = {}
         }
 
-        users[data.roomName][socket.id] = data.name
+        users[data.roomId][socket.id] = data.name
 
-        console.log(Object.values(users[data.roomName]), 'THE USERS')
-
-        io.sockets
-          .in(data.roomName)
-          .emit('user joined room', Object.values(users[data.roomName]))
+        console.log(Object.values(users[data.roomId]), 'THE USERS')
 
         io.sockets
-          .in(data.roomName)
-          .emit('load users', Object.values(users[data.roomName]))
+          .in(data.roomId)
+          .emit('user joined room', Object.values(users[data.roomId]))
 
-        io.sockets.in(data.roomName).emit('load code')
+        io.sockets
+          .in(data.roomId)
+          .emit('load users', Object.values(users[data.roomId]))
+
+        io.sockets.in(data.roomId).emit('load code')
       }
     })
 
     socket.on('send users', (data) => {
       console.log(data, 'GOT USERS')
-      io.sockets.in(data.roomName).emit('receive users', data.users)
+      io.sockets.in(data.roomId).emit('receive users', data.users)
     })
 
     socket.on('send code', (data) => {
       console.log(data, 'GOT CODE')
-      io.sockets.in(data.roomName).emit('receive code for all', data.code)
+      io.sockets.in(data.roomId).emit('receive code for all', data.code)
     })
 
     socket.on('coding event', (data) => {
       console.log('updated code', data)
-      io.sockets.in(data.roomName).emit('updating code', data.code)
+      io.sockets.in(data.roomId).emit('updating code', data.code)
+    })
+
+    socket.on('result event', (data) => {
+      io.sockets.in(data.roomId).emit('updating result', data.result)
     })
 
     socket.on('leave room', (data) => {
-      io.sockets.in(data.roomName).emit('user left room', {user: data.user})
-      // delete users[data.roomName][socket.id]
+      io.sockets.in(data.roomId).emit('user left room', {user: data.user})
+      // delete users[data.roomId][socket.id]
       socket.leave(data.room)
     })
 

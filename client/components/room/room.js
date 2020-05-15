@@ -3,7 +3,7 @@ import SplitPane, {Pane} from 'react-split-pane'
 import RoomNav from './roomNav'
 import Repl from '../repl/repl'
 //SOCKET
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 import socket from '../../socket'
 
 import VideoChat from '../video-chat'
@@ -20,10 +20,10 @@ export default class Room extends Component {
 
   componentDidMount() {
     const name = this.props.location.state.name
-    const roomName = this.props.match.params.roomId
+    const roomId = this.props.match.params.roomId
 
-    if (name && roomName) {
-      socket.emit('connectToRoom', {name: name, roomName: roomName})
+    if (name && roomId) {
+      socket.emit('connectToRoom', {name: name, roomId: roomId})
     }
 
     socket.on('load users', () => {
@@ -47,35 +47,35 @@ export default class Room extends Component {
 
   componentWillUnmount() {
     socket.emit('leave room', {
-      roomName: this.state.roomName,
+      roomId: this.state.roomId,
       user: this.state.currentUser,
     })
   }
 
   // componentDidUpdate() {
-  // const roomName = this.props.match.params.roomId
-  // socket.emit('connectToRoom', {name: name, roomName: roomName})
+  // const roomId = this.props.match.params.roomId
+  // socket.emit('connectToRoom', {name: name, roomId: roomId})
   //   console.log(this.state.users, 'USERS')
   //   console.log(this.state.currentUser, 'current user')
   // }
 
   joinUser = (users) => {
     console.log(users, 'IM JOIN NAME')
-    this.setState((prevState) => ({users: users}))
+    this.setState({users: users})
   }
 
   updateUsersForAll = (users) => {
-    this.setState((prevState) => ({users: users}))
+    this.setState({users: users})
   }
 
   sendUsers = () => {
     this.state.users && this.state.users.length
       ? socket.emit('send users', {
-          roomName: this.props.match.params.roomId,
+          roomId: this.props.match.params.roomId,
           users: this.state.users,
         })
       : socket.emit('send users', {
-          roomName: this.props.match.params.roomId,
+          roomId: this.props.match.params.roomId,
         })
   }
 
@@ -101,9 +101,9 @@ export default class Room extends Component {
             <div> WHITEBOARD</div>
           </Pane>
         </SplitPane>
-        <VideoChat roomName={this.props.match.params.roomId} />
+        <VideoChat roomId={this.props.match.params.roomId} />
         <Chat
-          roomName={this.props.match.params.roomId}
+          roomId={this.props.match.params.roomId}
           userName={this.props.location.state.name}
         />
       </div>
