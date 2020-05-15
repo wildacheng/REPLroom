@@ -61,10 +61,15 @@
   width: 145px;
   bottom: 0;
   height: 20px;
+  font-size: 10px;
+  border-radius: 5px;
 }
 
 .msg-input-bar button {
-  height: 25px;
+  height: 20px;
   margin-left: 4px;
   border-radius: 5px;
+  font-size: 10px;
+  width: 35px;
+  padding: 0;
 }

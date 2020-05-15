@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import './repl.css'
 
 class HomePage extends Component {
   constructor(props) {
@@ -45,35 +46,38 @@ class HomePage extends Component {
     return (
       <div>
         <form>
-          <label htmlFor="name">Name:</label>
-          <input
-            onChange={this.handleChange}
-            type="text"
-            id="name"
-            name="name"
-            value={name}
-          />
-          <label htmlFor="name">Room:</label>
-          <input
-            onChange={this.handleChange}
-            type="text"
-            id="room"
-            name="roomName"
-            value={roomName}
-          />
-          <br />
-
-          <input
-            onClick={this.joinRoom}
-            type="submit"
-            value="Join Room"
-          ></input>
-          <input
-            onClick={this.createRoom}
-            type="submit"
-            name="roomName"
-            value="Create Room"
-          ></input>
+          <div className="form-input">
+            <label htmlFor="name">Name:</label>
+            <input
+              onChange={this.handleChange}
+              type="text"
+              id="name"
+              name="name"
+              value={name}
+            />
+            <label htmlFor="name">Room:</label>
+            <input
+              onChange={this.handleChange}
+              type="text"
+              id="room"
+              name="roomName"
+              value={roomName}
+            />
+            <br />
+          </div>
+          <div className="form-button">
+            <input
+              onClick={this.joinRoom}
+              type="submit"
+              value="Join Room"
+            ></input>
+            <input
+              onClick={this.createRoom}
+              type="submit"
+              name="roomName"
+              value="Create Room"
+            ></input>
+          </div>
         </form>
         <hr />
       </div>
