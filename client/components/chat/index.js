@@ -72,6 +72,7 @@ class Chat extends Component {
                 placeholder="Type your message here"
                 value={this.state.message}
                 onChange={this.handleChange}
+                autoFocus
               />
               <button type="button" onClick={this.handleChat}>
                 {' '}
