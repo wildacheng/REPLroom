@@ -2,7 +2,9 @@ import React, {Component} from 'react'
 import SplitPane, {Pane} from 'react-split-pane'
 import RoomNav from './roomNav'
 import Repl from '../repl/repl'
+
 //SOCKET
+// import io from 'socket.io-client'
 import socket from '../../socket'
 
 import VideoChat from '../video-chat'
@@ -11,42 +13,46 @@ import Chat from '../chat'
 export default class Room extends Component {
   constructor(props) {
     super(props)
+    const username = this.props.location.state
+      ? this.props.location.state.name
+      : ''
+
     this.state = {
-      socketId: socket.id,
+      // socket: socket.id,
       roomId: this.props.match.params.roomId,
-      username: this.props.location.state.name,
-      users: [],
+      username: username,
+      collaborators: [],
       width: '45%', //width of left pane
     }
+
+    // socket.on('code and collaborators from server', (data) => {
+    //   this.setState({collaborators: data.collaborators, code: data.code})
+    // })
   }
 
   componentDidMount() {
-    socket.on('join room', (data) => {
-      console.log(data, 'IM CONNECTED TO A ROOM')
-      this.joinUser(data)
-    })
+    // const name = this.props.location.state.name || ''
+    // const roomId = this.props.match.params.roomId
+    console.log('comp did mount', this.state)
+    socket.emit('connectToRoom', {name: this.username, roomId: this.roomId})
 
     socket.on('user left room', (user) => {
       this.removeUser(user)
     })
-
-    const name = this.props.location.state.name
-    const roomName = this.props.match.params.roomId
-    socket.emit('connectToRoom', {name: name, roomName: roomName})
   }
+
+  // componentDidUpdate() {
+  //   socket.on('code and collaborators from server', (data) => {
+  //     this.setState({collaborators: data.collaborators, code: data.code})
+  //     console.log(this.state)
+  //   })
+  // }
 
   componentWillUnmount() {
     socket.emit('leave room', {
       roomName: this.state.roomName,
       user: this.state.currentUser,
     })
-  }
-
-  componentDidUpdate() {
-    // const roomName = this.props.match.params.roomId
-    // socket.emit('connectToRoom', {name: name, roomName: roomName})
-    console.log(this.state.users, 'USERS')
-    console.log(this.state.currentUser, 'current user')
   }
 
   joinUser = (name) => {
@@ -80,6 +86,7 @@ export default class Room extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <div>
         <RoomNav />

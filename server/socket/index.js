@@ -3,23 +3,28 @@ module.exports = (io) => {
 
   //dummy DB storage
   const db = {
-    sampleRoomId: {
-      sampleCode: '',
-      sampleCollaborators: [{sampleSocketId: 2, sampleName: ''}],
-    },
+    // sampleRoomId: {
+    //   sampleCode: '',
+    //   sampleCollaborators: [{sampleSocketId: 'username'}],
+    // },
   }
 
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
-    socket.on('fetch code from server', (data) => {
-      if (!db[data.roomId]) {
-        //fill in with required fields later
-        db[data.roomId] = {code: data.code}
-      } else {
-        db[data.roomId].code = data.code
+    socket.on('join room', (data) => {
+      socket.join(data.roomId)
+      if (db[data.roomId] === undefined) {
+        db[data.roomId] = {code: '// your code here\n', collaborators: []} //will update with properties as needed
       }
-      io.sockets.in(data.roomId).emit('code from server', db[data.roomId])
+      const collaborators = db[data.roomId].collaborators
+      collaborators[socket.id] = data.username
+      console.log(db)
+
+      io.in(data.roomId).emit(
+        'code and collaborators from server',
+        db[data.roomId]
+      )
     })
 
     socket.on('updating code', (data) => {

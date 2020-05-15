@@ -38,7 +38,7 @@ class HomePage extends Component {
     this.setState({[event.target.name]: event.target.value})
   }
   render() {
-    const {name, roomName} = this.state
+    const {name, roomId} = this.state
 
     return (
       <div>
@@ -57,7 +57,7 @@ class HomePage extends Component {
             type="text"
             id="room"
             name="roomId"
-            value={roomName}
+            value={roomId}
           />
           <br />
 
