@@ -6,7 +6,7 @@ module.exports = (io) => {
 
     socket.on('new-user-joined', (name) => {
       users[socket.id] = name
-    }) //Might not be needed
+    })
 
     socket.on('send-chat-message', (data) => {
       io.in(data.roomId).emit('chat-message', {
@@ -19,11 +19,7 @@ module.exports = (io) => {
     socket.on('connectToRoom', (data) => {
       console.log(data, 'CONNECTED TO ROOM')
       if (data.name && data.roomId) {
-        //just in case
-
         socket.join(data.roomId)
-
-        // console.log(io.clients(data.roomId), "IM SOCKET CLIENT")
 
         if (!users[data.roomId]) {
           users[data.roomId] = {}

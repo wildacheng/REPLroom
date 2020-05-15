@@ -29,12 +29,8 @@ class Chat extends Component {
   handleChat = () => {
     this.setState({
       message: '',
-      // broadcastedMsg: [
-      //   ...this.state.broadcastedMsg,
-      //   {message: this.state.message,
-      //     name: this.props.userName},
-      // ],
     })
+
     socket.emit('send-chat-message', {
       message: this.state.message,
       roomId: this.props.roomId,

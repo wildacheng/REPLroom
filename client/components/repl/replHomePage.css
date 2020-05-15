@@ -3,13 +3,20 @@
   justify-content: center;
 }
 
+#text {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
 form {
   padding-top: 30px;
   border: 1px white solid;
   border-radius: 5px;
   width: 500px;
   text-align: center;
-  height: 200px;
+  height: 300px;
   color: white;
   font-size: 20px;
   font-family: Arial, Helvetica, sans-serif;
@@ -69,7 +76,7 @@ input {
 }
 
 p:nth-child(1) a {
-  color: #3792cb;
+  color: #28a428;
   font-family: Monoton;
   -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
   -moz-animation: neon1 1.5s ease-in-out infinite alternate;
@@ -84,19 +91,19 @@ p:nth-child(1) a:hover {
 }
 
 p a:hover {
-  color: #3792cb;
+  color: #28a428;
 }
 /*glow for webkit*/
 
 @-webkit-keyframes neon1 {
   from {
-    text-shadow: 0 0 10px #1c4966, 0 0 20px #1c4966, 0 0 30px #1c4966,
+    text-shadow: 0 0 10px #1e7b1e, 0 0 20px #1e7b1e, 0 0 30px #1e7b1e,
       0 0 40px #464646, 0 0 70px #464646, 0 0 80px #464646, 0 0 100px #464646,
       0 0 150px #464646;
   }
   to {
-    text-shadow: 0 0 5px #1c4966, 0 0 10px #1c4966, 0 0 15px #1c4966,
-      0 0 20px #3792cb, 0 0 35px #464646, 0 0 40px #464646, 0 0 50px #464646,
+    text-shadow: 0 0 5px #1e7b1e, 0 0 10px #1e7b1e, 0 0 15px #1e7b1e,
+      0 0 20px #28a428, 0 0 35px #464646, 0 0 40px #464646, 0 0 50px #464646,
       0 0 75px #464646;
   }
 }
@@ -104,12 +111,12 @@ p a:hover {
 
 @-moz-keyframes neon1 {
   from {
-    text-shadow: 0 0 10px #1c4966, 0 0 20px #1c4966, 0 0 30px #3792cb,
+    text-shadow: 0 0 10px #1e7b1e, 0 0 20px #1e7b1e, 0 0 30px #28a428,
       0 0 40px #464646, 0 0 70px #464646, 0 0 80px #464646, 0 0 100px #464646,
       0 0 150px #464646;
   }
   to {
-    text-shadow: 0 0 5px #1c4966, 0 0 10px #1c4966, 0 0 15px #3792cb,
+    text-shadow: 0 0 5px #1e7b1e, 0 0 10px #1e7b1e, 0 0 15px #28a428,
       0 0 20px #464646, 0 0 35px #464646, 0 0 40px #464646, 0 0 50px #464646,
       0 0 75px #464646;
   }
@@ -119,12 +126,12 @@ p a:hover {
 
 @keyframes neon1 {
   from {
-    text-shadow: 0 0 10px #1c4966, 0 0 20px #1c4966, 0 0 30px #3792cb,
+    text-shadow: 0 0 10px #1e7b1e, 0 0 20px #1e7b1e, 0 0 30px #28a428,
       0 0 40px #464646, 0 0 70px #464646, 0 0 80px #464646, 0 0 100px #464646,
       0 0 150px #464646;
   }
   to {
-    text-shadow: 0 0 5px #1c4966, 0 0 10px #1c4966, 0 0 15px #3792cb,
+    text-shadow: 0 0 5px #1e7b1e, 0 0 10px #1e7b1e, 0 0 15px #28a428,
       0 0 20px #464646, 0 0 35px #464646, 0 0 40px #464646, 0 0 50px #464646,
       0 0 75px #464646;
   }
