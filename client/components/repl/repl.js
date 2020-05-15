@@ -45,7 +45,6 @@ class Repl extends Component {
     myWorker.postMessage([typeof f, this.functionWrapper(parsedCode)])
 
     setTimeout(() => {
-      console.log('Terminating!!!')
       myWorker.terminate()
     }, TIMEOUT)
   }
