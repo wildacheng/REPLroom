@@ -27,13 +27,6 @@ class InviteByEmail extends Component {
   }
 
   render() {
-    console.log(
-      '****',
-      this.state.firstName,
-      this.state.email,
-      'result',
-      this.state.firstName.length && this.state.email.length
-    )
     return (
       <div className="email-details">
         <div className="required-fields">
