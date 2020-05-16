@@ -80,3 +80,17 @@ header {
   background-color: #79aea3;
   color: #b5f44a;
 }
+
+.name-fields {
+  display: flex;
+  margin-bottom: 50px;
+}
+
+.name-fields input {
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+.name {
+  margin-right: 10px;
+}
