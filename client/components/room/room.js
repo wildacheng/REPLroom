@@ -18,7 +18,9 @@ export default class Room extends Component {
       code: '// your code here\n',
       result: '',
       users: [],
-      currentUser: '',
+      currentUser: this.props.location.state
+        ? this.props.location.state.name
+        : '',
       width: '50%', //width of left pane
     }
   }
@@ -45,11 +47,14 @@ export default class Room extends Component {
       this.removeUser(user)
     })
 
-    if (this.props.location.state) {
-      this.setState({
-        userName: this.props.location.state.name,
-      })
-    }
+    // console.log('this.props', this.props.location.state)
+    // if (this.props.location.state) {
+    //   console.log('inside if', this.props.location.state.name)
+    //   this.setState({currentUser: 'Mohana'})
+    //   console.log('state set!!!')
+    // }
+
+    // console.log('this.state', this.state)
 
     // const name = this.props.location.state.name
     const roomName = this.props.match.params.roomId
@@ -131,7 +136,14 @@ export default class Room extends Component {
     this.setState({result: data})
   }
 
+  handleEnteredName = () => {
+    this.setState({
+      currentUser: this.textInput.value,
+    })
+  }
+
   render() {
+    console.log('this.state', this.state)
     return (
       <div>
         <RoomNav roomId={this.props.match.params.roomId} />
@@ -144,16 +156,23 @@ export default class Room extends Component {
               centered
               show={!this.state.currentUser}
             >
-              <Modal.Header closeButton>
+              <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
-                  Please Enter your name to proceed
+                  Please enter your name to proceed
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <div className="container">
                   <label>Name</label>
-                  <input type="text" name="name"></input>
-                  <button type="button"> Enter Name </button>
+                  <input
+                    type="text"
+                    name="name"
+                    ref={(input) => (this.textInput = input)}
+                  ></input>
+                  <button type="button" onClick={this.handleEnteredName}>
+                    {' '}
+                    Enter Name{' '}
+                  </button>
                 </div>
               </Modal.Body>
             </Modal>
@@ -176,10 +195,10 @@ export default class Room extends Component {
           </Pane>
         </SplitPane>
         <VideoChat roomName={this.props.match.params.roomId} />
-        {/* <Chat
+        <Chat
           roomName={this.props.match.params.roomId}
-          userName={this.props.location.state.name}
-        /> */}
+          userName={this.state.currentUser}
+        />
       </div>
     )
   }
