@@ -58,7 +58,10 @@ export default class Room extends Component {
 
     // const name = this.props.location.state.name
     const roomName = this.props.match.params.roomId
-    socket.emit('connectToRoom', {name: name, roomName: roomName})
+    socket.emit('connectToRoom', {
+      name: this.state.currentUser,
+      roomName: roomName,
+    })
   }
 
   componentWillUnmount() {
