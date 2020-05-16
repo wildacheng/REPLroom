@@ -145,6 +145,12 @@ export default class Room extends Component {
     })
   }
 
+  handleEnterKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.handleEnteredName()
+    }
+  }
+
   render() {
     console.log('this.state', this.state)
     return (
@@ -171,6 +177,7 @@ export default class Room extends Component {
                     type="text"
                     name="name"
                     ref={(input) => (this.textInput = input)}
+                    onKeyDown={this.handleEnterKeyPress}
                   ></input>
                   <button type="button" onClick={this.handleEnteredName}>
                     {' '}
