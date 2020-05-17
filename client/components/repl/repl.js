@@ -36,9 +36,18 @@ class Repl extends Component {
       this.sendCode()
     })
 
+    socket.on('load result', () => {
+      this.sendResult()
+    })
+
     socket.on('receive code for all', (code) => {
       console.log('RECEIVED CODE FOR ALL', code)
       this.updateCodeForAll(code)
+    })
+
+    socket.on('receive result for all', (result) => {
+      console.log('RECEIVED RESULT FOR ALL', result)
+      this.updateResultForAll(result)
     })
 
     socket.on('updating code', (code) => {
@@ -51,15 +60,32 @@ class Repl extends Component {
   }
 
   sendCode = () => {
-    socket.emit('send code', {
-      roomId: this.props.match.params.roomId,
-      code: this.state.code,
-    })
+    if (this.state.code) {
+      socket.emit('send code', {
+        roomId: this.props.match.params.roomId,
+        code: this.state.code,
+      })
+    }
+  }
+
+  sendResult = () => {
+    if (this.state.result) {
+      console.log('NEW STATE', this.state.result)
+      socket.emit('send result', {
+        roomId: this.props.match.params.roomId,
+        result: this.state.result,
+      })
+    }
   }
 
   updateCodeForAll = (code) => {
     console.log(code, 'UPDATE CODE FOR ALL')
     this.setState({code: code})
+  }
+
+  updateResultForAll = (result) => {
+    console.log(result, 'UPDATE RESULT FOR ALL')
+    this.setState({result: result})
   }
 
   updateCodeInState = (newCode) => {

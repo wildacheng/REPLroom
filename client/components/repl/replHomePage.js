@@ -18,7 +18,6 @@ class HomePage extends Component {
     event.preventDefault()
     let roomId = this.generateroomId()
     this.setState({[event.target.name]: roomId})
-    console.log(this.props)
     this.props.history.push({
       pathname: `/${roomId}`,
       state: {

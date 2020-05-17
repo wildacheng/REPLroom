@@ -38,6 +38,8 @@ module.exports = (io) => {
           .emit('load users', Object.values(users[data.roomId]))
 
         io.sockets.in(data.roomId).emit('load code')
+
+        io.sockets.in(data.roomId).emit('load result')
       }
     })
 
@@ -49,6 +51,11 @@ module.exports = (io) => {
     socket.on('send code', (data) => {
       console.log(data, 'GOT CODE')
       io.sockets.in(data.roomId).emit('receive code for all', data.code)
+    })
+
+    socket.on('send result', (data) => {
+      console.log(data, 'GOT RESULT')
+      io.sockets.in(data.roomId).emit('receive result for all', data.result)
     })
 
     socket.on('coding event', (data) => {
