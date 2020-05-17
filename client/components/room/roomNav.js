@@ -26,13 +26,14 @@ export default class RoomNav extends Component {
   }
 
   render() {
-    console.log('show', this.state.inviteClicked)
     return (
       <div>
         <header>
           <img className="logo" src="/logo.png" alt="logo" />
           <div>
-            <div id="activeUser">Person X is typing...</div>
+            {this.props.currentlyTyping && (
+              <div id="activeUser">{`${this.props.currentlyTyping} is typing...`}</div>
+            )}
           </div>
           <div className="dropdown">
             <button className="dropbtn headerbtn" type="button">

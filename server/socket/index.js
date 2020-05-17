@@ -37,7 +37,9 @@ module.exports = (io) => {
 
     socket.on('updating code', (data) => {
       console.log('updated code', data)
-      io.sockets.in(data.roomName).emit('updating code', data.code)
+      io.sockets
+        .in(data.roomName)
+        .emit('updating code', {code: data.code, name: users[socket.id]})
     })
 
     socket.on('leave room', (data) => {

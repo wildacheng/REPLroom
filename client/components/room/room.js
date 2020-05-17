@@ -18,6 +18,7 @@ export default class Room extends Component {
       users: [],
       currentUser: '',
       width: '50%', //width of left pane
+      currentlyTyping: '',
     }
   }
 
@@ -35,8 +36,11 @@ export default class Room extends Component {
       this.updateUsersAndCodeInState(data)
     })
 
-    socket.on('updating code', (code) => {
-      this.getNewCodeFromServer(code)
+    socket.on('updating code', (data) => {
+      this.getNewCodeFromServer(data.code)
+      this.setState({
+        currentlyTyping: data.name,
+      })
     })
 
     socket.on('user left room', (user) => {
@@ -121,7 +125,10 @@ export default class Room extends Component {
   render() {
     return (
       <div>
-        <RoomNav roomId={this.props.match.params.roomId} />
+        <RoomNav
+          roomId={this.props.match.params.roomId}
+          currentlyTyping={this.state.currentlyTyping}
+        />
         <SplitPane
           split="vertical"
           minSize={5}
