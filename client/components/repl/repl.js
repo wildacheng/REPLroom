@@ -28,6 +28,9 @@ class Repl extends Component {
       // currentUser: '',
       height: 350, //height of the editor
       width: 400, //width of left panel
+      currentlyTyping: '',
+      typing: false,
+      timer: 0,
     }
   }
 
@@ -41,9 +44,28 @@ class Repl extends Component {
       this.updateCodeForAll(code)
     })
 
-    socket.on('updating code', (code) => {
-      this.getNewCodeFromServer(code)
+    socket.on('updating code', (data) => {
+      this.getNewCodeFromServer(data.code)
+      this.setState({
+        //set a clock here and reset it everytime this setState is called. if the clock reached 5 secs stop showing who is typing
+        timer: 1,
+        typing: true,
+        currentlyTyping: data.name,
+      })
+      this.handleSetTimeOut()
     })
+  }
+
+  handleSetTimeOut = () => {
+    console.log('set time out called!!!')
+    if (this.state.typing) {
+      setTimeout(() => {
+        this.setState({
+          typing: false,
+          currentlyTyping: '',
+        })
+      }, 5000)
+    }
   }
 
   sendCode = () => {
@@ -102,6 +124,7 @@ class Repl extends Component {
   }
 
   render() {
+    console.log('this.state.currentlyTyping', this.state.currentlyTyping)
     const options = {
       lineNumbers: true,
       mode: 'javascript',
@@ -112,6 +135,7 @@ class Repl extends Component {
     return (
       <SplitPane split="horizontal" defaultSize={this.state.height}>
         <Pane className="pane">
+          <div className="currently-typing">{this.state.currentlyTyping}</div>
           <Codemirror
             value={this.state.code}
             options={options}

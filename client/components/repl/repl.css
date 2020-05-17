@@ -88,3 +88,9 @@
 .Resizer.disabled:hover {
   border-color: transparent;
 }
+
+.currently-typing {
+  color: white;
+  height: 30px;
+  width: 50px;
+}
