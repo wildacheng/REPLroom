@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import io from 'socket.io-client'
-// const socket = io(window.location.origin)
 import socket from '../../socket'
 import './index.css'
 
@@ -57,7 +56,6 @@ class Chat extends Component {
   }
 
   handleSendMessage = (e) => {
-    console.log('key pressed')
     if (e.key === 'Enter') {
       this.handleChat()
     }
