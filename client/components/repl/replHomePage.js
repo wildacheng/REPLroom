@@ -6,21 +6,21 @@ class HomePage extends Component {
     super(props)
     this.state = {
       name: '',
-      roomName: '',
+      roomId: '',
     }
   }
 
-  generateRoomName = () => {
+  generateroomId = () => {
     return Math.random().toString(36).substring(7)
   }
 
   createRoom = (event) => {
     event.preventDefault()
-    let roomName = this.generateRoomName()
-    this.setState({[event.target.name]: roomName})
+    let roomId = this.generateroomId()
+    this.setState({[event.target.name]: roomId})
     console.log(this.props)
     this.props.history.push({
-      pathname: `/${roomName}`,
+      pathname: `/${roomId}`,
       state: {
         name: this.state.name,
       },
@@ -30,7 +30,7 @@ class HomePage extends Component {
   joinRoom = (event) => {
     event.preventDefault()
     this.props.history.push({
-      pathname: `/${this.state.roomName}`,
+      pathname: `/${this.state.roomId}`,
       state: {
         name: this.state.name,
       },
@@ -41,7 +41,7 @@ class HomePage extends Component {
     this.setState({[event.target.name]: event.target.value})
   }
   render() {
-    const {name, roomName} = this.state
+    const {name, roomId} = this.state
 
     return (
       <div>
@@ -63,8 +63,8 @@ class HomePage extends Component {
               onChange={this.handleChange}
               type="text"
               id="room"
-              name="roomName"
-              value={roomName}
+              name="roomId"
+              value={roomId}
             />
             <br />
             <input
@@ -78,7 +78,7 @@ class HomePage extends Component {
               className="button"
               onClick={this.createRoom}
               type="submit"
-              name="roomName"
+              name="roomId"
               value="Create Room"
             ></input>
           </form>
