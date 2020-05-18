@@ -18,19 +18,19 @@ export default class Room extends Component {
       currentUser: this.props.location.state
         ? this.props.location.state.name
         : '',
-      roomName: this.props.match.params.roomId,
+      roomId: this.props.match.params.roomId,
       width: '50%', //width of left pane
     }
   }
 
   componentDidMount() {
     //const name = this.props.location.state.name
-    // const roomName = this.props.match.params.roomId
+    // const roomId = this.props.match.params.roomId
 
-    if (this.state.currentUser && this.state.roomName) {
+    if (this.state.currentUser && this.state.roomId) {
       socket.emit('connectToRoom', {
         name: this.state.currentUser,
-        roomName: this.state.roomName,
+        roomId: this.state.roomId,
       })
     }
 
@@ -51,25 +51,12 @@ export default class Room extends Component {
     socket.on('user left room', (user) => {
       this.removeUser(user)
     })
-
-    socket.emit('connectToRoom', {
-      name: this.state.currentUser,
-      roomName: this.state.roomName,
-    })
   }
 
   componentWillUnmount() {
     socket.emit('leave room', {
-      roomName: this.state.roomName,
+      roomId: this.state.roomId,
       user: this.state.currentUser,
-    })
-  }
-
-  sendUsersAndCode = () => {
-    socket.emit('send users and code', {
-      roomName: this.state.roomName,
-      users: this.state.users,
-      code: this.state.code,
     })
   }
 
@@ -78,43 +65,18 @@ export default class Room extends Component {
     this.setState({users: users})
   }
 
-  updateUsersAndCodeInState = (data) => {
-    const combinedUsers = this.state.users.concat(data.users)
-    const newUsers = Array.from(new Set(combinedUsers))
-    const cleanUsers = newUsers.filter((user) => {
-      return user.length > 1
-    })
-    this.setState({users: cleanUsers, code: data.code})
-  }
-
-  removeUser(user) {
-    const newUsers = Object.assign([], this.state.users)
-    const indexOfUserToDelete = this.state.users.findIndex((Olduser) => {
-      return Olduser === user.user
-    })
-    newUsers.splice(indexOfUserToDelete, 1)
-    this.setState((prevState) => {
-      return {users: newUsers}
-    })
-  }
-
-  joinUser = (users) => {
-    console.log(users, 'IM JOIN NAME')
-    this.setState((prevState) => ({users: users}))
-  }
-
   updateUsersForAll = (users) => {
-    this.setState((prevState) => ({users: users}))
+    this.setState({users: users})
   }
 
   sendUsers = () => {
     this.state.users && this.state.users.length
       ? socket.emit('send users', {
-          roomName: this.state.roomName,
+          roomId: this.state.roomId,
           users: this.state.users,
         })
       : socket.emit('send users', {
-          roomName: this.state.roomName,
+          roomId: this.state.roomId,
         })
   }
 
@@ -124,7 +86,7 @@ export default class Room extends Component {
     })
     socket.emit('connectToRoom', {
       name: this.textInput.value,
-      roomName: this.state.roomName,
+      roomId: this.state.roomId,
     })
   }
 
@@ -190,11 +152,8 @@ export default class Room extends Component {
             <Whiteboard />
           </Pane>
         </SplitPane>
-        <VideoChat roomName={this.state.roomName} />
-        <Chat
-          roomName={this.state.roomName}
-          userName={this.state.currentUser}
-        />
+        <VideoChat roomId={this.state.roomId} />
+        <Chat roomId={this.state.roomId} userName={this.state.currentUser} />
       </div>
     )
   }
