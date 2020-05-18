@@ -23,7 +23,7 @@ class Repl extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      code: '// your code here\n',
+      code: '',
       result: '',
       currentlyTyping: '',
       height: '65%', //height of the editor
