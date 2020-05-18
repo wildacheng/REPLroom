@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import io from 'socket.io-client'
+//import io from 'socket.io-client'
 import socket from '../../socket'
 import './index.css'
 
@@ -12,7 +12,7 @@ class Chat extends Component {
       broadcastedMsg: [],
     }
 
-    this.socket = io(window.location.origin)
+    //this.socket = io(window.location.origin)
 
     const room = props.roomName
     socket.emit('connectToRoom', {roomName: room})

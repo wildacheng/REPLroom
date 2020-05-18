@@ -7,7 +7,6 @@ import Whiteboard from '../whiteboard/whiteboard'
 import VideoChat from '../video-chat'
 import Chat from '../chat'
 //SOCKET
-//import io from 'socket.io-client'
 import socket from '../../socket'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -15,8 +14,6 @@ export default class Room extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      code: '// your code here\n',
-      result: '',
       users: [],
       currentUser: this.props.location.state
         ? this.props.location.state.name
@@ -26,38 +23,34 @@ export default class Room extends Component {
   }
 
   componentDidMount() {
-    socket.on('load users and code', () => {
-      this.sendUsersAndCode()
+    //const name = this.props.location.state.name
+    const roomName = this.props.match.params.roomId
+
+    if (this.state.currentUser && roomName) {
+      socket.emit('connectToRoom', {
+        name: this.state.currentUser,
+        roomName: roomName,
+      })
+    }
+
+    socket.on('load users', () => {
+      this.sendUsers()
     })
 
     socket.on('user joined room', (data) => {
       //console.log(data, 'IM CONNECTED TO A ROOM')
       this.joinUser(data)
     })
-    socket.on('users', (data) => {
-      //console.log('RECEIVED', data)
-      this.updateUsersAndCodeInState(data)
-    })
 
-    socket.on('updating code', (code) => {
-      this.getNewCodeFromServer(code)
+    socket.on('receive users', (users) => {
+      console.log('RECEIVED USERS', users)
+      this.updateUsersForAll(users)
     })
 
     socket.on('user left room', (user) => {
       this.removeUser(user)
     })
 
-    // console.log('this.props', this.props.location.state)
-    // if (this.props.location.state) {
-    //   console.log('inside if', this.props.location.state.name)
-    //   this.setState({currentUser: 'Mohana'})
-    //   console.log('state set!!!')
-    // }
-
-    // console.log('this.state', this.state)
-
-    // const name = this.props.location.state.name
-    const roomName = this.props.match.params.roomId
     socket.emit('connectToRoom', {
       name: this.state.currentUser,
       roomName: roomName,
@@ -71,13 +64,6 @@ export default class Room extends Component {
     })
   }
 
-  // componentDidUpdate() {
-  //   const roomName = this.props.match.params.roomId
-  //   socket.emit('connectToRoom', {name: name, roomName: roomName})
-  //   console.log(this.state.users, 'USERS')
-  //   console.log(this.state.currentUser, 'current user')
-  // }
-
   sendUsersAndCode = () => {
     socket.emit('send users and code', {
       roomName: this.props.match.params.roomId,
@@ -90,16 +76,6 @@ export default class Room extends Component {
     console.log(users, 'IM JOIN NAME')
     this.setState({users: users})
   }
-
-  // joinUser = (name) => {
-  //   //Array.from creates a new array from the new Set
-  //   const combinedUsers = [...this.state.users, name]
-  //   const newUsers = Array.from(new Set(combinedUsers))
-  //   const cleanUsers = newUsers.filter((user) => {
-  //     return user.length > 1
-  //   })
-  //   this.setState({users: cleanUsers, currentUser: name})
-  // }
 
   updateUsersAndCodeInState = (data) => {
     const combinedUsers = this.state.users.concat(data.users)
@@ -121,22 +97,24 @@ export default class Room extends Component {
     })
   }
 
-  updateCodeInState = (newText) => {
-    this.setState({code: newText})
-    socket.emit('updating code', {
-      roomName: this.props.match.params.roomId,
-      code: this.state.code,
-    })
+  joinUser = (users) => {
+    console.log(users, 'IM JOIN NAME')
+    this.setState((prevState) => ({users: users}))
   }
 
-  getNewCodeFromServer = (code) => {
-    this.setState({code: code})
-    console.log(this.state)
+  updateUsersForAll = (users) => {
+    this.setState((prevState) => ({users: users}))
   }
 
-  //WebWorker Functions Prop
-  updateResult = (data) => {
-    this.setState({result: data})
+  sendUsers = () => {
+    this.state.users && this.state.users.length
+      ? socket.emit('send users', {
+          roomName: this.props.match.params.roomId,
+          users: this.state.users,
+        })
+      : socket.emit('send users', {
+          roomName: this.props.match.params.roomId,
+        })
   }
 
   handleEnteredName = () => {
@@ -155,7 +133,10 @@ export default class Room extends Component {
     console.log('this.state', this.state)
     return (
       <div>
-        <RoomNav roomId={this.props.match.params.roomId} />
+        <RoomNav
+          roomId={this.props.match.params.roomId}
+          users={this.state.users}
+        />
         {!this.state.currentUser && (
           <div>
             <Modal
