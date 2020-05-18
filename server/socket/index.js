@@ -40,6 +40,8 @@ module.exports = (io) => {
         io.sockets.in(data.roomId).emit('load code')
 
         io.sockets.in(data.roomId).emit('load result')
+
+        //Everything in here gets broadcasted for all users in the room
       }
     })
 
