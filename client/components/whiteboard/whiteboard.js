@@ -24,27 +24,6 @@ export default function Whiteboard(props) {
   const [rectangles, setRectangles] = useState([])
   const [circles, setCircles] = useState([])
 
-  // --- Lifecycle & Socket Events --- //
-  socket.on('new rect', (rect) => {
-    const rects = rectangles.concat([rect])
-    setRectangles(rects)
-    addToShapes([rect.id])
-  })
-
-  socket.on('new circ', (circ) => {
-    const circs = circles.concat([circ])
-    setCircles(circs)
-    addToShapes([circ.id])
-  })
-
-  socket.on('draw rects', (rects) => {
-    setRectangles(rects)
-  })
-
-  socket.on('draw circs', (circs) => {
-    setCircles(circs)
-  })
-
   // ---  Helpers --- //
   const addToShapes = (shapeEl) => {
     const shps = shapes.concat(shapeEl)
@@ -87,6 +66,27 @@ export default function Whiteboard(props) {
       )
     }
   }
+
+  // --- Lifecycle & Socket Events --- //
+  socket.on('new rect', (rect) => {
+    const rects = rectangles.concat([rect])
+    setRectangles(rects)
+    addToShapes([rect.id])
+  })
+
+  socket.on('new circ', (circ) => {
+    const circs = circles.concat([circ])
+    setCircles(circs)
+    addToShapes([circ.id])
+  })
+
+  socket.on('draw rects', (rects) => {
+    setRectangles(rects)
+  })
+
+  socket.on('draw circs', (circs) => {
+    setCircles(circs)
+  })
 
   // ---  Whiteboard Tools  ---//
   const drawLine = () => {
