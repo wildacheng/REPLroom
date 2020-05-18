@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import SplitPane, {Pane} from 'react-split-pane'
+import {Modal} from 'react-bootstrap'
 import RoomNav from './roomNav'
 import Repl from '../repl/repl'
 import Whiteboard from '../whiteboard/whiteboard'
@@ -8,6 +9,7 @@ import Chat from '../chat'
 //SOCKET
 //import io from 'socket.io-client'
 import socket from '../../socket'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default class Room extends Component {
   constructor(props) {
@@ -16,7 +18,9 @@ export default class Room extends Component {
       code: '// your code here\n',
       result: '',
       users: [],
-      currentUser: '',
+      currentUser: this.props.location.state
+        ? this.props.location.state.name
+        : '',
       width: '50%', //width of left pane
     }
   }
@@ -43,9 +47,21 @@ export default class Room extends Component {
       this.removeUser(user)
     })
 
-    const name = this.props.location.state.name
+    // console.log('this.props', this.props.location.state)
+    // if (this.props.location.state) {
+    //   console.log('inside if', this.props.location.state.name)
+    //   this.setState({currentUser: 'Mohana'})
+    //   console.log('state set!!!')
+    // }
+
+    // console.log('this.state', this.state)
+
+    // const name = this.props.location.state.name
     const roomName = this.props.match.params.roomId
-    socket.emit('connectToRoom', {name: name, roomName: roomName})
+    socket.emit('connectToRoom', {
+      name: this.state.currentUser,
+      roomName: roomName,
+    })
   }
 
   componentWillUnmount() {
@@ -70,15 +86,20 @@ export default class Room extends Component {
     })
   }
 
-  joinUser = (name) => {
-    //Array.from creates a new array from the new Set
-    const combinedUsers = [...this.state.users, name]
-    const newUsers = Array.from(new Set(combinedUsers))
-    const cleanUsers = newUsers.filter((user) => {
-      return user.length > 1
-    })
-    this.setState({users: cleanUsers, currentUser: name})
+  joinUser = (users) => {
+    console.log(users, 'IM JOIN NAME')
+    this.setState({users: users})
   }
+
+  // joinUser = (name) => {
+  //   //Array.from creates a new array from the new Set
+  //   const combinedUsers = [...this.state.users, name]
+  //   const newUsers = Array.from(new Set(combinedUsers))
+  //   const cleanUsers = newUsers.filter((user) => {
+  //     return user.length > 1
+  //   })
+  //   this.setState({users: cleanUsers, currentUser: name})
+  // }
 
   updateUsersAndCodeInState = (data) => {
     const combinedUsers = this.state.users.concat(data.users)
@@ -118,10 +139,55 @@ export default class Room extends Component {
     this.setState({result: data})
   }
 
+  handleEnteredName = () => {
+    this.setState({
+      currentUser: this.textInput.value,
+    })
+  }
+
+  handleEnterKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.handleEnteredName()
+    }
+  }
+
   render() {
+    console.log('this.state', this.state)
     return (
       <div>
         <RoomNav roomId={this.props.match.params.roomId} />
+        {!this.state.currentUser && (
+          <div>
+            <Modal
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+              show={!this.state.currentUser}
+            >
+              <Modal.Header>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  Please enter your name to proceed
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="container">
+                  <label>Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    ref={(input) => (this.textInput = input)}
+                    onKeyDown={this.handleEnterKeyPress}
+                  ></input>
+                  <button type="button" onClick={this.handleEnteredName}>
+                    {' '}
+                    Enter Name{' '}
+                  </button>
+                </div>
+              </Modal.Body>
+            </Modal>
+          </div>
+        )}
         <SplitPane
           split="vertical"
           minSize={5}
@@ -141,7 +207,7 @@ export default class Room extends Component {
         <VideoChat roomName={this.props.match.params.roomId} />
         <Chat
           roomName={this.props.match.params.roomId}
-          userName={this.props.location.state.name}
+          userName={this.state.currentUser}
         />
       </div>
     )

@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import io from 'socket.io-client'
-// const socket = io(window.location.origin)
 import socket from '../../socket'
 import './index.css'
 
@@ -56,14 +55,20 @@ class Chat extends Component {
     })
   }
 
+  handleSendMessage = (e) => {
+    if (e.key === 'Enter') {
+      this.handleChat()
+    }
+  }
+
   render() {
     return (
       <div className="chat-pop">
         {this.state.chatOpen && (
           <div className="chat-window">
             <div className="text-area">
-              {this.state.broadcastedMsg.map((item) => {
-                return <div>{`${item.name}: ${item.message}`}</div>
+              {this.state.broadcastedMsg.map((item, index) => {
+                return <div key={index}>{`${item.name}: ${item.message}`}</div>
               })}
             </div>
             <div className="msg-input-bar">
@@ -72,6 +77,7 @@ class Chat extends Component {
                 placeholder="Type your message here"
                 value={this.state.message}
                 onChange={this.handleChange}
+                onKeyDown={this.handleSendMessage}
                 autoFocus
               />
               <button type="button" onClick={this.handleChat}>
