@@ -25,7 +25,6 @@ class Repl extends Component {
     this.state = {
       code: '// your code here\n',
       result: '',
-      // currentUser: '',
       currentlyTyping: '',
       height: '65%', //height of the editor
     }
@@ -36,9 +35,18 @@ class Repl extends Component {
       this.sendCode()
     })
 
+    socket.on('load result', () => {
+      this.sendResult()
+    })
+
     socket.on('receive code for all', (code) => {
       console.log('RECEIVED CODE FOR ALL', code)
       this.updateCodeForAll(code)
+    })
+
+    socket.on('receive result for all', (result) => {
+      console.log('RECEIVED RESULT FOR ALL', result)
+      this.updateResultForAll(result)
     })
 
     socket.on('updating code', (data) => {
@@ -47,6 +55,10 @@ class Repl extends Component {
       this.setState({
         currentlyTyping: data.name,
       })
+    })
+
+    socket.on('updating result', (result) => {
+      this.getNewResultFromServer(result)
     })
 
     socket.on('update typing name', () => {
@@ -71,21 +83,38 @@ class Repl extends Component {
   }
 
   sendCode = () => {
-    socket.emit('send code', {
-      roomName: this.props.match.params.roomId,
-      code: this.state.code,
-    })
+    if (this.state.code) {
+      socket.emit('send code', {
+        roomId: this.props.match.params.roomId,
+        code: this.state.code,
+      })
+    }
+  }
+
+  sendResult = () => {
+    if (this.state.result) {
+      console.log('NEW STATE', this.state.result)
+      socket.emit('send result', {
+        roomId: this.props.match.params.roomId,
+        result: this.state.result,
+      })
+    }
   }
 
   updateCodeForAll = (code) => {
     this.setState({code: code})
   }
 
+  updateResultForAll = (result) => {
+    console.log(result, 'UPDATE RESULT FOR ALL')
+    this.setState({result: result})
+  }
+
   updateCodeInState = (newCode) => {
     // clearTimeout(typingTimer)
     this.setState({code: newCode})
     socket.emit('coding event', {
-      roomName: this.props.match.params.roomId,
+      roomId: this.props.match.params.roomId,
       code: newCode,
       socketId: socket.id,
     })
@@ -94,6 +123,10 @@ class Repl extends Component {
   getNewCodeFromServer = (code) => {
     this.setState({code: code})
     console.log(this.state)
+  }
+
+  getNewResultFromServer = (result) => {
+    this.setState({result: result})
   }
 
   handleTerminal = (data) => {
@@ -107,6 +140,10 @@ class Repl extends Component {
 
   updateResult = (data) => {
     this.setState({result: data})
+    socket.emit('result event', {
+      roomId: this.props.match.params.roomId,
+      result: data,
+    })
   }
 
   handleWebWorker = () => {
