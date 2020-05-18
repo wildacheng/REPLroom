@@ -16,14 +16,17 @@ class InviteByEmail extends Component {
     })
   }
 
-  handleShowEmail = () => {
-    console.log('function called')
+  handleEmail = () => {
+    this.setState({
+      firstName: '',
+      email: '',
+    })
     sendEmail({
       firstName: this.state.firstName,
       email: this.state.email,
       url: 'http://localhost:8080/',
       roomId: this.props.roomId,
-    })
+    })()
   }
 
   render() {
@@ -67,12 +70,7 @@ class InviteByEmail extends Component {
         <button
           type="button"
           disabled={!this.state.firstName || !this.state.email}
-          onClick={sendEmail({
-            firstName: this.state.firstName,
-            email: this.state.email,
-            url: 'http://localhost:8080/',
-            roomId: this.props.roomId,
-          })}
+          onClick={this.handleEmail}
         >
           Send
         </button>
