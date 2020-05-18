@@ -19,8 +19,12 @@ module.exports = (io) => {
       console.log(data, 'CONNECTED TO ROOM')
       if (data.name && data.roomName) {
         //just in case
-
+        console.log('inside connect server---------->')
         socket.join(data.roomName)
+
+        if (!users[socket.id]) {
+          users[socket.id] = data.name
+        }
 
         if (!users[data.roomName]) {
           users[data.roomName] = {}
