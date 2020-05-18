@@ -93,23 +93,8 @@
   border-color: transparent;
 }
 
-.form-input {
-  display: flex;
-  margin-top: 30px;
-  height: 25px;
-}
-
-.form-input label {
-  color: #fff;
-}
-
-.form-button {
-  display: flex;
-  margin-top: 30px;
-  font-size: 12px;
-}
-
-.form-button input {
-  margin: 10px;
-  border-radius: 10px;
+.currently-typing {
+  color: white;
+  height: 30px;
+  width: 200px;
 }

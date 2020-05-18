@@ -3,9 +3,6 @@ import Invite from '../invite'
 import './roomNav.css'
 
 export default class RoomNav extends Component {
-  //keep active collaborators on state to change typing display
-  //map (or store) all collaborators on state for display
-
   constructor() {
     super()
     this.state = {
@@ -26,7 +23,8 @@ export default class RoomNav extends Component {
   }
 
   render() {
-    console.log('show', this.state.inviteClicked)
+    let users = this.props.users
+
     return (
       <div>
         <header>
@@ -39,9 +37,9 @@ export default class RoomNav extends Component {
               Collaborators
             </button>
             <div className="dropdown-content">
-              <p>Ruby</p>
-              <p>Dakota</p>
-              <p>Scout</p>
+              {users.map((user) => (
+                <p key={user}>{user}</p>
+              ))}
             </div>
           </div>
           <div>
