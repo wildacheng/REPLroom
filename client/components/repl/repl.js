@@ -11,6 +11,8 @@ import 'codemirror/mode/javascript/javascript.js' //look into this
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
+//Socket
+import socket from '../../socket'
 //CSS
 import './repl.css'
 
@@ -111,11 +113,10 @@ class Repl extends Component {
     const myWorker = new Worker(workerScript)
 
     myWorker.onmessage = (m) => {
-      // this.setState({result: m.data})
       this.updateResult(m.data)
     }
 
-    const parsedCode = parseCode(this.code)
+    const parsedCode = parseCode(this.state.code)
     myWorker.postMessage([typeof f, this.functionWrapper(parsedCode)])
 
     setTimeout(() => {

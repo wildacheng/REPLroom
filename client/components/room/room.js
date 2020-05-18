@@ -7,7 +7,6 @@ import Whiteboard from '../whiteboard/whiteboard'
 import VideoChat from '../video-chat'
 import Chat from '../chat'
 //SOCKET
-//import io from 'socket.io-client'
 import socket from '../../socket'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -24,11 +23,14 @@ export default class Room extends Component {
   }
 
   componentDidMount() {
-    const name = this.props.location.state.name
+    //const name = this.props.location.state.name
     const roomName = this.props.match.params.roomId
 
-    if (name && roomName) {
-      socket.emit('connectToRoom', {name: name, roomName: roomName})
+    if (this.state.currentUser && roomName) {
+      socket.emit('connectToRoom', {
+        name: this.state.currentUser,
+        roomName: roomName,
+      })
     }
 
     socket.on('load users', () => {
@@ -49,7 +51,6 @@ export default class Room extends Component {
       this.removeUser(user)
     })
 
-    const roomName = this.props.match.params.roomId
     socket.emit('connectToRoom', {
       name: this.state.currentUser,
       roomName: roomName,
@@ -132,7 +133,10 @@ export default class Room extends Component {
     console.log('this.state', this.state)
     return (
       <div>
-        <RoomNav roomId={this.props.match.params.roomId} users={this.state.users} />
+        <RoomNav
+          roomId={this.props.match.params.roomId}
+          users={this.state.users}
+        />
         {!this.state.currentUser && (
           <div>
             <Modal
