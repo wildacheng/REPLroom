@@ -18,6 +18,7 @@ import socket from '../../socket'
 import './repl.css'
 
 const TIMEOUT = 8000
+let typingTimer
 
 class Repl extends Component {
   constructor(props) {
@@ -29,8 +30,6 @@ class Repl extends Component {
       height: 350, //height of the editor
       width: 400, //width of left panel
       currentlyTyping: '',
-      typing: false,
-      timer: 0,
     }
   }
 
@@ -46,26 +45,31 @@ class Repl extends Component {
 
     socket.on('updating code', (data) => {
       this.getNewCodeFromServer(data.code)
+      clearTimeout(typingTimer)
       this.setState({
-        //set a clock here and reset it everytime this setState is called. if the clock reached 5 secs stop showing who is typing
-        timer: 1,
-        typing: true,
         currentlyTyping: data.name,
       })
-      this.handleSetTimeOut()
+    })
+
+    socket.on('update typing name', () => {
+      this.setState({
+        currentlyTyping: '',
+      })
     })
   }
 
-  handleSetTimeOut = () => {
-    console.log('set time out called!!!')
-    if (this.state.typing) {
-      setTimeout(() => {
-        this.setState({
-          typing: false,
-          currentlyTyping: '',
-        })
-      }, 5000)
-    }
+  handleKeyDown = () => {
+    clearTimeout(typingTimer)
+  }
+
+  handleKeyUp = () => {
+    clearTimeout(typingTimer)
+    typingTimer = setTimeout(() => {
+      this.setState({
+        currentlyTyping: '',
+      })
+      socket.emit('stop typing', this.props.match.params.roomId)
+    }, 5000)
   }
 
   sendCode = () => {
@@ -80,6 +84,7 @@ class Repl extends Component {
   }
 
   updateCodeInState = (newCode) => {
+    // clearTimeout(typingTimer)
     this.setState({code: newCode})
     socket.emit('coding event', {
       roomName: this.props.match.params.roomId,
@@ -135,13 +140,18 @@ class Repl extends Component {
     return (
       <SplitPane split="horizontal" defaultSize={this.state.height}>
         <Pane className="pane">
-          <div className="currently-typing">{this.state.currentlyTyping}</div>
+          <div className="currently-typing">
+            {this.state.currentlyTyping &&
+              `${this.state.currentlyTyping} is typing...`}
+          </div>
           <Codemirror
             value={this.state.code}
             options={options}
             onBeforeChange={(_editor, _data, value) => {
               this.updateCodeInState(value)
             }}
+            onKeyUp={this.handleKeyUp}
+            onKeyDown={this.handleKeyDown}
           />
         </Pane>
         <Pane className="pane">

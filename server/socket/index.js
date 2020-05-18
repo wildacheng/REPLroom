@@ -22,15 +22,11 @@ module.exports = (io) => {
 
         socket.join(data.roomName)
 
-        // console.log(io.clients(data.roomName), "IM SOCKET CLIENT")
-
         if (!users[data.roomName]) {
           users[data.roomName] = {}
         }
 
         users[data.roomName][socket.id] = data.name
-
-        console.log(Object.values(users[data.roomName]), 'THE USERS')
 
         io.sockets
           .in(data.roomName)
@@ -45,17 +41,14 @@ module.exports = (io) => {
     })
 
     socket.on('send users', (data) => {
-      console.log(data, 'GOT USERS')
       io.sockets.in(data.roomName).emit('receive users', data.users)
     })
 
     socket.on('send code', (data) => {
-      console.log(data, 'GOT CODE')
       io.sockets.in(data.roomName).emit('receive code for all', data.code)
     })
 
     socket.on('coding event', (data) => {
-      console.log('updated code', data)
       io.sockets
         .in(data.roomName)
         .emit('updating code', {code: data.code, name: users[socket.id]})
@@ -65,6 +58,10 @@ module.exports = (io) => {
       io.sockets.in(data.roomName).emit('user left room', {user: data.user})
       // delete users[data.roomName][socket.id]
       socket.leave(data.room)
+    })
+
+    socket.on('stop typing', (roomName) => {
+      io.sockets.in(roomName).emit('update typing name')
     })
 
     socket.on('disconnect', () => {
