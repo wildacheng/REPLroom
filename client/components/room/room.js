@@ -18,18 +18,19 @@ export default class Room extends Component {
       currentUser: this.props.location.state
         ? this.props.location.state.name
         : '',
+      roomName: this.props.match.params.roomId,
       width: '50%', //width of left pane
     }
   }
 
   componentDidMount() {
     //const name = this.props.location.state.name
-    const roomName = this.props.match.params.roomId
+    // const roomName = this.props.match.params.roomId
 
-    if (this.state.currentUser && roomName) {
+    if (this.state.currentUser && this.state.roomName) {
       socket.emit('connectToRoom', {
         name: this.state.currentUser,
-        roomName: roomName,
+        roomName: this.state.roomName,
       })
     }
 
@@ -53,7 +54,7 @@ export default class Room extends Component {
 
     socket.emit('connectToRoom', {
       name: this.state.currentUser,
-      roomName: roomName,
+      roomName: this.state.roomName,
     })
   }
 
@@ -66,7 +67,7 @@ export default class Room extends Component {
 
   sendUsersAndCode = () => {
     socket.emit('send users and code', {
-      roomName: this.props.match.params.roomId,
+      roomName: this.state.roomName,
       users: this.state.users,
       code: this.state.code,
     })
@@ -109,17 +110,21 @@ export default class Room extends Component {
   sendUsers = () => {
     this.state.users && this.state.users.length
       ? socket.emit('send users', {
-          roomName: this.props.match.params.roomId,
+          roomName: this.state.roomName,
           users: this.state.users,
         })
       : socket.emit('send users', {
-          roomName: this.props.match.params.roomId,
+          roomName: this.state.roomName,
         })
   }
 
   handleEnteredName = () => {
     this.setState({
       currentUser: this.textInput.value,
+    })
+    socket.emit('connectToRoom', {
+      name: this.textInput.value,
+      roomName: this.state.roomName,
     })
   }
 
@@ -185,9 +190,9 @@ export default class Room extends Component {
             <Whiteboard />
           </Pane>
         </SplitPane>
-        <VideoChat roomName={this.props.match.params.roomId} />
+        <VideoChat roomName={this.state.roomName} />
         <Chat
-          roomName={this.props.match.params.roomId}
+          roomName={this.state.roomName}
           userName={this.state.currentUser}
         />
       </div>
