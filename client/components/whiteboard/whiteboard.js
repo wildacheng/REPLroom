@@ -1,13 +1,17 @@
-import React, {useState, createRef} from 'react'
+import React, {useState, createRef, useEffect} from 'react'
+import Konva from 'konva'
 import {Stage, Layer} from 'react-konva'
 //Konva Components
 import {addLine} from './freeDraw'
 import Rectangle from './rectangle'
 import Circle from './circle'
+// Socket.io
+import socket from '../../socket'
 //CSS
 import './whiteboard.css'
 
-export default function Whiteboard() {
+export default function Whiteboard(props) {
+  const {roomId} = props
   const stageEl = createRef()
   const layerEl = createRef()
 
@@ -20,6 +24,27 @@ export default function Whiteboard() {
   const [rectangles, setRectangles] = useState([])
   const [circles, setCircles] = useState([])
 
+  // --- Lifecycle & Socket Events --- //
+  socket.on('new rect', (rect) => {
+    const rects = rectangles.concat([rect])
+    setRectangles(rects)
+    addToShapes([rect.id])
+  })
+
+  socket.on('new circ', (circ) => {
+    const circs = circles.concat([circ])
+    setCircles(circs)
+    addToShapes([circ.id])
+  })
+
+  socket.on('draw rects', (rects) => {
+    setRectangles(rects)
+  })
+
+  socket.on('draw circs', (circs) => {
+    setCircles(circs)
+  })
+
   // ---  Helpers --- //
   const addToShapes = (shapeEl) => {
     const shps = shapes.concat(shapeEl)
@@ -31,6 +56,7 @@ export default function Whiteboard() {
   const deactivateLine = () => {
     activeLine = false
     addLine(
+      roomId,
       stageEl.current.getStage(),
       layerEl.current,
       strokeColor,
@@ -41,9 +67,10 @@ export default function Whiteboard() {
 
   const changeColor = (color) => {
     setStroke(color)
-    //forceUpdate()
     if (activeLine) {
+      console.log('Actove color change! Pencil')
       addLine(
+        roomId,
         stageEl.current.getStage(),
         layerEl.current,
         strokeColor,
@@ -51,6 +78,7 @@ export default function Whiteboard() {
         'inactive'
       )
       addLine(
+        roomId,
         stageEl.current.getStage(),
         layerEl.current,
         color,
@@ -64,6 +92,7 @@ export default function Whiteboard() {
   const drawLine = () => {
     activeLine = true
     addLine(
+      roomId,
       stageEl.current.getStage(),
       layerEl.current,
       strokeColor,
@@ -76,6 +105,7 @@ export default function Whiteboard() {
     deactivateLine()
     activeLine = false
     addLine(
+      roomId,
       stageEl.current.getStage(),
       layerEl.current,
       strokeColor,
@@ -87,27 +117,28 @@ export default function Whiteboard() {
   const addRect = () => {
     deactivateLine()
     const rect = {
-      x: 55,
-      y: 55,
-      width: 80,
-      height: 80,
+      x: 30,
+      y: 30,
+      width: 100,
+      height: 100,
       stroke: strokeColor,
       fill: fillColor,
       id: `rect${rectangles.length + 1},`,
     }
-    //const rects = rectangles.concat([rect])
-    const rects = [...rectangles, rect]
+    const rects = rectangles.concat([rect])
     setRectangles(rects)
     addToShapes([rect.id])
+    selectShape(rect.id)
+    socket.emit('add rect', {roomId, rect})
   }
 
   const addCircle = () => {
     deactivateLine()
     const circ = {
-      x: 55,
-      y: 55,
-      width: 80,
-      height: 80,
+      x: 60,
+      y: 60,
+      width: 100,
+      height: 100,
       stroke: strokeColor,
       fill: fillColor,
       id: `circ${circles.length + 1},`,
@@ -115,12 +146,13 @@ export default function Whiteboard() {
     const circs = circles.concat([circ])
     setCircles(circs)
     addToShapes([circ.id])
+    selectShape(circ.id)
+    socket.emit('add circ', {roomId, circ})
   }
 
   return (
     <div className="whiteboard">
-      {/* toolbar cannot be seperated into modular component
-      because hook states cannnot be passed as props--> */}
+      {/* look for way to modularize toolbar */}
       <div className="wbToolbar">
         <div className="colorPalette">
           <button type="button" className="toolbarBtn">
@@ -211,28 +243,44 @@ export default function Whiteboard() {
             </button>
           </div>
         </div>
-        <button type="button" className="toolbarBtn" onClick={drawLine}>
+        <button type="button" className="toolbarBtn" onClick={() => drawLine()}>
           <img
             className="toolbarIcon"
             src="/whiteboard/pencil.png"
             alt="free draw"
           />
         </button>
-        <button type="button" className="toolbarBtn" onClick={eraseLine}>
+        <button
+          type="button"
+          className="toolbarBtn"
+          onClick={() => eraseLine()}
+        >
           <img
             className="toolbarIcon"
             src="/whiteboard/eraser.png"
             alt="eraser"
           />
         </button>
-        <button type="button" className="toolbarBtn" onClick={addRect}>
+        <button
+          type="button"
+          className="toolbarBtn"
+          onClick={() => {
+            addRect()
+          }}
+        >
           <img
             className="toolbarIcon"
             src="/whiteboard/rect.png"
             alt="create rectangle"
           />
         </button>
-        <button type="button" className="toolbarBtn" onClick={addCircle}>
+        <button
+          type="button"
+          className="toolbarBtn"
+          onClick={() => {
+            addCircle()
+          }}
+        >
           <img
             className="toolbarIcon"
             src="/whiteboard/circle.png"
@@ -253,7 +301,7 @@ export default function Whiteboard() {
           }
         }}
       >
-        <Layer ref={layerEl}>
+        <Layer className="layer" ref={layerEl}>
           {rectangles.map((rect, i) => {
             return (
               <Rectangle
@@ -267,6 +315,7 @@ export default function Whiteboard() {
                   const rects = rectangles.slice()
                   rects[i] = rectAttribs
                   setRectangles(rects)
+                  socket.emit('update rects', {roomId, rects})
                 }}
               />
             )
@@ -284,6 +333,7 @@ export default function Whiteboard() {
                   const circs = circles.slice()
                   circs[i] = circAttribs
                   setCircles(circs)
+                  socket.emit('update circs', {roomId, circs})
                 }}
               />
             )

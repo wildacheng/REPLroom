@@ -1,8 +1,19 @@
+/* eslint-disable max-params */
 import Konva from 'konva'
-//import {EventEmitter} from 'events'
-//const lineEvent = new EventEmitter()
+import {EventEmitter} from 'events'
+import socket from '../../socket'
+// export const lineAdd = new EventEmitter()
+// export const lineDraw = new EventEmitter()
+export const updateLayer = new EventEmitter()
 
-export const addLine = (stage, layer, color, width = 5, mode = 'inactive') => {
+export const addLine = (
+  roomId,
+  stage,
+  layer,
+  color,
+  width,
+  mode = 'inactive'
+) => {
   let isPaint = false
   let lastLine
 
@@ -22,9 +33,8 @@ export const addLine = (stage, layer, color, width = 5, mode = 'inactive') => {
         points: [pos.x, pos.y],
         draggable: false,
       })
+      //socket.emit('collabLine', roomId, layer.toJSON(), lastLine.toJSON())
       layer.add(lastLine)
-      //emitted the last line for socket-->commented out for delpoy
-      // lineEvent.emit(layer, lastLine) //not sure layer can transmit
     })
 
     stage.on('mouseup touchend', function () {
@@ -38,7 +48,35 @@ export const addLine = (stage, layer, color, width = 5, mode = 'inactive') => {
       const pos = stage.getPointerPosition()
       let newPoints = lastLine.points().concat([pos.x, pos.y])
       lastLine.points(newPoints)
+      //socket.emit('collabDraw', roomId, layer, lastLine, newPoints)
       layer.batchDraw()
     })
   }
 }
+
+const addCollabLine = (layer, lastLine) => {
+  console.log('Function LAYER -->', layer)
+  const localLayer = JSON.parse(layer)
+  const localLine = JSON.parse(lastLine)
+  //have to get layer somehow....
+  //lastline will likely have to be new konva line
+  console.log('Local layer got new line!')
+  localLayer.add(localLine)
+}
+
+const drawCollabLine = (layer, lastLine, newPoints) => {
+  lastLine.points(newPoints)
+  layer.batchDraw()
+}
+
+// SOCKET EVENTS
+
+socket.on('addCollabLine', (layer, lastLine) => {
+  console.log('\nadding collabline to layer', layer)
+  addCollabLine(layer, lastLine)
+})
+
+socket.on('drawCollabLine', (layer, lastLine, newPoints) => {
+  console.log('\ndrawing', newPoints)
+  drawCollabLine(layer, lastLine, newPoints)
+})

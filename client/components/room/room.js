@@ -27,11 +27,11 @@ export default class Room extends Component {
     })
 
     socket.on('user joined room', (data) => {
-      console.log(data, 'IM CONNECTED TO A ROOM')
+      //console.log(data, 'IM CONNECTED TO A ROOM')
       this.joinUser(data)
     })
     socket.on('users', (data) => {
-      console.log('RECEIVED', data)
+      //console.log('RECEIVED', data)
       this.updateUsersAndCodeInState(data)
     })
 
@@ -55,12 +55,12 @@ export default class Room extends Component {
     })
   }
 
-  componentDidUpdate() {
-    // const roomName = this.props.match.params.roomId
-    // socket.emit('connectToRoom', {name: name, roomName: roomName})
-    console.log(this.state.users, 'USERS')
-    console.log(this.state.currentUser, 'current user')
-  }
+  // componentDidUpdate() {
+  //   const roomName = this.props.match.params.roomId
+  //   socket.emit('connectToRoom', {name: name, roomName: roomName})
+  //   console.log(this.state.users, 'USERS')
+  //   console.log(this.state.currentUser, 'current user')
+  // }
 
   sendUsersAndCode = () => {
     socket.emit('send users and code', {
@@ -135,7 +135,7 @@ export default class Room extends Component {
             updateCode={this.updateCodeInState}
           />
           <Pane className="pane whiteboardPane">
-            <Whiteboard />
+            <Whiteboard roomId={this.props.match.params.roomId} />
           </Pane>
         </SplitPane>
         <VideoChat roomName={this.props.match.params.roomId} />

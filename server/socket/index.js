@@ -20,7 +20,7 @@ module.exports = (io) => {
     })
 
     socket.on('connectToRoom', (data) => {
-      console.log(data, 'CONNECTED TO ROOM')
+      //console.log(data, 'CONNECTED TO ROOM')
       socket.join(data.roomName)
       io.sockets.in(data.roomName).emit('load users and code')
       if (data.name) {
@@ -30,15 +30,43 @@ module.exports = (io) => {
     })
 
     socket.on('send users and code', (data) => {
-      console.log(data, 'GOT USER AND CODE')
+      // console.log(data, 'GOT USER AND CODE')
       socket.join(data.roomName)
       io.sockets.in(data.roomName).emit('users', data)
     })
 
     socket.on('updating code', (data) => {
-      console.log('updated code', data)
+      //console.log('updated code', data)
       io.sockets.in(data.roomName).emit('updating code', data.code)
     })
+
+    //Whiteboard Events
+    socket.on('add rect', (data) => {
+      socket.to(data.roomId).emit('new rect', data.rect)
+    })
+
+    socket.on('add circ', (data) => {
+      socket.to(data.roomId).emit('new circ', data.circ)
+    })
+
+    socket.on('update circs', (data) => {
+      socket.to(data.roomId).emit('draw circs', data.circs)
+    })
+
+    socket.on('update rects', (data) => {
+      socket.to(data.roomId).emit('draw rects', data.rects)
+    })
+
+    // socket.on('collabLine', (roomId, layer, lastLine) => {
+    //   console.log('...Socket transmitting layer...', layer)
+    //   socket.to(roomId).emit('addCollabLine', layer, lastLine)
+    // })
+
+    // socket.on('collabDraw', (roomId, layer, lastLine, newPoints) => {
+    //   socket.to(roomId).emit('drawCollabLine', layer, lastLine, newPoints)
+    // })
+
+    //End whiteboard events
 
     socket.on('leave room', (data) => {
       io.sockets.in(data.roomName).emit('user left room', {user: data.user})

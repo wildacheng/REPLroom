@@ -19,7 +19,7 @@ const Rectangle = ({shapeProps, isSelected, onSelect, onChange}) => {
         onClick={onSelect}
         ref={shapeRef}
         {...shapeProps}
-        draggable
+        draggable={!!isSelected}
         onDragEnd={(e) => {
           onChange({
             ...shapeProps,

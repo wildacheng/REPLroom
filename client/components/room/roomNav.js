@@ -26,7 +26,7 @@ export default class RoomNav extends Component {
   }
 
   render() {
-    console.log('show', this.state.inviteClicked)
+    //console.log('show', this.state.inviteClicked)
     return (
       <div>
         <header>
