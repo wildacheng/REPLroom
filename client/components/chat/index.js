@@ -14,8 +14,8 @@ class Chat extends Component {
 
     //this.socket = io(window.location.origin)
 
-    const room = props.roomName
-    socket.emit('connectToRoom', {roomName: room})
+    const room = props.roomId
+    socket.emit('connectToRoom', {roomId: room})
 
     socket.emit('new-user-joined', props.userName)
 
@@ -32,7 +32,7 @@ class Chat extends Component {
   handleChat = () => {
     socket.emit('send-chat-message', {
       message: this.state.message,
-      roomId: this.props.roomName,
+      roomId: this.props.roomId,
     })
     this.setState({
       message: '',
