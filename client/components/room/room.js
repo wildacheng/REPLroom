@@ -23,7 +23,6 @@ export default class Room extends Component {
   }
 
   componentDidMount() {
-    //const name = this.props.location.state.name
     const roomName = this.props.match.params.roomId
 
     if (this.state.currentUser && roomName) {
@@ -38,7 +37,6 @@ export default class Room extends Component {
     })
 
     socket.on('user joined room', (data) => {
-      //console.log(data, 'IM CONNECTED TO A ROOM')
       this.joinUser(data)
     })
 

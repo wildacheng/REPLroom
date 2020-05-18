@@ -16,12 +16,10 @@ module.exports = (io) => {
     })
 
     socket.on('connectToRoom', (data) => {
-      console.log(data, 'CONNECTED TO ROOM')
+      //console.log(data, 'CONNECTED TO ROOM')
       if (data.name && data.roomName) {
         //just in case
-
         socket.join(data.roomName)
-
         if (!users[data.roomName]) {
           users[data.roomName] = {}
         }
@@ -55,6 +53,14 @@ module.exports = (io) => {
     })
 
     //Whiteboard Events
+    socket.on('add line', (data) => {
+      socket.to(data.roomId).emit('new line', data.lineStats)
+    })
+
+    socket.on('draw line', (data) => {
+      socket.to(data.roomId).emit('client draw', data.points)
+    })
+
     socket.on('add rect', (data) => {
       socket.to(data.roomId).emit('new rect', data.rect)
     })

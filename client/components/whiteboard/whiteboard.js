@@ -3,6 +3,7 @@ import Konva from 'konva'
 import {Stage, Layer} from 'react-konva'
 //Konva Components
 import {addLine} from './freeDraw'
+import {addClientLine} from './clientDraw'
 import Rectangle from './rectangle'
 import Circle from './circle'
 // Socket.io
@@ -68,6 +69,10 @@ export default function Whiteboard(props) {
   }
 
   // --- Lifecycle & Socket Events --- //
+  socket.on('new line', (lineStats) => {
+    addClientLine(layerEl.current, lineStats)
+  })
+
   socket.on('new rect', (rect) => {
     const rects = rectangles.concat([rect])
     setRectangles(rects)

@@ -56,8 +56,8 @@
 }
 
 .Resizer:hover {
-  -webkit-transition: all 1s ease;
-  transition: all 1s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .Resizer.horizontal {
