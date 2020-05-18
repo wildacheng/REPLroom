@@ -1,0 +1,95 @@
+.modal-content {
+  height: 348px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 1s;
+  top: 0;
+}
+
+.container button {
+  width: 80%;
+  border-radius: 5px;
+  background-color: rgb(31, 108, 185);
+  color: #ffffff;
+}
+
+.container button:hover:enabled {
+  opacity: 0.8;
+}
+
+.email-details {
+  display: flex;
+  margin: 5px;
+  height: 27px;
+}
+
+.email-details button {
+  margin-left: 15px;
+  height: 25px;
+  font-size: 12px;
+  background-color: rgb(37, 158, 138);
+  outline: 0;
+  border: 0;
+}
+
+.email-details button:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.email-details input {
+  height: 25px;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.email-details span {
+  margin-right: 10px;
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.link-details {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.info {
+  margin-left: 10px;
+  background-color: rgb(221, 221, 221);
+}
+
+.modal-footer button {
+  font-size: 13px;
+  background-color: rgb(148, 30, 30);
+  width: 60px;
+  color: #ffffff;
+  border-radius: 5px;
+}
+
+.modal-footer button:hover {
+  opacity: 0.8;
+}
+
+.modal-body {
+  display: flex;
+  align-items: center;
+}
+
+.required-red {
+  color: rgb(148, 30, 30);
+}
+
+.required-green {
+  color: rgb(37, 158, 138);
+}
+
+.required-fields {
+  display: flex;
+}

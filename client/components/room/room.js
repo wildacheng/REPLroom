@@ -1,20 +1,25 @@
 import React, {Component} from 'react'
 import SplitPane, {Pane} from 'react-split-pane'
+import {Modal} from 'react-bootstrap'
 import RoomNav from './roomNav'
 import Repl from '../repl/repl'
-//SOCKET
-import io from 'socket.io-client'
-import socket from '../../socket'
-
+import Whiteboard from '../whiteboard/whiteboard'
 import VideoChat from '../video-chat'
 import Chat from '../chat'
+//SOCKET
+//import io from 'socket.io-client'
+import socket from '../../socket'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default class Room extends Component {
   constructor(props) {
     super(props)
     this.state = {
       users: [],
-      width: '45%', //width of left pane
+      currentUser: this.props.location.state
+        ? this.props.location.state.name
+        : '',
+      width: '50%', //width of left pane
     }
   }
 
@@ -43,6 +48,12 @@ export default class Room extends Component {
     socket.on('user left room', (user) => {
       this.removeUser(user)
     })
+
+    const roomName = this.props.match.params.roomId
+    socket.emit('connectToRoom', {
+      name: this.state.currentUser,
+      roomName: roomName,
+    })
   }
 
   componentWillUnmount() {
@@ -52,12 +63,38 @@ export default class Room extends Component {
     })
   }
 
-  // componentDidUpdate() {
-  // const roomName = this.props.match.params.roomId
-  // socket.emit('connectToRoom', {name: name, roomName: roomName})
-  //   console.log(this.state.users, 'USERS')
-  //   console.log(this.state.currentUser, 'current user')
-  // }
+  sendUsersAndCode = () => {
+    socket.emit('send users and code', {
+      roomName: this.props.match.params.roomId,
+      users: this.state.users,
+      code: this.state.code,
+    })
+  }
+
+  joinUser = (users) => {
+    console.log(users, 'IM JOIN NAME')
+    this.setState({users: users})
+  }
+
+  updateUsersAndCodeInState = (data) => {
+    const combinedUsers = this.state.users.concat(data.users)
+    const newUsers = Array.from(new Set(combinedUsers))
+    const cleanUsers = newUsers.filter((user) => {
+      return user.length > 1
+    })
+    this.setState({users: cleanUsers, code: data.code})
+  }
+
+  removeUser(user) {
+    const newUsers = Object.assign([], this.state.users)
+    const indexOfUserToDelete = this.state.users.findIndex((Olduser) => {
+      return Olduser === user.user
+    })
+    newUsers.splice(indexOfUserToDelete, 1)
+    this.setState((prevState) => {
+      return {users: newUsers}
+    })
+  }
 
   joinUser = (users) => {
     console.log(users, 'IM JOIN NAME')
@@ -79,32 +116,75 @@ export default class Room extends Component {
         })
   }
 
-  // removeUser(user) {
-  //   const newUsers = Object.assign([], this.state.users)
-  //   const indexOfUserToDelete = this.state.users.findIndex((Olduser) => {
-  //     return Olduser === user.user
-  //   })
-  //   newUsers.splice(indexOfUserToDelete, 1)
-  //   this.setState((prevState) => {
-  //     return {users: newUsers}
-  //   })
-  // }
+  handleEnteredName = () => {
+    this.setState({
+      currentUser: this.textInput.value,
+    })
+  }
 
-  //ADD PROPS TO ROOMNAV FOR COLLABS
+  handleEnterKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.handleEnteredName()
+    }
+  }
+
   render() {
+    console.log('this.state', this.state)
     return (
       <div>
-        <RoomNav users={this.state.users} />
-        <SplitPane split="vertical" minSize={50} defaultSize={this.state.width}>
-          <Repl />
-          <Pane className="pane">
-            <div> WHITEBOARD</div>
+        <RoomNav roomId={this.props.match.params.roomId} users={this.state.users} />
+        {!this.state.currentUser && (
+          <div>
+            <Modal
+              {...this.props}
+              size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered
+              show={!this.state.currentUser}
+            >
+              <Modal.Header>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  Please enter your name to proceed
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="container">
+                  <label>Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    ref={(input) => (this.textInput = input)}
+                    onKeyDown={this.handleEnterKeyPress}
+                  ></input>
+                  <button type="button" onClick={this.handleEnteredName}>
+                    {' '}
+                    Enter Name{' '}
+                  </button>
+                </div>
+              </Modal.Body>
+            </Modal>
+          </div>
+        )}
+        <SplitPane
+          split="vertical"
+          minSize={5}
+          maxSize={-5}
+          defaultSize={this.state.width}
+        >
+          <Repl
+            code={this.state.code}
+            result={this.state.result}
+            updateResult={this.updateResult}
+            updateCode={this.updateCodeInState}
+          />
+          <Pane className="pane whiteboardPane">
+            <Whiteboard />
           </Pane>
         </SplitPane>
         <VideoChat roomName={this.props.match.params.roomId} />
         <Chat
           roomName={this.props.match.params.roomId}
-          userName={this.props.location.state.name}
+          userName={this.state.currentUser}
         />
       </div>
     )

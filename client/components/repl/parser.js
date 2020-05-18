@@ -30,20 +30,23 @@ const logify = (expression) => {
 export default function parseCode(userCodeStr) {
   const syntaxTree = esprima.parseScript(userCodeStr)
   const body = syntaxTree.body
-  //find all the non-console expressions and turn them into logs
-  for (let i = 0; i < body.length; i++) {
+  //find any last expression statement and turn it into a log
+  for (let i = body.length - 1; i >= 0; i--) {
     if (body[i].type === 'ExpressionStatement') {
       if (body[i].expression.type === 'CallExpression') {
         let callee = body[i].expression.callee.type
-        if (callee !== 'MemberExpression') {
+        if (callee === 'MemberExpression') {
+          break
+        } else {
           body[i] = logify(body[i].expression)
+          break
         }
       } else {
         body[i] = logify(body[i].expression)
+        break
       }
     }
   }
-  //console.log('*** My body NOW! ***\n', body)
   const recompiledCode = escodegen.generate(syntaxTree)
   return recompiledCode
 }

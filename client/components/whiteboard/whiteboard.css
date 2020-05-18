@@ -1,0 +1,98 @@
+.whiteboard {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #232025;
+  border-radius: 6px;
+  display: block;
+}
+
+.wbToolbar {
+  position: relative;
+  background: none;
+  display: flex;
+  flex-flow: row nowrap;
+  /*dropdownColors: center; */
+  z-index: 3;
+}
+
+.toolbarBtn {
+  background-color: Transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.toolbarIcon {
+  height: 28px;
+  width: 28px;
+}
+
+.colorPalette {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownColors {
+  display: none;
+  position: absolute;
+  background-color: Transparent;
+  color: #484041;
+  padding: 4px;
+  padding-left: 7px;
+  text-decoration: none;
+  z-index: 5;
+}
+
+.colorPalette:hover .dropdownColors {
+  display: block;
+}
+
+.colorbtn {
+  /* background-color: Transparent; */
+  width: 32px;
+  height: 12px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  transition: box-shadow 113ms, transform 113ms;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+  /* transform: translate(-3px, -3px); */
+}
+
+.green {
+  background-color: #b5f44a;
+}
+
+.blue {
+  background-color: #9ee0f5;
+}
+
+.violet {
+  background-color: #6464cd;
+}
+
+.red {
+  background-color: #ff7878;
+}
+
+.silver {
+  background-color: #b1b1b1;
+}
+
+.black {
+  background-color: #1d1d1d;
+}
+
+.none {
+  background-color: Transparent;
+  border: 2px solid #635859;
+  color: #635859;
+  font-size: 8px;
+  text-align: left;
+  padding-top: 0px;
+  padding-left: 4px;
+}

@@ -11,9 +11,6 @@ import 'codemirror/mode/javascript/javascript.js' //look into this
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
 import parseCode from './parser'
-//SOCKET
-import io from 'socket.io-client'
-import socket from '../../socket'
 //CSS
 import './repl.css'
 
@@ -27,9 +24,8 @@ class Repl extends Component {
       code: '// your code here\n',
       result: '',
       // currentUser: '',
-      height: 350, //height of the editor
-      width: 400, //width of left panel
       currentlyTyping: '',
+      height: '65%', //height of the editor
     }
   }
 
@@ -123,7 +119,6 @@ class Repl extends Component {
     myWorker.postMessage([typeof f, this.functionWrapper(parsedCode)])
 
     setTimeout(() => {
-      console.log('Terminating!!!')
       myWorker.terminate()
     }, TIMEOUT)
   }
@@ -138,7 +133,12 @@ class Repl extends Component {
     }
 
     return (
-      <SplitPane split="horizontal" defaultSize={this.state.height}>
+      <SplitPane
+        split="horizontal"
+        minSize={5}
+        maxSize={-5}
+        defaultSize={this.state.height}
+      >
         <Pane className="pane">
           <div className="currently-typing">
             {this.state.currentlyTyping &&
