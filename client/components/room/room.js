@@ -18,18 +18,19 @@ export default class Room extends Component {
       currentUser: this.props.location.state
         ? this.props.location.state.name
         : '',
+      roomId: this.props.match.params.roomId,
       width: '50%', //width of left pane
     }
   }
 
   componentDidMount() {
-    const roomId = this.props.match.params.roomId
+    //const name = this.props.location.state.name
+    // const roomId = this.props.match.params.roomId
 
-    if (this.state.currentUser && roomId) {
-      console.log('HELLO')
+    if (this.state.currentUser && this.state.roomId) {
       socket.emit('connectToRoom', {
         name: this.state.currentUser,
-        roomId: roomId,
+        roomId: this.state.roomId,
       })
     }
 
@@ -71,17 +72,21 @@ export default class Room extends Component {
   sendUsers = () => {
     this.state.users && this.state.users.length
       ? socket.emit('send users', {
-          roomId: this.props.match.params.roomId,
+          roomId: this.state.roomId,
           users: this.state.users,
         })
       : socket.emit('send users', {
-          roomId: this.props.match.params.roomId,
+          roomId: this.state.roomId,
         })
   }
 
   handleEnteredName = () => {
     this.setState({
       currentUser: this.textInput.value,
+    })
+    socket.emit('connectToRoom', {
+      name: this.textInput.value,
+      roomId: this.state.roomId,
     })
   }
 
@@ -147,11 +152,8 @@ export default class Room extends Component {
             <Whiteboard />
           </Pane>
         </SplitPane>
-        <VideoChat roomId={this.props.match.params.roomId} />
-        <Chat
-          roomId={this.props.match.params.roomId}
-          userName={this.state.currentUser}
-        />
+        <VideoChat roomId={this.state.roomId} />
+        <Chat roomId={this.state.roomId} userName={this.state.currentUser} />
       </div>
     )
   }

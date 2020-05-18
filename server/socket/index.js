@@ -20,6 +20,10 @@ module.exports = (io) => {
       if (data.name && data.roomId) {
         socket.join(data.roomId)
 
+        if (!users[socket.id]) {
+          users[socket.id] = data.name
+        }
+
         if (!users[data.roomId]) {
           users[data.roomId] = {}
         }
