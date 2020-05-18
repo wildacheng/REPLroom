@@ -2,12 +2,12 @@ import React, {Component} from 'react'
 import SplitPane, {Pane} from 'react-split-pane'
 import RoomNav from './roomNav'
 import Repl from '../repl/repl'
-//SOCKET
-import io from 'socket.io-client'
-import socket from '../../socket'
-
+import Whiteboard from '../whiteboard/whiteboard'
 import VideoChat from '../video-chat'
 import Chat from '../chat'
+//SOCKET
+//import io from 'socket.io-client'
+import socket from '../../socket'
 
 export default class Room extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ export default class Room extends Component {
       result: '',
       users: [],
       currentUser: '',
-      width: '45%', //width of left pane
+      width: '50%', //width of left pane
     }
   }
 
@@ -122,15 +122,20 @@ export default class Room extends Component {
     return (
       <div>
         <RoomNav roomId={this.props.match.params.roomId} />
-        <SplitPane split="vertical" minSize={50} defaultSize={this.state.width}>
+        <SplitPane
+          split="vertical"
+          minSize={5}
+          maxSize={-5}
+          defaultSize={this.state.width}
+        >
           <Repl
             code={this.state.code}
             result={this.state.result}
             updateResult={this.updateResult}
             updateCode={this.updateCodeInState}
           />
-          <Pane className="pane">
-            <div> WHITEBOARD</div>
+          <Pane className="pane whiteboardPane">
+            <Whiteboard />
           </Pane>
         </SplitPane>
         <VideoChat roomName={this.props.match.params.roomId} />
