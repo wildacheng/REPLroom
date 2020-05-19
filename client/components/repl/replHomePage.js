@@ -71,7 +71,7 @@ class HomePage extends Component {
             <br />
             <br />
             <br />
-            {this.state.name.length ? (
+            {this.state.name.length && this.state.name[0] !== ' ' ? (
               <div id="input fields">
                 <label htmlFor="Join Room">
                   if (Room ID === already known) {'{enter it here}'}
