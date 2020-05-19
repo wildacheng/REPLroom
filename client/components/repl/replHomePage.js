@@ -44,26 +44,42 @@ class HomePage extends Component {
     const {name, roomId} = this.state
 
     return (
-      <div>
+      <div id="homepage-background">
         <p id="header">
           <a id="inHeader">REPLroom</a>
         </p>
-        <div className="login">
+        <div id="form-container">
+          <p>
+            Welcome to REPLroom, the new app that guarantees a fab coding collab
+            experience. <br />
+            Before getting started, please enter the following information:
+          </p>
           <form>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">
+              <label></label>
+              {'<input>'} your name here:
+            </label>
+            <br />
             <input
               onChange={this.handleChange}
               type="text"
               id="name"
               name="name"
+              placeholder="Name"
               value={name}
             />
-            <label htmlFor="name">Room</label>
+            <br />
+            <br />
+            <br />
+            <label htmlFor="Join Room">
+              if (Room ID === already known) {'{enter it here}'}
+            </label>
             <input
               onChange={this.handleChange}
               type="text"
               id="room"
               name="roomId"
+              placeholder="Room ID"
               value={roomId}
             />
             <br />
@@ -74,12 +90,19 @@ class HomePage extends Component {
               type="submit"
               value="Join Room"
             ></input>
+            <br />
+            <br />
+            <br />
+            <label htmlFor="Create Room">
+              else {'{click below to create a new room}'}
+            </label>
+            <br />
             <input
               className="button"
               onClick={this.createRoom}
               type="submit"
               name="roomId"
-              value="Create Room"
+              value="Create New Room"
             ></input>
           </form>
         </div>

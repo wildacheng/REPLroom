@@ -17,12 +17,15 @@ class InviteByEmail extends Component {
   }
 
   handleShowEmail = () => {
-    console.log('function called')
     sendEmail({
       firstName: this.state.firstName,
       email: this.state.email,
-      url: 'http://localhost:8080/',
+      url: 'http://replroom.herokuapp.com/',
       roomId: this.props.roomId,
+    })()
+    this.setState({
+      firstName: '',
+      email: '',
     })
   }
 
@@ -67,12 +70,7 @@ class InviteByEmail extends Component {
         <button
           type="button"
           disabled={!this.state.firstName || !this.state.email}
-          onClick={sendEmail({
-            firstName: this.state.firstName,
-            email: this.state.email,
-            url: 'http://localhost:8080/',
-            roomId: this.props.roomId,
-          })}
+          onClick={this.handleShowEmail}
         >
           Send
         </button>

@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
+import {withRouter} from 'react-router'
 import Invite from '../invite'
 import './roomNav.css'
 
-export default class RoomNav extends Component {
-  constructor() {
-    super()
+class RoomNav extends Component {
+  constructor(props) {
+    super(props)
     this.state = {
       inviteClicked: false,
     }
@@ -24,14 +25,18 @@ export default class RoomNav extends Component {
 
   render() {
     let users = this.props.users
+    console.log(this.props, 'IM PROP')
 
     return (
       <div>
         <header>
-          <img className="logo" src="/logo.png" alt="logo" />
-          <div>
-            <div id="activeUser">Person X is typing...</div>
-          </div>
+          <img
+            className="logo"
+            src="/logo.png"
+            alt="logo"
+            onClick={() => this.props.history.push('/')}
+          />
+          <div></div>
           <div className="dropdown">
             <button className="dropbtn headerbtn" type="button">
               Collaborators
@@ -61,3 +66,5 @@ export default class RoomNav extends Component {
     )
   }
 }
+
+export default withRouter(RoomNav)

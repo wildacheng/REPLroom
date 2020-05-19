@@ -24,9 +24,6 @@ export default class Room extends Component {
   }
 
   componentDidMount() {
-    //const name = this.props.location.state.name
-    // const roomId = this.props.match.params.roomId
-
     if (this.state.currentUser && this.state.roomId) {
       socket.emit('connectToRoom', {
         name: this.state.currentUser,
@@ -39,29 +36,28 @@ export default class Room extends Component {
     })
 
     socket.on('user joined room', (data) => {
-      console.log(data, 'IM CONNECTED TO A ROOM')
       this.joinUser(data)
     })
 
     socket.on('receive users', (users) => {
-      console.log('RECEIVED USERS', users)
       this.updateUsersForAll(users)
     })
 
-    socket.on('user left room', (user) => {
-      this.removeUser(user)
+    socket.on('user left room', (data) => {
+      console.log(data.users, 'I LEFT')
+      this.updateUsersForAll(data.users)
     })
   }
 
-  componentWillUnmount() {
-    socket.emit('leave room', {
-      roomId: this.state.roomId,
-      user: this.state.currentUser,
-    })
-  }
+  // componentWillUnmount() {
+  //   console.log('LEFT ROOM')
+  //   socket.emit('leave room', {
+  //     roomId: this.state.roomId,
+  //     name: this.state.currentUser,
+  //   })
+  // }
 
   joinUser = (users) => {
-    console.log(users, 'IM JOIN NAME')
     this.setState({users: users})
   }
 
@@ -81,13 +77,16 @@ export default class Room extends Component {
   }
 
   handleEnteredName = () => {
-    this.setState({
-      currentUser: this.textInput.value,
-    })
-    socket.emit('connectToRoom', {
-      name: this.textInput.value,
-      roomId: this.state.roomId,
-    })
+    let name = this.textInput.value.trim()
+    if (name) {
+      this.setState({
+        currentUser: this.textInput.value,
+      })
+      socket.emit('connectToRoom', {
+        name: this.textInput.value,
+        roomId: this.state.roomId,
+      })
+    }
   }
 
   handleEnterKeyPress = (e) => {
@@ -97,7 +96,6 @@ export default class Room extends Component {
   }
 
   render() {
-    console.log('this.state', this.state)
     return (
       <div>
         <RoomNav
