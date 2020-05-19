@@ -34,12 +34,12 @@ class InviteByLink extends Component {
       <div className="link-details">
         <div>
           <label>URL:</label>
-          <label className="info">http://localhost:8080</label>
+          <label className="info">{`http://replroom.herokuapp.com/${this.props.roomId}`}</label>
         </div>
-        <div>
+        {/* <div>
           <label>Room:</label>
           <label className="info">{this.props.roomId}</label>
-        </div>
+        </div> */}
       </div>
     )
   }

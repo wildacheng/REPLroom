@@ -28,12 +28,13 @@
 }
 
 .email-details button {
-  margin-left: 15px;
+  margin-left: 0;
   height: 25px;
+  width: 46px;
   font-size: 12px;
   background-color: rgb(37, 158, 138);
-  outline: 0;
-  border: 0;
+  outline: none;
+  box-shadow: none;
 }
 
 .email-details button:disabled {
@@ -44,6 +45,7 @@
 
 .email-details input {
   height: 25px;
+  width: 142px;
   font-size: 12px;
   margin-right: 10px;
 }
