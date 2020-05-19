@@ -24,9 +24,6 @@ export default class Room extends Component {
   }
 
   componentDidMount() {
-    //const name = this.props.location.state.name
-    // const roomId = this.props.match.params.roomId
-
     if (this.state.currentUser && this.state.roomId) {
       socket.emit('connectToRoom', {
         name: this.state.currentUser,
@@ -48,15 +45,16 @@ export default class Room extends Component {
       this.updateUsersForAll(users)
     })
 
-    socket.on('user left room', (user) => {
-      this.removeUser(user)
+    socket.on('user left room', (name) => {
+      this.removeUser(name)
     })
   }
 
   componentWillUnmount() {
+    console.log('LEFT ROOM')
     socket.emit('leave room', {
       roomId: this.state.roomId,
-      user: this.state.currentUser,
+      name: this.state.currentUser,
     })
   }
 
@@ -68,6 +66,12 @@ export default class Room extends Component {
   updateUsersForAll = (users) => {
     this.setState({users: users})
   }
+
+  // removeUser = (name) => {
+  //   let users = this.state.users [ray, ron, ron, ben]
+  //   users.filter(user => { user === name })
+  //   this.setState({users: })
+  // }
 
   sendUsers = () => {
     this.state.users && this.state.users.length

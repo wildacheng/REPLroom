@@ -17,7 +17,7 @@ class Chat extends Component {
     const room = props.roomId
     socket.emit('connectToRoom', {roomId: room})
 
-    socket.emit('new-user-joined', props.userName)
+    socket.emit('new-user-joined', {name: props.userName, roomId: room})
 
     socket.on('chat-message', (data) => {
       this.setState({
