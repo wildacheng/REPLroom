@@ -23,6 +23,10 @@ class InviteByEmail extends Component {
       url: 'http://replroom.herokuapp.com/',
       roomId: this.props.roomId,
     })()
+    this.setState({
+      firstName: '',
+      email: '',
+    })
   }
 
   render() {
@@ -66,12 +70,7 @@ class InviteByEmail extends Component {
         <button
           type="button"
           disabled={!this.state.firstName || !this.state.email}
-          onClick={sendEmail({
-            firstName: this.state.firstName,
-            email: this.state.email,
-            url: 'http://replroom.herokuapp.com/',
-            roomId: this.props.roomId,
-          })}
+          onClick={this.handleShowEmail}
         >
           Send
         </button>
