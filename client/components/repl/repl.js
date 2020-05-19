@@ -40,12 +40,10 @@ class Repl extends Component {
     })
 
     socket.on('receive code for all', (code) => {
-      console.log('RECEIVED CODE FOR ALL', code)
       this.updateCodeForAll(code)
     })
 
     socket.on('receive result for all', (result) => {
-      console.log('RECEIVED RESULT FOR ALL', result)
       this.updateResultForAll(result)
     })
 
@@ -162,7 +160,6 @@ class Repl extends Component {
   }
 
   render() {
-    console.log('this.state.currentlyTyping', this.state.currentlyTyping)
     const options = {
       lineNumbers: true,
       mode: 'javascript',

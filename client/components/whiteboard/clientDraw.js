@@ -2,7 +2,6 @@ import Konva from 'konva'
 import socket from '../../socket'
 
 export const addClientLine = (layer, lineStats) => {
-  console.log('Client line received?-->', lineStats)
   let clientLine
 
   clientLine = new Konva.Line(lineStats)
