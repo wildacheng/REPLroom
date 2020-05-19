@@ -39,12 +39,10 @@ export default class Room extends Component {
     })
 
     socket.on('user joined room', (data) => {
-      console.log(data, 'IM CONNECTED TO A ROOM')
       this.joinUser(data)
     })
 
     socket.on('receive users', (users) => {
-      console.log('RECEIVED USERS', users)
       this.updateUsersForAll(users)
     })
 
@@ -61,7 +59,6 @@ export default class Room extends Component {
   }
 
   joinUser = (users) => {
-    console.log(users, 'IM JOIN NAME')
     this.setState({users: users})
   }
 
@@ -100,7 +97,6 @@ export default class Room extends Component {
   }
 
   render() {
-    console.log('this.state', this.state)
     return (
       <div>
         <RoomNav
