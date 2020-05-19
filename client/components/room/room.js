@@ -40,7 +40,6 @@ export default class Room extends Component {
     })
 
     socket.on('receive users', (users) => {
-      console.log('RECEIVED USERS', users)
       this.updateUsersForAll(users)
     })
 
@@ -57,7 +56,6 @@ export default class Room extends Component {
   }
 
   joinUser = (users) => {
-    console.log(users, 'IM JOIN NAME')
     this.setState({users: users})
   }
 

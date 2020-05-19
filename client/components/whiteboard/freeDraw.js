@@ -29,7 +29,7 @@ export const addLine = (
         points: [pos.x, pos.y],
         draggable: false,
       }
-      socket.emit('add line', {roomId, lineStats})
+      //socket.emit('add line', {roomId, lineStats})
       lastLine = new Konva.Line(lineStats)
       layer.add(lastLine)
     })
@@ -45,7 +45,7 @@ export const addLine = (
       const pos = stage.getPointerPosition()
       let newPoints = lastLine.points().concat([pos.x, pos.y])
       lastLine.points(newPoints)
-      socket.emit('draw line', {roomId, newPoints})
+      //socket.emit('draw line', {roomId, newPoints})
       layer.batchDraw()
     })
   }

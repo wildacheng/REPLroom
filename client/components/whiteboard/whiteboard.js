@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react'
+import React, {useState, createRef, useEffect} from 'react'
 import {Stage, Layer} from 'react-konva'
 import Konva from 'konva'
 import Toolbar from './toolbar'
@@ -21,6 +21,7 @@ export default function Whiteboard(props) {
   const [fillColor, setFill] = useState('rgba(0,0,0,0)')
   const [strokeColor, setStroke] = useState('#B5F44A')
   const [strokeWeight, setWeight] = useState(3)
+  const [activeLine, setActiveLine] = useState(false)
   const [shapes, setShapes] = useState([])
   const [selectedId, selectShape] = useState(null)
   const [rectangles, setRectangles] = useState([])
@@ -32,10 +33,8 @@ export default function Whiteboard(props) {
     setShapes(shps)
   }
 
-  let activeLine = false
-
   const deactivateLine = () => {
-    activeLine = false
+    setActiveLine(false)
     addLine(
       roomId,
       stageEl.current.getStage(),
@@ -49,14 +48,8 @@ export default function Whiteboard(props) {
   const changeColor = (color) => {
     setStroke(color)
     if (activeLine) {
-      addLine(
-        roomId,
-        stageEl.current.getStage(),
-        layerEl.current,
-        strokeColor,
-        strokeWeight,
-        'inactive'
-      )
+      deactivateLine()
+      setActiveLine(true)
       addLine(
         roomId,
         stageEl.current.getStage(),
@@ -69,36 +62,35 @@ export default function Whiteboard(props) {
   }
 
   // --- Lifecycle & Socket Events --- //
-  socket.on('new line', (lineStats) => {
-    console.log('Layer:', layerEl, 'Current:', layerEl.current)
-    // addClientLine(layerEl.current, lineStats)
-    const clientLine = new Konva.Line(lineStats)
-    layerEl.current.add(clientLine)
-  })
 
-  socket.on('new rect', (rect) => {
-    const rects = rectangles.concat([rect])
-    setRectangles(rects)
-    addToShapes([rect.id])
-  })
+  // only open sockets once, so we place the listeners
+  // inside a useEffect hook that only runs once
+  // (empty array does not change, so does not re-render)
+  useEffect(() => {
+    socket.on('new rect', (rect) => {
+      const rects = rectangles.concat([rect])
+      setRectangles(rects)
+      addToShapes([rect.id])
+    })
 
-  socket.on('new circ', (circ) => {
-    const circs = circles.concat([circ])
-    setCircles(circs)
-    addToShapes([circ.id])
-  })
+    socket.on('new circ', (circ) => {
+      const circs = circles.concat([circ])
+      setCircles(circs)
+      addToShapes([circ.id])
+    })
 
-  socket.on('draw rects', (rects) => {
-    setRectangles(rects)
-  })
+    socket.on('draw rects', (rects) => {
+      setRectangles(rects)
+    })
 
-  socket.on('draw circs', (circs) => {
-    setCircles(circs)
-  })
+    socket.on('draw circs', (circs) => {
+      setCircles(circs)
+    })
+  }, [])
 
   // ---  Whiteboard Tools  ---//
   const drawLine = () => {
-    activeLine = true
+    setActiveLine(true)
     addLine(
       roomId,
       stageEl.current.getStage(),
@@ -111,7 +103,6 @@ export default function Whiteboard(props) {
 
   const eraseLine = () => {
     deactivateLine()
-    activeLine = false
     addLine(
       roomId,
       stageEl.current.getStage(),
