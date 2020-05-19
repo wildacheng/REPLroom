@@ -81,13 +81,16 @@ export default class Room extends Component {
   }
 
   handleEnteredName = () => {
-    this.setState({
-      currentUser: this.textInput.value,
-    })
-    socket.emit('connectToRoom', {
-      name: this.textInput.value,
-      roomId: this.state.roomId,
-    })
+    let name = this.textInput.value.trim()
+    if (name) {
+      this.setState({
+        currentUser: this.textInput.value,
+      })
+      socket.emit('connectToRoom', {
+        name: this.textInput.value,
+        roomId: this.state.roomId,
+      })
+    }
   }
 
   handleEnterKeyPress = (e) => {
