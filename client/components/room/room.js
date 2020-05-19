@@ -49,14 +49,6 @@ export default class Room extends Component {
     })
   }
 
-  // componentWillUnmount() {
-  //   console.log('LEFT ROOM')
-  //   socket.emit('leave room', {
-  //     roomId: this.state.roomId,
-  //     name: this.state.currentUser,
-  //   })
-  // }
-
   joinUser = (users) => {
     this.setState({users: users})
   }

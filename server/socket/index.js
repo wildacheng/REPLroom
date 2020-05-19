@@ -1,5 +1,5 @@
 module.exports = (io) => {
-  let users = {}
+  const users = {}
 
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
@@ -22,10 +22,6 @@ module.exports = (io) => {
     socket.on('connectToRoom', (data) => {
       if (data.name && data.roomId) {
         socket.join(data.roomId)
-
-        // if (!users[data.roomId][socket.id]) {
-        //   users[data.roomId][socket.id] = data.name
-        // }
 
         //Setting users obj to store roomId & name
         if (!users[data.roomId]) {
@@ -50,10 +46,12 @@ module.exports = (io) => {
       }
     })
 
+    //Listen from Room Component
     socket.on('send users', (data) => {
       io.sockets.in(data.roomId).emit('receive users', data.users)
     })
 
+    //Listen from Repl Component
     socket.on('send code', (data) => {
       io.sockets.in(data.roomId).emit('receive code for all', data.code)
     })
@@ -64,29 +62,21 @@ module.exports = (io) => {
     })
 
     socket.on('coding event', (data) => {
-      io.sockets
-        .in(data.roomId)
-        .emit('updating code', {
-          code: data.code,
-          name: users[data.roomId][socket.id],
-        })
+      io.sockets.in(data.roomId).emit('updating code', {
+        code: data.code,
+        name: users[data.roomId][socket.id],
+      })
     })
 
     socket.on('result event', (data) => {
       io.sockets.in(data.roomId).emit('updating result', data.result)
     })
 
-    // socket.on('leave room', (data) => {
-    //   console.log(socket.id, 'IM SOCKET ID')
-    //   io.sockets.in(data.roomId).emit('user left room', {name: data.name})
-    //   // delete users[data.roomId][socket.id]
-    //   socket.leave(data.roomId)
-    // })
-
     socket.on('stop typing', (roomId) => {
       io.sockets.in(roomId).emit('update typing name')
     })
 
+    //Helper function for socket on disconnect
     const getRoomId = (socketId) => {
       let roomId = ''
       Object.entries(users).find(([key, value]) => {
