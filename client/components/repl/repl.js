@@ -165,6 +165,7 @@ class Repl extends Component {
     console.log('this.state.currentlyTyping', this.state.currentlyTyping)
     const options = {
       lineNumbers: true,
+      lineWrapping: true,
       mode: 'javascript',
       theme: 'material-palenight',
       viewportMargin: Infinity,
