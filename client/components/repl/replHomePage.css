@@ -14,6 +14,7 @@
 }
 
 form {
+  display: inline-block;
   margin: 30px;
   background-color: #27222b;
   padding: 30px 20px;

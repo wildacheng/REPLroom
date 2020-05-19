@@ -5,8 +5,8 @@ class HomePage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: 'Name',
-      roomId: 'Room ID',
+      name: '',
+      roomId: '',
     }
   }
 
@@ -65,6 +65,7 @@ class HomePage extends Component {
               type="text"
               id="name"
               name="name"
+              placeholder="Name"
               value={name}
             />
             <br />
@@ -78,6 +79,7 @@ class HomePage extends Component {
               type="text"
               id="room"
               name="roomId"
+              placeholder="Room ID"
               value={roomId}
             />
             <br />
