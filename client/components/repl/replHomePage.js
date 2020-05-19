@@ -57,7 +57,7 @@ class HomePage extends Component {
           <form>
             <label htmlFor="name">
               <label></label>
-              {'<input>'} your name here:
+              First, {'<input>'} your name here:
             </label>
             <br />
             <input
@@ -71,39 +71,47 @@ class HomePage extends Component {
             <br />
             <br />
             <br />
-            <label htmlFor="Join Room">
-              if (Room ID === already known) {'{enter it here}'}
-            </label>
-            <input
-              onChange={this.handleChange}
-              type="text"
-              id="room"
-              name="roomId"
-              placeholder="Room ID"
-              value={roomId}
-            />
-            <br />
-            <input
-              id="joinBtn"
-              className="button"
-              onClick={this.joinRoom}
-              type="submit"
-              value="Join Room"
-            ></input>
-            <br />
-            <br />
-            <br />
-            <label htmlFor="Create Room">
-              else {'{click below to create a new room}'}
-            </label>
-            <br />
-            <input
-              className="button"
-              onClick={this.createRoom}
-              type="submit"
-              name="roomId"
-              value="Create New Room"
-            ></input>
+            {this.state.name.length ? (
+              <div id="input fields">
+                <label htmlFor="Join Room">
+                  if (Room ID === already known) {'{enter it here}'}
+                </label>
+                <input
+                  onChange={this.handleChange}
+                  type="text"
+                  id="room"
+                  name="roomId"
+                  placeholder="Room ID"
+                  value={roomId}
+                />
+                <br />
+                <input
+                  id="joinBtn"
+                  className="button"
+                  onClick={this.joinRoom}
+                  type="submit"
+                  value="Join Room"
+                ></input>
+                <br />
+                <br />
+                <br />
+                <label htmlFor="Create Room">
+                  else {'{click below to create a new room}'}
+                </label>
+                <br />
+                <input
+                  className="button"
+                  onClick={this.createRoom}
+                  type="submit"
+                  name="roomId"
+                  value="Create New Room"
+                ></input>
+              </div>
+            ) : (
+              <p id="no-name">
+                <em>Please enter your name before proceeding</em>
+              </p>
+            )}
           </form>
         </div>
       </div>
