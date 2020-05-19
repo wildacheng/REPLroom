@@ -134,7 +134,7 @@ p a:hover {
 
 @keyframes neon1 {
   from {
-    text-shadow: 0 0 10px #79aea3, 0 0 20px #79aea3, 0 0 30px #79aea3,
+    text-shadow: 0 0 10px #79aea3, 0 0 20px #79aea3, 0 0 30px #b5f44a,
       0 0 40px #464646, 0 0 70px #464646, 0 0 80px #464646, 0 0 100px #464646,
       0 0 150px #464646;
   }
