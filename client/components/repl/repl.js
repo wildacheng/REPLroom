@@ -154,7 +154,7 @@ class Repl extends Component {
     }
 
     const parsedCode = parseCode(this.state.code)
-    myWorker.postMessage([typeof f, this.functionWrapper(parsedCode)])
+    myWorker.postMessage(this.functionWrapper(parsedCode))
 
     setTimeout(() => {
       myWorker.terminate()

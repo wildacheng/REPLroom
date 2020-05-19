@@ -8,7 +8,7 @@ const Worker = () => {
       outputStream += '\n'
     }
 
-    let code = e.data[1]
+    let code = e.data
 
     let f = new Function('return ' + code)()
 
