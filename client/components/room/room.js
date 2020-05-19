@@ -45,18 +45,19 @@ export default class Room extends Component {
       this.updateUsersForAll(users)
     })
 
-    socket.on('user left room', (name) => {
-      this.removeUser(name)
+    socket.on('user left room', (data) => {
+      console.log(data.users, 'I LEFT')
+      this.updateUsersForAll(data.users)
     })
   }
 
-  componentWillUnmount() {
-    console.log('LEFT ROOM')
-    socket.emit('leave room', {
-      roomId: this.state.roomId,
-      name: this.state.currentUser,
-    })
-  }
+  // componentWillUnmount() {
+  //   console.log('LEFT ROOM')
+  //   socket.emit('leave room', {
+  //     roomId: this.state.roomId,
+  //     name: this.state.currentUser,
+  //   })
+  // }
 
   joinUser = (users) => {
     console.log(users, 'IM JOIN NAME')
@@ -66,12 +67,6 @@ export default class Room extends Component {
   updateUsersForAll = (users) => {
     this.setState({users: users})
   }
-
-  // removeUser = (name) => {
-  //   let users = this.state.users [ray, ron, ron, ben]
-  //   users.filter(user => { user === name })
-  //   this.setState({users: })
-  // }
 
   sendUsers = () => {
     this.state.users && this.state.users.length
@@ -101,7 +96,6 @@ export default class Room extends Component {
   }
 
   render() {
-    console.log('this.state', this.state)
     return (
       <div>
         <RoomNav

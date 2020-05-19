@@ -3,8 +3,8 @@ import Invite from '../invite'
 import './roomNav.css'
 
 export default class RoomNav extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       inviteClicked: false,
     }
