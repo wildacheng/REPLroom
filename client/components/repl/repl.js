@@ -162,7 +162,6 @@ class Repl extends Component {
   }
 
   render() {
-    console.log('this.state.currentlyTyping', this.state.currentlyTyping)
     const options = {
       lineNumbers: true,
       lineWrapping: true,

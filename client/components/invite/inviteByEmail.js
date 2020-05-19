@@ -17,7 +17,6 @@ class InviteByEmail extends Component {
   }
 
   handleShowEmail = () => {
-    console.log('function called')
     sendEmail({
       firstName: this.state.firstName,
       email: this.state.email,

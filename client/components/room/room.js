@@ -39,12 +39,10 @@ export default class Room extends Component {
     })
 
     socket.on('user joined room', (data) => {
-      console.log(data, 'IM CONNECTED TO A ROOM')
       this.joinUser(data)
     })
 
     socket.on('receive users', (users) => {
-      console.log('RECEIVED USERS', users)
       this.updateUsersForAll(users)
     })
 
@@ -61,7 +59,6 @@ export default class Room extends Component {
   }
 
   joinUser = (users) => {
-    console.log(users, 'IM JOIN NAME')
     this.setState({users: users})
   }
 
@@ -81,13 +78,16 @@ export default class Room extends Component {
   }
 
   handleEnteredName = () => {
-    this.setState({
-      currentUser: this.textInput.value,
-    })
-    socket.emit('connectToRoom', {
-      name: this.textInput.value,
-      roomId: this.state.roomId,
-    })
+    let name = this.textInput.value.trim()
+    if (name) {
+      this.setState({
+        currentUser: this.textInput.value,
+      })
+      socket.emit('connectToRoom', {
+        name: this.textInput.value,
+        roomId: this.state.roomId,
+      })
+    }
   }
 
   handleEnterKeyPress = (e) => {
@@ -97,7 +97,6 @@ export default class Room extends Component {
   }
 
   render() {
-    console.log('this.state', this.state)
     return (
       <div>
         <RoomNav
