@@ -23,10 +23,6 @@ module.exports = (io) => {
       if (data.name && data.roomId) {
         socket.join(data.roomId)
 
-        // if (!users[data.roomId][socket.id]) {
-        //   users[data.roomId][socket.id] = data.name
-        // }
-
         //Setting users obj to store roomId & name
         if (!users[data.roomId]) {
           users[data.roomId] = {}
@@ -59,7 +55,6 @@ module.exports = (io) => {
     })
 
     socket.on('send result', (data) => {
-      console.log(data, 'GOT RESULT')
       io.sockets.in(data.roomId).emit('receive result for all', data.result)
     })
 
@@ -73,13 +68,6 @@ module.exports = (io) => {
     socket.on('result event', (data) => {
       io.sockets.in(data.roomId).emit('updating result', data.result)
     })
-
-    // socket.on('leave room', (data) => {
-    //   console.log(socket.id, 'IM SOCKET ID')
-    //   io.sockets.in(data.roomId).emit('user left room', {name: data.name})
-    //   // delete users[data.roomId][socket.id]
-    //   socket.leave(data.roomId)
-    // })
 
     socket.on('stop typing', (roomId) => {
       io.sockets.in(roomId).emit('update typing name')
@@ -107,7 +95,6 @@ module.exports = (io) => {
         io.sockets
           .in(roomId)
           .emit('user left room', {users: remainingUsers, roomId: roomId})
-        console.log(remainingUsers, 'IM BACKEND USER')
       }
 
       socket.leave(roomId)

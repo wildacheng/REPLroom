@@ -44,18 +44,9 @@ export default class Room extends Component {
     })
 
     socket.on('user left room', (data) => {
-      console.log(data.users, 'I LEFT')
       this.updateUsersForAll(data.users)
     })
   }
-
-  // componentWillUnmount() {
-  //   console.log('LEFT ROOM')
-  //   socket.emit('leave room', {
-  //     roomId: this.state.roomId,
-  //     name: this.state.currentUser,
-  //   })
-  // }
 
   joinUser = (users) => {
     this.setState({users: users})
