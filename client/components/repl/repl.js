@@ -53,7 +53,7 @@ class Repl extends Component {
       this.getNewCodeFromServer(data.code)
       clearTimeout(typingTimer)
       this.setState({
-        currentlyTyping: data.name,
+        currentlyTyping: data.name.charAt(0).toUpperCase() + data.name.slice(1),
       })
     })
 

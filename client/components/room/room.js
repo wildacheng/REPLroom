@@ -24,9 +24,6 @@ export default class Room extends Component {
   }
 
   componentDidMount() {
-    //const name = this.props.location.state.name
-    // const roomId = this.props.match.params.roomId
-
     if (this.state.currentUser && this.state.roomId) {
       socket.emit('connectToRoom', {
         name: this.state.currentUser,
