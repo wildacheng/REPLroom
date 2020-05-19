@@ -33,6 +33,7 @@ input {
   color: #434371;
   font-weight: bold;
   border: 1px #434371 solid;
+  background-color: #79aea3;
 }
 
 .button {
@@ -63,8 +64,9 @@ input {
   top: 1px;
 }
 
-#joinBtn {
-  margin-right: 8px;
+#no-name {
+  font-size: 10pt;
+  color: #79aea3;
 }
 
 #header {
