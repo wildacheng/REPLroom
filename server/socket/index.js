@@ -4,6 +4,7 @@ module.exports = (io) => {
   io.on('connection', (socket) => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
 
+    //Listening on Chat Component
     socket.on('new-user-joined', (data) => {
       if (!users[data.roomId]) {
         users[data.roomId] = {}
@@ -19,6 +20,7 @@ module.exports = (io) => {
       })
     })
 
+    //Listening on Room Component
     socket.on('connectToRoom', (data) => {
       if (data.name && data.roomId) {
         socket.join(data.roomId)
@@ -31,9 +33,10 @@ module.exports = (io) => {
         users[data.roomId][socket.id] = data.name
 
         //Emits for Room Component
-        io.sockets
-          .in(data.roomId)
-          .emit('user joined room', Object.values(users[data.roomId]))
+        io.sockets.in(data.roomId).emit('user joined room', {
+          users: Object.values(users[data.roomId]),
+          name: users[data.roomId][socket.id],
+        })
 
         io.sockets
           .in(data.roomId)
