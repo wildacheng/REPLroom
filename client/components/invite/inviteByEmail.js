@@ -42,10 +42,11 @@ class InviteByEmail extends Component {
     return (
       <div>
         <ToastNotification
-          body="Your email has been sent successfully!"
+          body="Invitaion has been sent successfully!"
           show={this.state.show}
           setShow={this.setShow}
         />
+
         <div className="email-details">
           <div className="required-fields">
             <label>FirstName </label>
