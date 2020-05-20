@@ -9,6 +9,7 @@ const Toolbar = (props) => {
     eraseLine,
     addRect,
     addCircle,
+    setWeight,
   } = props
 
   return (
@@ -65,8 +66,23 @@ const Toolbar = (props) => {
         <div className="dropdownLines">
           <button
             type="button"
-            className="colorbtn green"
-            onClick={() => changeColor('#B5F44A')}
+            className="lineBtn onePointFive"
+            onClick={() => setWeight(1.5)}
+          />
+          <button
+            type="button"
+            className="lineBtn three"
+            onClick={() => setWeight(3)}
+          />
+          <button
+            type="button"
+            className="lineBtn six"
+            onClick={() => setWeight(6)}
+          />
+          <button
+            type="button"
+            className="lineBtn twelve"
+            onClick={() => setWeight(12)}
           />
         </div>
       </div>

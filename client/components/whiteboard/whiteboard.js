@@ -175,6 +175,7 @@ export default function Whiteboard(props) {
         eraseLine={eraseLine}
         addRect={addRect}
         addCircle={addCircle}
+        setWeight={setWeight}
       />
       {/* This section controls drawing on the canvas "stage"--> */}
       <Stage
