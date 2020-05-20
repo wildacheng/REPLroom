@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {sendEmail} from '../reducer/email'
+import ToastNotification from '../toastNotification'
 
 class InviteByEmail extends Component {
   constructor() {
@@ -7,6 +8,7 @@ class InviteByEmail extends Component {
     this.state = {
       firstName: '',
       email: '',
+      show: false,
     }
   }
 
@@ -16,7 +18,7 @@ class InviteByEmail extends Component {
     })
   }
 
-  handleShowEmail = () => {
+  handleSendEmail = () => {
     sendEmail({
       firstName: this.state.firstName,
       email: this.state.email,
@@ -26,54 +28,69 @@ class InviteByEmail extends Component {
     this.setState({
       firstName: '',
       email: '',
+      show: true,
+    })
+  }
+
+  setShow = (val) => {
+    this.setState({
+      show: val,
     })
   }
 
   render() {
     return (
-      <div className="email-details">
-        <div className="required-fields">
-          <label>FirstName </label>
-          <span
-            className={
-              !this.state.firstName.trim() ? 'required-red' : 'required-green'
-            }
+      <div>
+        <ToastNotification
+          body="Invitaion has been sent successfully!"
+          show={this.state.show}
+          setShow={this.setShow}
+        />
+
+        <div className="email-details">
+          <div className="required-fields">
+            <label>FirstName </label>
+            <span
+              className={
+                !this.state.firstName.trim() ? 'required-red' : 'required-green'
+              }
+            >
+              (required)
+            </span>
+          </div>
+          <input
+            type="text"
+            name="firstName"
+            placeholder="Enter FirstName"
+            value={this.state.firstName}
+            onChange={this.handleChange}
+            autoFocus
+          ></input>
+          <div className="required-fields">
+            <label>Email </label>
+            <span
+              className={
+                !this.state.email.trim() ? 'required-red' : 'required-green'
+              }
+            >
+              (required)
+            </span>
+          </div>
+          <input
+            type="text"
+            name="email"
+            placeholder="Enter email"
+            value={this.state.email}
+            onChange={this.handleChange}
+          ></input>
+          <button
+            type="button"
+            disabled={!this.state.firstName || !this.state.email}
+            onClick={this.handleSendEmail}
           >
-            (required)
-          </span>
+            Send
+          </button>
         </div>
-        <input
-          type="text"
-          name="firstName"
-          placeholder="Enter FirstName"
-          value={this.state.firstName}
-          onChange={this.handleChange}
-          autoFocus
-        ></input>
-        <div className="required-fields">
-          <label>Email </label>
-          <span
-            className={
-              !this.state.email.trim() ? 'required-red' : 'required-green'
-            }
-          >
-            (required)
-          </span>
-        </div>
-        <input
-          type="text"
-          name="email"
-          placeholder="Enter email"
-          value={this.state.email}
-          onChange={this.handleChange}
-        ></input>
-        <button
-          type="button"
-          disabled={!this.state.firstName || !this.state.email}
-          onClick={this.handleShowEmail}
-        >
-          Send
-        </button>
       </div>
     )
   }
