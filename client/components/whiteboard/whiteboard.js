@@ -62,6 +62,22 @@ export default function Whiteboard(props) {
     }
   }
 
+  const changeWeight = (weight) => {
+    setWeight(weight)
+    if (activeLine) {
+      deactivateLine()
+      setActiveLine(true)
+      addLine(
+        roomId,
+        stageEl.current.getStage(),
+        lines,
+        strokeColor,
+        weight,
+        'brush'
+      )
+    }
+  }
+
   // --- Lifecycle & Socket Events --- //
 
   // only open sockets once, so we place the listeners
@@ -175,7 +191,7 @@ export default function Whiteboard(props) {
         eraseLine={eraseLine}
         addRect={addRect}
         addCircle={addCircle}
-        setWeight={setWeight}
+        changeWeight={changeWeight}
       />
       {/* This section controls drawing on the canvas "stage"--> */}
       <Stage

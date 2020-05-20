@@ -68,10 +68,12 @@ module.exports = (io) => {
       }
     })
 
+    //Listen from Room Component
     socket.on('send users', (data) => {
       io.sockets.in(data.roomId).emit('receive users', data.users)
     })
 
+    //Listen from Repl Component
     socket.on('send code', (data) => {
       io.sockets.in(data.roomId).emit('receive code for all', data.code)
     })
@@ -120,6 +122,7 @@ module.exports = (io) => {
       io.sockets.in(roomId).emit('update typing name')
     })
 
+    //Helper function for socket on disconnect
     const getRoomId = (socketId) => {
       let roomId = ''
       Object.entries(users).find(([key, value]) => {

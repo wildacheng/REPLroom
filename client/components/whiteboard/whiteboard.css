@@ -25,11 +25,16 @@
 }
 
 .toolbarIcon {
-  height: 28px;
+  max-height: 28px;
   width: 28px;
 }
 
 .colorPalette {
+  position: relative;
+  display: inline-block;
+}
+
+.weightPalette {
   position: relative;
   display: inline-block;
 }
@@ -45,8 +50,29 @@
   z-index: 5;
 }
 
+.dropdownLines {
+  display: none;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 40);
+  padding: 4px;
+  padding-left: 7px;
+  /* text-decoration: none; */
+  z-index: 5;
+}
+
 .colorPalette:hover .dropdownColors {
   display: block;
+}
+
+.weightPalette:hover .dropdownLines {
+  display: block;
+}
+
+.lineBtn {
+  background-color: Transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
 
 .colorbtn {

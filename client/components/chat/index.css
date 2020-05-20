@@ -12,7 +12,7 @@
   max-height: 240px;
   min-height: 240px;
   padding: 10px;
-  background-color: white;
+  background-color: rgb(124, 113, 115);
 }
 
 .text-area {
@@ -20,9 +20,13 @@
   max-height: 200px;
   padding: 5px 10px;
   font-size: 14px;
-  background-color: rgb(204, 204, 204);
+  color: #79aea3;
+  background-color: #434371;
   overflow: auto;
   border-radius: 10px;
+  letter-spacing: -1px;
+  font-weight: 500;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .chat-open-button {
@@ -62,17 +66,31 @@
 }
 
 .msg-input-bar input {
+  background-color: #79aea3;
+  color: #434371;
   width: 145px;
   bottom: 0;
   height: 20px;
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: bold;
   border-radius: 5px;
+  border: 1px #434371 solid;
+  letter-spacing: -1px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.msg-input-bar input::placeholder {
+  font-weight: bold;
+  color: rgb(97, 97, 97);
 }
 
 .msg-input-bar button {
+  background-color: #434371;
+  color: #b5f44a;
   height: 20px;
   margin-left: 4px;
   border-radius: 5px;
+  border: 1px #434371 solid;
   font-size: 10px;
   width: 35px;
   padding: 0;

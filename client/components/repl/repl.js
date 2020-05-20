@@ -165,6 +165,12 @@ class Repl extends Component {
       mode: 'javascript',
       theme: 'material-palenight',
       viewportMargin: Infinity,
+      extraKeys: {
+        Enter: (e) => {
+          console.log(e)
+          e.replaceSelection('\n', 'end')
+        },
+      },
     }
 
     return (
@@ -182,6 +188,7 @@ class Repl extends Component {
           <Codemirror
             value={this.state.code}
             options={options}
+            enterMode="indent"
             onBeforeChange={(_editor, _data, value) => {
               this.updateCodeInState(value)
             }}

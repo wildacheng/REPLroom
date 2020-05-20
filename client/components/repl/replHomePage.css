@@ -68,6 +68,7 @@ form input {
 #no-name {
   font-size: 10pt;
   color: #79aea3;
+  margin-bottom: -30px;
 }
 
 #header {

@@ -9,7 +9,7 @@ const Toolbar = (props) => {
     eraseLine,
     addRect,
     addCircle,
-    setWeight,
+    changeWeight,
   } = props
 
   return (
@@ -67,23 +67,31 @@ const Toolbar = (props) => {
           <button
             type="button"
             className="lineBtn onePointFive"
-            onClick={() => setWeight(1.5)}
-          />
+            onClick={() => changeWeight(1)}
+          >
+            <img className="toolbarIcon" src="/whiteboard/onePt.png" />
+          </button>
           <button
             type="button"
             className="lineBtn three"
-            onClick={() => setWeight(3)}
-          />
+            onClick={() => changeWeight(3)}
+          >
+            <img className="toolbarIcon" src="/whiteboard/threePt.png" />
+          </button>
           <button
             type="button"
             className="lineBtn six"
-            onClick={() => setWeight(6)}
-          />
+            onClick={() => changeWeight(8)}
+          >
+            <img className="toolbarIcon" src="/whiteboard/sixPt.png" />
+          </button>
           <button
             type="button"
             className="lineBtn twelve"
-            onClick={() => setWeight(12)}
-          />
+            onClick={() => changeWeight(20)}
+          >
+            <img className="toolbarIcon" src="/whiteboard/twelvePt.png" />
+          </button>
         </div>
       </div>
       <div className="colorPalette">
