@@ -26,7 +26,6 @@
 }
 
 .chat-open-button {
-  /* background-image: url('../chat.png'); */
   background-color: #27222b;
   position: fixed;
   bottom: 15px;

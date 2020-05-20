@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-//import io from 'socket.io-client'
 import socket from '../../socket'
 import './index.css'
 
@@ -12,8 +11,6 @@ class Chat extends Component {
       broadcastedMsg: [],
       newMsg: false,
     }
-
-    //this.socket = io(window.location.origin)
 
     const room = props.roomId
     socket.emit('connectToRoom', {name: props.userName, roomId: room})
@@ -43,13 +40,6 @@ class Chat extends Component {
     this.setState({
       message: '',
     })
-    // this.setState({
-    //   message: '',
-    //   broadcastedMsg: [
-    //     ...this.state.broadcastedMsg,
-    //     {message: this.state.message, name: this.props.userName},
-    //   ],
-    // })
   }
 
   handleChange = (e) => {
