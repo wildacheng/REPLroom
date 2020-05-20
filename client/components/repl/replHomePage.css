@@ -70,10 +70,17 @@ input {
 }
 
 #header {
-  text-align: center;
-  font-size: 7em;
+  /* text-align: center;
+  font-size: 7em; */
+  display: flex;
+  justify-content: center;
   margin: 20px 0 20px 0;
   margin-top: 60px;
+}
+
+.titleImg {
+  width: 600px;
+  height: 110px;
 }
 
 #inHeader {
@@ -83,7 +90,7 @@ input {
   transition: all 0.5s;
 }
 
-p:nth-child(1) a {
+/* p:nth-child(1) a {
   color: #6662eb;
   font-family: Monoton;
   -webkit-animation: neon1 1.5s ease-in-out infinite alternate;
