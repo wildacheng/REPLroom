@@ -30,7 +30,7 @@
 .runbtn {
   position: absolute;
   z-index: 3;
-  right: 5%;
+  right: 0.5%;
   font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS',
     sans-serif;
   font-weight: 500;
