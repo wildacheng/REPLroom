@@ -171,7 +171,7 @@ class Repl extends Component {
       extraKeys: {
         Enter: (e) => {
           console.log(e)
-          editor.replaceSelection('\n', 'end')
+          e.replaceSelection('\n', 'end')
         },
       },
     }
