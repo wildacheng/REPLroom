@@ -5,7 +5,7 @@ import socket from '../../socket'
 export const addLine = (
   roomId,
   stage,
-  layer,
+  layer, //remove!
   color,
   width,
   mode = 'inactive'
@@ -24,7 +24,6 @@ export const addLine = (
       isPaint = true
       sketchLayer = new Konva.Layer()
       stage.add(sketchLayer)
-      console.log('Created a new layer!')
       let pos = stage.getPointerPosition()
       lineStats = {
         stroke: mode === 'brush' ? color : '#232025',
@@ -42,9 +41,8 @@ export const addLine = (
 
     stage.on('mouseup touchend', function () {
       isPaint = false
-      //console.log('Try FINAL line stats-->', lineStats)
+      socket.emit('add line', {roomId, lineStats})
       sketchLayer.destroy()
-      console.log('Layer destroyed')
     })
 
     stage.on('mousemove touchmove', function () {

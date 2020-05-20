@@ -68,6 +68,16 @@ export default function Whiteboard(props) {
   // inside a useEffect hook that only runs once
   // (empty array does not change, so does not re-render)
   useEffect(() => {
+    socket.on('new line', (line) => {
+      //const newLine = line;
+      line.id = `line${lines.length + 1}`
+      console.log('Modified line:', line)
+      const allLines = lines.concat([line])
+      setLines(allLines)
+      console.log('Here is all lines:', lines)
+      addToShapes([line.id])
+    })
+
     socket.on('new rect', (rect) => {
       const rects = rectangles.concat([rect])
       setRectangles(rects)
