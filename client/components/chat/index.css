@@ -26,7 +26,6 @@
 }
 
 .chat-open-button {
-  /* background-image: url('../chat.png'); */
   background-color: #27222b;
   position: fixed;
   bottom: 15px;
@@ -42,6 +41,15 @@
   right: 15px;
   width: inherit;
   height: inherit;
+  z-index: 3;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: orange;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .chat-name {
