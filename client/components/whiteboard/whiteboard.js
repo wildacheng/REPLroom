@@ -27,13 +27,10 @@ export default function Whiteboard(props) {
   const [circles, setCircles] = useState([])
   const [lines, setLines] = useState([])
 
-  console.log('SHAPES are', shapes)
-
   // ---  Helpers --- //
   const addToShapes = (shapeEl) => {
     const shps = shapes.concat(shapeEl)
     setShapes(shps)
-    console.log('Here ya shapes:', shapes)
   }
 
   const deactivateLine = () => {
@@ -42,6 +39,7 @@ export default function Whiteboard(props) {
       roomId,
       stageEl.current.getStage(),
       //layerEl.current,
+      lines,
       strokeColor,
       strokeWeight,
       'inactive'
@@ -57,6 +55,7 @@ export default function Whiteboard(props) {
         roomId,
         stageEl.current.getStage(),
         //layerEl.current,
+        lines,
         color,
         strokeWeight,
         'brush'
@@ -70,17 +69,19 @@ export default function Whiteboard(props) {
   // inside a useEffect hook that only runs once
   // (empty array does not change, so does not re-render)
   useEffect(() => {
+    socket.on('new line', (allLines) => {
+      console.log('didWe get all the Lines?', allLines)
+      setLines(allLines)
+      //addToShapes([line.id]) //just add last?
+    })
+
+    //----Makes no sense that this doesnt work-->
     // socket.on('new line', (line) => {
     //   line.id = `line${lines.length + 1}`
     //   const allLines = lines.concat([line])
     //   setLines(allLines)
     //   addToShapes([line.id])
     // })
-    socket.on('new line', (allLines) => {
-      console.log('didWe get all the Lines?', allLines)
-      setLines(allLines)
-      //addToShapes([line.id]) //just add last?
-    })
 
     socket.on('new rect', (rect) => {
       const rects = rectangles.concat([rect])
@@ -122,7 +123,8 @@ export default function Whiteboard(props) {
     addLine(
       roomId,
       stageEl.current.getStage(),
-      layerEl.current,
+      //layerEl.current,
+      lines,
       strokeColor,
       strokeWeight,
       'erase'

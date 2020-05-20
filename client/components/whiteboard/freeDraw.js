@@ -15,6 +15,7 @@ export const addLine = (
   let lastLine
   let lineStats
   let sketchLayer
+  const lineArr = lines.slice()
 
   if (mode === 'inactive') {
     stage.off('mousedown touchstart')
@@ -37,13 +38,13 @@ export const addLine = (
       }
       //socket.emit('add line', {roomId, lineStats})
       lastLine = new Konva.Line(lineStats)
-      //layer.add(lastLine)
       sketchLayer.add(lastLine)
     })
 
     stage.on('mouseup touchend', function () {
       isPaint = false
-      const allLines = lines.concat([lineStats])
+      //const allLines = lines.concat([lineStats])
+      const allLines = lineArr.concat([lineStats])
       socket.emit('add line', {roomId, allLines})
       sketchLayer.destroy()
     })
