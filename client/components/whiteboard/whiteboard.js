@@ -1,5 +1,5 @@
 import React, {useState, createRef, useEffect} from 'react'
-import {Stage, Layer} from 'react-konva'
+import {Stage, Layer, Line} from 'react-konva'
 import Konva from 'konva'
 import Toolbar from './toolbar'
 //Konva Components
@@ -26,6 +26,7 @@ export default function Whiteboard(props) {
   const [selectedId, selectShape] = useState(null)
   const [rectangles, setRectangles] = useState([])
   const [circles, setCircles] = useState([])
+  const [lines, setLines] = useState([])
 
   // ---  Helpers --- //
   const addToShapes = (shapeEl) => {
@@ -173,6 +174,9 @@ export default function Whiteboard(props) {
         }}
       >
         <Layer className="layer" ref={layerEl}>
+          {lines.map((line) => {
+            return <Line key={line.id} {...line} />
+          })}
           {rectangles.map((rect, i) => {
             return (
               <Rectangle

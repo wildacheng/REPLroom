@@ -12,6 +12,7 @@ export const addLine = (
 ) => {
   let isPaint = false
   let lastLine
+  let lineStats
 
   if (mode === 'inactive') {
     stage.off('mousedown touchstart')
@@ -21,7 +22,7 @@ export const addLine = (
     stage.on('mousedown touchstart', function () {
       isPaint = true
       let pos = stage.getPointerPosition()
-      const lineStats = {
+      lineStats = {
         stroke: mode === 'brush' ? color : '#232025',
         strokeWidth: mode === 'brush' ? width : width * 2,
         globalCompositeOperation:
@@ -36,6 +37,7 @@ export const addLine = (
 
     stage.on('mouseup touchend', function () {
       isPaint = false
+      console.log('Try FINAL line stats-->', lineStats)
     })
 
     stage.on('mousemove touchmove', function () {
@@ -45,6 +47,7 @@ export const addLine = (
       const pos = stage.getPointerPosition()
       let newPoints = lastLine.points().concat([pos.x, pos.y])
       lastLine.points(newPoints)
+      lineStats.points = newPoints
       //socket.emit('draw line', {roomId, newPoints})
       layer.batchDraw()
     })
