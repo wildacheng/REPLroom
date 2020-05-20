@@ -43,17 +43,19 @@ export default class Room extends Component {
       this.updateUsersForAll(users)
     })
 
-    socket.on('user left room', (user) => {
-      this.removeUser(user)
+    socket.on('user left room', (data) => {
+      console.log(data.users, 'I LEFT')
+      this.updateUsersForAll(data.users)
     })
   }
 
-  componentWillUnmount() {
-    socket.emit('leave room', {
-      roomId: this.state.roomId,
-      user: this.state.currentUser,
-    })
-  }
+  // componentWillUnmount() {
+  //   console.log('LEFT ROOM')
+  //   socket.emit('leave room', {
+  //     roomId: this.state.roomId,
+  //     name: this.state.currentUser,
+  //   })
+  // }
 
   joinUser = (users) => {
     this.setState({users: users})
@@ -75,13 +77,16 @@ export default class Room extends Component {
   }
 
   handleEnteredName = () => {
-    this.setState({
-      currentUser: this.textInput.value,
-    })
-    socket.emit('connectToRoom', {
-      name: this.textInput.value,
-      roomId: this.state.roomId,
-    })
+    let name = this.textInput.value.trim()
+    if (name) {
+      this.setState({
+        currentUser: this.textInput.value,
+      })
+      socket.emit('connectToRoom', {
+        name: this.textInput.value,
+        roomId: this.state.roomId,
+      })
+    }
   }
 
   handleEnterKeyPress = (e) => {

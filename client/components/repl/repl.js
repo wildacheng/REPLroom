@@ -51,7 +51,7 @@ class Repl extends Component {
       this.getNewCodeFromServer(data.code)
       clearTimeout(typingTimer)
       this.setState({
-        currentlyTyping: data.name,
+        currentlyTyping: data.name.charAt(0).toUpperCase() + data.name.slice(1),
       })
     })
 
@@ -162,6 +162,7 @@ class Repl extends Component {
   render() {
     const options = {
       lineNumbers: true,
+      lineWrapping: true,
       mode: 'javascript',
       theme: 'material-palenight',
       viewportMargin: Infinity,

@@ -15,9 +15,9 @@ class Chat extends Component {
     //this.socket = io(window.location.origin)
 
     const room = props.roomId
-    socket.emit('connectToRoom', {roomId: room})
+    socket.emit('connectToRoom', {name: props.userName, roomId: room})
 
-    socket.emit('new-user-joined', props.userName)
+    socket.emit('new-user-joined', {name: props.userName, roomId: room})
 
     socket.on('chat-message', (data) => {
       this.setState({
@@ -68,7 +68,14 @@ class Chat extends Component {
           <div className="chat-window">
             <div className="text-area">
               {this.state.broadcastedMsg.map((item, index) => {
-                return <div key={index}>{`${item.name}: ${item.message}`}</div>
+                return (
+                  <div key={index}>
+                    <span className="chat-name">{`${
+                      item.name.charAt(0).toUpperCase() + item.name.slice(1)
+                    }`}</span>
+                    <span>{`:${item.message}`}</span>
+                  </div>
+                )
               })}
             </div>
             <div className="msg-input-bar">

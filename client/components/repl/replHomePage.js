@@ -43,43 +43,74 @@ class HomePage extends Component {
     const {name, roomId} = this.state
 
     return (
-      <div>
+      <div id="homepage-background">
         <p id="header">
           <a id="inHeader">REPLroom</a>
         </p>
-        <div className="login">
+        <div id="form-container">
+          <p>
+            Welcome to REPLroom, the new app that guarantees a fab coding collab
+            experience. <br />
+            Before getting started, please enter the following information:
+          </p>
           <form>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">
+              <label></label>
+              First, {'<input>'} your name here:
+            </label>
+            <br />
             <input
               onChange={this.handleChange}
               type="text"
               id="name"
               name="name"
+              placeholder="Name"
               value={name}
             />
-            <label htmlFor="name">Room</label>
-            <input
-              onChange={this.handleChange}
-              type="text"
-              id="room"
-              name="roomId"
-              value={roomId}
-            />
             <br />
-            <input
-              id="joinBtn"
-              className="button"
-              onClick={this.joinRoom}
-              type="submit"
-              value="Join Room"
-            ></input>
-            <input
-              className="button"
-              onClick={this.createRoom}
-              type="submit"
-              name="roomId"
-              value="Create Room"
-            ></input>
+            <br />
+            <br />
+            {this.state.name.length ? (
+              <div id="input fields">
+                <label htmlFor="Join Room">
+                  if (Room ID === already known) {'{enter it here}'}
+                </label>
+                <input
+                  onChange={this.handleChange}
+                  type="text"
+                  id="room"
+                  name="roomId"
+                  placeholder="Room ID"
+                  value={roomId}
+                />
+                <br />
+                <input
+                  id="joinBtn"
+                  className="button"
+                  onClick={this.joinRoom}
+                  type="submit"
+                  value="Join Room"
+                ></input>
+                <br />
+                <br />
+                <br />
+                <label htmlFor="Create Room">
+                  else {'{click below to create a new room}'}
+                </label>
+                <br />
+                <input
+                  className="button"
+                  onClick={this.createRoom}
+                  type="submit"
+                  name="roomId"
+                  value="Create New Room"
+                ></input>
+              </div>
+            ) : (
+              <p id="no-name">
+                <em>Please enter your name before proceeding</em>
+              </p>
+            )}
           </form>
         </div>
       </div>
