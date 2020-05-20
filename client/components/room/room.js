@@ -138,7 +138,7 @@ export default class Room extends Component {
             updateCode={this.updateCodeInState}
           />
           <Pane className="pane whiteboardPane">
-            <Whiteboard />
+            <Whiteboard roomId={this.props.match.params.roomId} />
           </Pane>
         </SplitPane>
         <VideoChat roomId={this.state.roomId} />

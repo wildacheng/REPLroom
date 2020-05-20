@@ -47,6 +47,9 @@ class HomePage extends Component {
         <p id="header">
           <a id="inHeader">REPLroom</a>
         </p>
+        {/* <div id="header">
+          <img className="titleImg" src="/title.png" alt="REPLroom" />
+        </div> */}
         <div id="form-container">
           <p>
             Welcome to REPLroom, the new app that guarantees a fab coding collab

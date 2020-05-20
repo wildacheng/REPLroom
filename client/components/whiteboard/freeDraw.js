@@ -1,10 +1,21 @@
+/* eslint-disable max-params */
 import Konva from 'konva'
-//import {EventEmitter} from 'events'
-//const lineEvent = new EventEmitter()
+import socket from '../../socket'
 
-export const addLine = (stage, layer, color, width = 5, mode = 'inactive') => {
+export const addLine = (
+  roomId,
+  stage,
+  //layer,
+  lines,
+  color,
+  width,
+  mode = 'inactive'
+) => {
   let isPaint = false
   let lastLine
+  let lineStats
+  let sketchLayer
+  const lineArr = [] //lines.slice()
 
   if (mode === 'inactive') {
     stage.off('mousedown touchstart')
@@ -13,22 +24,32 @@ export const addLine = (stage, layer, color, width = 5, mode = 'inactive') => {
   } else {
     stage.on('mousedown touchstart', function () {
       isPaint = true
+      sketchLayer = new Konva.Layer()
+      stage.add(sketchLayer)
       let pos = stage.getPointerPosition()
-      lastLine = new Konva.Line({
+      lineStats = {
         stroke: mode === 'brush' ? color : '#232025',
         strokeWidth: mode === 'brush' ? width : width * 2,
         globalCompositeOperation:
           mode === 'brush' ? 'source-over' : 'destination-out',
         points: [pos.x, pos.y],
         draggable: false,
-      })
-      layer.add(lastLine)
-      //emitted the last line for socket-->commented out for delpoy
-      // lineEvent.emit(layer, lastLine) //not sure layer can transmit
+        id: `line${lines.length + lineArr.length + 1}`,
+      }
+      //socket.emit('add line', {roomId, lineStats})
+      lastLine = new Konva.Line(lineStats)
+      sketchLayer.add(lastLine)
     })
 
     stage.on('mouseup touchend', function () {
       isPaint = false
+      //const allLines = lines.concat([lineStats])
+      //const allLines = lineArr.concat([lineStats])
+      lineArr.push(lineStats)
+      const allLines = lines.concat(lineArr)
+      console.log('What is allLines?', allLines)
+      socket.emit('add line', {roomId, allLines})
+      sketchLayer.destroy()
     })
 
     stage.on('mousemove touchmove', function () {
@@ -38,7 +59,10 @@ export const addLine = (stage, layer, color, width = 5, mode = 'inactive') => {
       const pos = stage.getPointerPosition()
       let newPoints = lastLine.points().concat([pos.x, pos.y])
       lastLine.points(newPoints)
-      layer.batchDraw()
+      lineStats.points = newPoints
+      //socket.emit('draw line', {roomId, newPoints})
+      //layer.batchDraw()
+      sketchLayer.batchDraw()
     })
   }
 }

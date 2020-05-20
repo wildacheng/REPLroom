@@ -73,8 +73,15 @@ form input {
 #header {
   text-align: center;
   font-size: 7em;
+  /* display: flex;
+  justify-content: center; */
   margin: 20px 0 20px 0;
   margin-top: 60px;
+}
+
+.titleImg {
+  width: 600px;
+  height: 110px;
 }
 
 #inHeader {

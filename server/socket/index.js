@@ -65,6 +65,32 @@ module.exports = (io) => {
       })
     })
 
+    //Whiteboard Events
+    socket.on('add line', (data) => {
+      io.in(data.roomId).emit('new line', data.allLines)
+    })
+
+    socket.on('draw line', (data) => {
+      socket.to(data.roomId).emit('client draw', data.points)
+    })
+
+    socket.on('add rect', (data) => {
+      socket.to(data.roomId).emit('new rect', data.rect)
+    })
+
+    socket.on('add circ', (data) => {
+      socket.to(data.roomId).emit('new circ', data.circ)
+    })
+
+    socket.on('update circs', (data) => {
+      socket.to(data.roomId).emit('draw circs', data.circs)
+    })
+
+    socket.on('update rects', (data) => {
+      socket.to(data.roomId).emit('draw rects', data.rects)
+    })
+    //End whiteboard events
+
     socket.on('result event', (data) => {
       io.sockets.in(data.roomId).emit('updating result', data.result)
     })
