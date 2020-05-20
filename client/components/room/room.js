@@ -108,7 +108,7 @@ export default class Room extends Component {
           show={this.state.show}
           setShow={this.setShow}
         />
-
+      <div className="room">
         <RoomNav
           roomId={this.props.match.params.roomId}
           users={this.state.users}
@@ -129,13 +129,16 @@ export default class Room extends Component {
               </Modal.Header>
               <Modal.Body>
                 <div className="container">
-                  <label>Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    ref={(input) => (this.textInput = input)}
-                    onKeyDown={this.handleEnterKeyPress}
-                  ></input>
+                  <div className="input-bar">
+                    <label>Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Enter name"
+                      ref={(input) => (this.textInput = input)}
+                      onKeyDown={this.handleEnterKeyPress}
+                    ></input>
+                  </div>
                   <button type="button" onClick={this.handleEnteredName}>
                     {' '}
                     Enter Name{' '}
