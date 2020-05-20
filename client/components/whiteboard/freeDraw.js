@@ -13,6 +13,7 @@ export const addLine = (
   let isPaint = false
   let lastLine
   let lineStats
+  let sketchLayer
 
   if (mode === 'inactive') {
     stage.off('mousedown touchstart')
@@ -21,6 +22,9 @@ export const addLine = (
   } else {
     stage.on('mousedown touchstart', function () {
       isPaint = true
+      sketchLayer = new Konva.Layer()
+      stage.add(sketchLayer)
+      console.log('Created a new layer!')
       let pos = stage.getPointerPosition()
       lineStats = {
         stroke: mode === 'brush' ? color : '#232025',
@@ -32,12 +36,15 @@ export const addLine = (
       }
       //socket.emit('add line', {roomId, lineStats})
       lastLine = new Konva.Line(lineStats)
-      layer.add(lastLine)
+      //layer.add(lastLine)
+      sketchLayer.add(lastLine)
     })
 
     stage.on('mouseup touchend', function () {
       isPaint = false
-      console.log('Try FINAL line stats-->', lineStats)
+      //console.log('Try FINAL line stats-->', lineStats)
+      sketchLayer.destroy()
+      console.log('Layer destroyed')
     })
 
     stage.on('mousemove touchmove', function () {
@@ -49,7 +56,8 @@ export const addLine = (
       lastLine.points(newPoints)
       lineStats.points = newPoints
       //socket.emit('draw line', {roomId, newPoints})
-      layer.batchDraw()
+      //layer.batchDraw()
+      sketchLayer.batchDraw()
     })
   }
 }

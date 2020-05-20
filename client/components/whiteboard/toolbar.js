@@ -1,7 +1,15 @@
 import React from 'react'
 
 const Toolbar = (props) => {
-  const {changeColor, setFill, drawLine, eraseLine, addRect, addCircle} = props
+  const {
+    activeLine,
+    changeColor,
+    setFill,
+    drawLine,
+    eraseLine,
+    addRect,
+    addCircle,
+  } = props
 
   return (
     <div className="wbToolbar">
@@ -94,7 +102,15 @@ const Toolbar = (props) => {
           </button>
         </div>
       </div>
-      <button type="button" className="toolbarBtn" onClick={() => drawLine()}>
+      <button
+        type="button"
+        className="toolbarBtn"
+        onClick={() => {
+          if (!activeLine) {
+            drawLine()
+          }
+        }}
+      >
         <img
           className="toolbarIcon"
           src="/whiteboard/pencil.png"

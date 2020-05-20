@@ -153,6 +153,7 @@ export default function Whiteboard(props) {
   return (
     <div className="whiteboard">
       <Toolbar
+        activeLine={activeLine}
         changeColor={changeColor}
         setFill={setFill}
         drawLine={drawLine}
