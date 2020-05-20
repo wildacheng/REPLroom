@@ -88,3 +88,19 @@ header {
 .name {
   margin-right: 10px;
 }
+
+.modal-content .container .input-bar {
+  display: flex;
+  flex-direction: row;
+}
+
+.modal-content .container input {
+  background-color: #79aea3;
+  color: #434371;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 1px #434371 solid;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
