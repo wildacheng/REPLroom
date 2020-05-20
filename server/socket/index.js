@@ -64,7 +64,7 @@ module.exports = (io) => {
 
     //Whiteboard Events
     socket.on('add line', (data) => {
-      io.in(data.roomId).emit('new line', data.lineStats)
+      io.in(data.roomId).emit('new line', data.allLines)
     })
 
     socket.on('draw line', (data) => {

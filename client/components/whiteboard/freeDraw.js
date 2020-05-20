@@ -6,6 +6,7 @@ export const addLine = (
   roomId,
   stage,
   //layer,
+  lines,
   color,
   width,
   mode = 'inactive'
@@ -32,6 +33,7 @@ export const addLine = (
           mode === 'brush' ? 'source-over' : 'destination-out',
         points: [pos.x, pos.y],
         draggable: false,
+        id: `line${lines.length + 1}`,
       }
       //socket.emit('add line', {roomId, lineStats})
       lastLine = new Konva.Line(lineStats)
@@ -41,7 +43,8 @@ export const addLine = (
 
     stage.on('mouseup touchend', function () {
       isPaint = false
-      socket.emit('add line', {roomId, lineStats})
+      const allLines = lines.concat([lineStats])
+      socket.emit('add line', {roomId, allLines})
       sketchLayer.destroy()
     })
 

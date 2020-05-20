@@ -4,7 +4,6 @@ import Konva from 'konva'
 import Toolbar from './toolbar'
 //Konva Components
 import {addLine} from './freeDraw'
-import {addClientLine} from './clientDraw'
 import Rectangle from './rectangle'
 import Circle from './circle'
 // Socket.io
@@ -28,7 +27,7 @@ export default function Whiteboard(props) {
   const [circles, setCircles] = useState([])
   const [lines, setLines] = useState([])
 
-  console.log('The lines are', lines)
+  console.log('SHAPES are', shapes)
 
   // ---  Helpers --- //
   const addToShapes = (shapeEl) => {
@@ -71,14 +70,16 @@ export default function Whiteboard(props) {
   // inside a useEffect hook that only runs once
   // (empty array does not change, so does not re-render)
   useEffect(() => {
-    socket.on('new line', (line) => {
-      //const newLine = line;
-      line.id = `line${lines.length + 1}`
-      console.log('Modified line:', line)
-      const allLines = lines.concat([line])
+    // socket.on('new line', (line) => {
+    //   line.id = `line${lines.length + 1}`
+    //   const allLines = lines.concat([line])
+    //   setLines(allLines)
+    //   addToShapes([line.id])
+    // })
+    socket.on('new line', (allLines) => {
+      console.log('didWe get all the Lines?', allLines)
       setLines(allLines)
-      console.log('All lines:', lines)
-      addToShapes([line.id])
+      //addToShapes([line.id]) //just add last?
     })
 
     socket.on('new rect', (rect) => {
@@ -109,6 +110,7 @@ export default function Whiteboard(props) {
       roomId,
       stageEl.current.getStage(),
       //layerEl.current,
+      lines,
       strokeColor,
       strokeWeight,
       'brush'
@@ -188,9 +190,6 @@ export default function Whiteboard(props) {
         }}
       >
         <Layer className="layer" ref={layerEl}>
-          {lines.map((line) => {
-            return <Line key={line.id} {...line} />
-          })}
           {rectangles.map((rect, i) => {
             return (
               <Rectangle
@@ -226,6 +225,9 @@ export default function Whiteboard(props) {
                 }}
               />
             )
+          })}
+          {lines.map((line) => {
+            return <Line key={line.id} {...line} />
           })}
         </Layer>
       </Stage>
