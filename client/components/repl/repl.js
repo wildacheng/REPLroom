@@ -16,8 +16,9 @@ import socket from '../../socket'
 //CSS
 import './repl.css'
 
-const TIMEOUT = 8000
+const TIMEOUT = 10000
 let typingTimer
+let runtimeTimer
 
 class Repl extends Component {
   constructor(props) {
@@ -143,16 +144,18 @@ class Repl extends Component {
   handleWebWorker = () => {
     const myWorker = new Worker(workerScript)
 
-    myWorker.onmessage = (m) => {
-      this.updateResult(m.data)
-    }
-
     const parsedCode = parseCode(this.state.code)
     myWorker.postMessage(this.functionWrapper(parsedCode))
 
-    setTimeout(() => {
+    runtimeTimer = setTimeout(() => {
+      this.updateResult('  <  Timeout occurred! Terminating!!!!!\n')
       myWorker.terminate()
     }, TIMEOUT)
+
+    myWorker.onmessage = (m) => {
+      clearTimeout(runtimeTimer)
+      this.updateResult(m.data)
+    }
   }
 
   render() {

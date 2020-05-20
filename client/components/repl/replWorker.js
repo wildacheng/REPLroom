@@ -13,10 +13,6 @@ const Worker = () => {
     let f = new Function('return ' + code)()
 
     try {
-      // setTimeout(() => {
-      //   console.log('Terminating!!!!!')
-      //   self.close();
-      // }, 10000)
       f()
     } catch (err) {
       outputStream += '  <  '
