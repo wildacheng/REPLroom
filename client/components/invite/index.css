@@ -1,10 +1,11 @@
 .modal-content {
-  background-color: #cff3e5;
-  height: 348px;
+  background-color: #e3f0eb;
+  height: 290px;
 }
 
 .modal-header {
   color: #434371;
+  padding: 0.5rem 1rem;
 }
 
 .container {
@@ -18,8 +19,6 @@
 .container button {
   width: 80%;
   border-radius: 5px;
-  /* background-color: rgb(31, 108, 185);
-  color: #ffffff; */
   background-color: #434371;
   color: #b5f44a;
 }
@@ -78,7 +77,7 @@
 
 .info {
   margin-left: 10px;
-  background-color: rgb(221, 221, 221);
+  /* background-color: rgb(221, 221, 221); */
 }
 
 .modal-footer button {
@@ -103,7 +102,7 @@
 }
 
 .required-green {
-  color: rgb(13, 88, 76);
+  color: rgb(5, 59, 50);
 }
 
 .required-fields {
