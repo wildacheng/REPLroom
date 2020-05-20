@@ -87,8 +87,7 @@ class HomePage extends Component {
                   value={roomId}
                 />
                 <br />
-                {this.state.roomId.length === 6 &&
-                this.state.roomId[0] !== ' ' ? (
+                {this.state.roomId.length && this.state.roomId[0] !== ' ' ? (
                   <input
                     id="joinBtn"
                     className="button"
