@@ -54,6 +54,22 @@ const Toolbar = (props) => {
           />
         </div>
       </div>
+      <div className="weightPalette">
+        <button type="button" className="toolbarBtn">
+          <img
+            className="toolbarIcon"
+            src="/whiteboard/lineWeight.png"
+            alt="line weight"
+          />
+        </button>
+        <div className="dropdownLines">
+          <button
+            type="button"
+            className="colorbtn green"
+            onClick={() => changeColor('#B5F44A')}
+          />
+        </div>
+      </div>
       <div className="colorPalette">
         <button type="button" className="toolbarBtn">
           <img
