@@ -1,5 +1,5 @@
 .modal-content {
-  background-color: #7de0ba;
+  background-color: #cff3e5;
   height: 348px;
 }
 
@@ -39,7 +39,9 @@
   height: 25px;
   width: 46px;
   font-size: 12px;
-  background-color: rgb(37, 158, 138);
+  background-color: #434371;
+  border: 1px #434371 solid;
+  color: #b5f44a;
   outline: none;
   box-shadow: none;
 }
@@ -51,10 +53,15 @@
 }
 
 .email-details input {
+  background-color: #79aea3;
+  color: #434371;
   height: 25px;
   width: 142px;
   font-size: 12px;
+  font-weight: bold;
   margin-right: 10px;
+  border-radius: 5px;
+  border: 1px #434371 solid;
 }
 
 .email-details span {
@@ -96,7 +103,7 @@
 }
 
 .required-green {
-  color: rgb(37, 158, 138);
+  color: rgb(13, 88, 76);
 }
 
 .required-fields {
