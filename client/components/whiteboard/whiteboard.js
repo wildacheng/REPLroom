@@ -60,6 +60,10 @@ export default function Whiteboard(props) {
     }
   }
 
+  const sendWhiteboard = (newUser) => {
+    socket.emit('send whiteboard', {newUser, lines, rectangles, circles})
+  }
+
   // --- Lifecycle & Socket Events --- //
 
   // only open sockets once, so we place the listeners
@@ -70,14 +74,6 @@ export default function Whiteboard(props) {
       setLines(allLines)
       //addToShapes([line.id]) //just add last?
     })
-
-    //----Makes no sense that this doesnt work-->
-    // socket.on('new line', (line) => {
-    //   line.id = `line${lines.length + 1}`
-    //   const allLines = lines.concat([line])
-    //   setLines(allLines)
-    //   addToShapes([line.id])
-    // })
 
     socket.on('new rect', (rect) => {
       const rects = rectangles.concat([rect])
@@ -97,6 +93,20 @@ export default function Whiteboard(props) {
 
     socket.on('draw circs', (circs) => {
       setCircles(circs)
+    })
+
+    socket.on('request whiteboard', (newUser) => {
+      //send circles, rects and lines
+      sendWhiteboard(newUser)
+    })
+
+    socket.on('draw whiteboard', (data) => {
+      const rects = data.rectangles
+      const circs = data.circles
+      const lines = data.lines
+      setRectangles(rects)
+      setCircles(circs)
+      setLines(lines)
     })
   }, [])
 

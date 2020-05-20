@@ -43,6 +43,9 @@ module.exports = (io) => {
         io.sockets.in(data.roomId).emit('load code')
 
         io.sockets.in(data.roomId).emit('load result')
+
+        //Emit for Whiteboard Component
+        socket.to(data.roomId).emit('request whiteboard', socket.id)
       }
     })
 
@@ -88,6 +91,10 @@ module.exports = (io) => {
 
     socket.on('update rects', (data) => {
       socket.to(data.roomId).emit('draw rects', data.rects)
+    })
+
+    socket.on('send whiteboard', (data) => {
+      io.to(data.newUser).emit('draw whiteboard', data)
     })
     //End whiteboard events
 
