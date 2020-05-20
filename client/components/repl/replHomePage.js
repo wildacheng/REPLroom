@@ -18,7 +18,6 @@ class HomePage extends Component {
     event.preventDefault()
     let roomId = this.generateroomId()
     this.setState({[event.target.name]: roomId})
-    console.log(this.props)
     this.props.history.push({
       pathname: `/${roomId}`,
       state: {
@@ -71,7 +70,7 @@ class HomePage extends Component {
             <br />
             <br />
             <br />
-            {this.state.name.length ? (
+            {this.state.name.length && this.state.name[0] !== ' ' ? (
               <div id="input fields">
                 <label htmlFor="Join Room">
                   if (Room ID === already known) {'{enter it here}'}
@@ -85,13 +84,24 @@ class HomePage extends Component {
                   value={roomId}
                 />
                 <br />
-                <input
-                  id="joinBtn"
-                  className="button"
-                  onClick={this.joinRoom}
-                  type="submit"
-                  value="Join Room"
-                ></input>
+                {this.state.roomId.length === 6 &&
+                this.state.roomId[0] !== ' ' ? (
+                  <input
+                    id="joinBtn"
+                    className="button"
+                    onClick={this.joinRoom}
+                    type="submit"
+                    value="Join Room"
+                  ></input>
+                ) : (
+                  <p id="no-name">
+                    <em>
+                      Please enter a valid Room ID to <br />
+                      join an existing room
+                    </em>
+                  </p>
+                )}
+
                 <br />
                 <br />
                 <br />

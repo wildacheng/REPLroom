@@ -4,7 +4,7 @@ const Worker = () => {
     console.log = function (value) {
       //check if Array.isArray and JSON.stringify it
       outputStream += '  <  '
-      outputStream += value
+      outputStream += JSON.stringify(value)
       outputStream += '\n'
     }
 
@@ -20,7 +20,6 @@ const Worker = () => {
       outputStream += ': ' + err.message
       outputStream += '\n'
     }
-
     self.postMessage(outputStream)
   }
 }

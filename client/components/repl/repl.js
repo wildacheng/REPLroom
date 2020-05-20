@@ -41,12 +41,10 @@ class Repl extends Component {
     })
 
     socket.on('receive code for all', (code) => {
-      console.log('RECEIVED CODE FOR ALL', code)
       this.updateCodeForAll(code)
     })
 
     socket.on('receive result for all', (result) => {
-      console.log('RECEIVED RESULT FOR ALL', result)
       this.updateResultForAll(result)
     })
 
@@ -94,7 +92,6 @@ class Repl extends Component {
 
   sendResult = () => {
     if (this.state.result) {
-      console.log('NEW STATE', this.state.result)
       socket.emit('send result', {
         roomId: this.props.match.params.roomId,
         result: this.state.result,
@@ -107,12 +104,10 @@ class Repl extends Component {
   }
 
   updateResultForAll = (result) => {
-    console.log(result, 'UPDATE RESULT FOR ALL')
     this.setState({result: result})
   }
 
   updateCodeInState = (newCode) => {
-    // clearTimeout(typingTimer)
     this.setState({code: newCode})
     socket.emit('coding event', {
       roomId: this.props.match.params.roomId,
@@ -123,7 +118,6 @@ class Repl extends Component {
 
   getNewCodeFromServer = (code) => {
     this.setState({code: code})
-    console.log(this.state)
   }
 
   getNewResultFromServer = (result) => {
@@ -152,6 +146,7 @@ class Repl extends Component {
 
     const parsedCode = parseCode(this.state.code)
     myWorker.postMessage(this.functionWrapper(parsedCode))
+
     runtimeTimer = setTimeout(() => {
       this.updateResult('  <  Timeout occurred! Terminating!!!!!\n')
       myWorker.terminate()
