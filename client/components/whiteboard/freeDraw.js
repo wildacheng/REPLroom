@@ -29,8 +29,8 @@ export const addLine = (
       lineStats = {
         stroke: mode === 'brush' ? color : '#232025',
         strokeWidth: mode === 'brush' ? width : width * 2,
-        globalCompositeOperation:
-          mode === 'brush' ? 'source-over' : 'destination-out',
+        // globalCompositeOperation:
+        //   mode === 'brush' ? 'source-over' : 'destination-out',
         points: [pos.x, pos.y],
         draggable: false,
         id: `line${lines.length + lineArr.length + 1}`,
