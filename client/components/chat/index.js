@@ -117,16 +117,13 @@ class Chat extends Component {
           className="chat-open-button"
           onClick={this.handleChatWindow}
         >
-          {this.state.newMsg && !this.state.chatOpen ? (
-            <div>
-              <span className="dot"></span>
-              <div>
-                <img src="/replChat.png"></img>
-              </div>
-            </div>
-          ) : (
-            <img src="/replChat.png"></img>
-          )}
+          <img
+            src={
+              this.state.newMsg && !this.state.chatOpen
+                ? '/replChat-bigAlert.png'
+                : '/replChat.png'
+            }
+          ></img>
         </button>
       </div>
     )
