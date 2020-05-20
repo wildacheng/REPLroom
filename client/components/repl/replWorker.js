@@ -1,10 +1,13 @@
 const Worker = () => {
   self.onmessage = function (e) {
     let outputStream = ''
-    console.log = function (value) {
+    console.log = function () {
       //check if Array.isArray and JSON.stringify it
       outputStream += '  <  '
-      outputStream += JSON.stringify(value)
+      for (let i = 0; i < arguments.length; i++) {
+        outputStream += JSON.stringify(arguments[i])
+        outputStream += ' '
+      }
       outputStream += '\n'
     }
 
