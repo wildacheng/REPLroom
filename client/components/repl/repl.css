@@ -56,8 +56,8 @@
 }
 
 .Resizer:hover {
-  -webkit-transition: all 1s ease;
-  transition: all 1s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .Resizer.horizontal {
@@ -100,7 +100,7 @@
   font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS',
     sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 10px;
   color: #b5f44a;
   margin: 0;
 }

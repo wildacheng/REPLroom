@@ -20,13 +20,13 @@ form {
   padding: 30px 20px;
   border: 1px white solid;
   border-radius: 5px;
-  width: 500px;
+  width: 550px;
   text-align: center;
   font-size: 16px;
   font-family: 'Courier New', Courier, monospace;
 }
 
-input {
+form input {
   width: 200px;
   height: 20px;
   border-radius: 5px;
@@ -34,6 +34,7 @@ input {
   font-weight: bold;
   border: 1px #434371 solid;
   background-color: #79aea3;
+  padding: 3px;
 }
 
 .button {
@@ -72,8 +73,15 @@ input {
 #header {
   text-align: center;
   font-size: 7em;
+  /* display: flex;
+  justify-content: center; */
   margin: 20px 0 20px 0;
   margin-top: 60px;
+}
+
+.titleImg {
+  width: 600px;
+  height: 110px;
 }
 
 #inHeader {

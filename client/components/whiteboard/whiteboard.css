@@ -14,8 +14,7 @@
   background: none;
   display: flex;
   flex-flow: row nowrap;
-  /*dropdownColors: center; */
-  z-index: 3;
+  /* z-index: 3; */
 }
 
 .toolbarBtn {
@@ -51,7 +50,6 @@
 }
 
 .colorbtn {
-  /* background-color: Transparent; */
   width: 32px;
   height: 12px;
   box-sizing: border-box;
@@ -89,9 +87,9 @@
 
 .none {
   background-color: Transparent;
-  border: 2px solid #635859;
-  color: #635859;
-  font-size: 8px;
+  /* border: 2px solid #635859; */
+  color: #706465;
+  font-size: 9px;
   text-align: left;
   padding-top: 0px;
   padding-left: 4px;
