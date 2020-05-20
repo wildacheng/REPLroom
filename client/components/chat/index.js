@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-//import io from 'socket.io-client'
 import socket from '../../socket'
 import './index.css'
 
@@ -10,9 +9,8 @@ class Chat extends Component {
       chatOpen: false,
       message: '',
       broadcastedMsg: [],
+      newMsg: false,
     }
-
-    //this.socket = io(window.location.origin)
 
     const room = props.roomId
     socket.emit('connectToRoom', {name: props.userName, roomId: room})
@@ -20,6 +18,11 @@ class Chat extends Component {
     socket.emit('new-user-joined', {name: props.userName, roomId: room})
 
     socket.on('chat-message', (data) => {
+      if (!this.state.chatOpen) {
+        this.setState({
+          newMsg: true,
+        })
+      }
       this.setState({
         broadcastedMsg: [
           ...this.state.broadcastedMsg,
@@ -36,10 +39,6 @@ class Chat extends Component {
     })
     this.setState({
       message: '',
-      broadcastedMsg: [
-        ...this.state.broadcastedMsg,
-        {message: this.state.message, name: this.props.userName},
-      ],
     })
   }
 
@@ -53,6 +52,11 @@ class Chat extends Component {
     this.setState({
       chatOpen: !this.state.chatOpen,
     })
+    if (this.state.newMsg && this.state.chatOpen) {
+      this.setState({
+        newMsg: false,
+      })
+    }
   }
 
   handleSendMessage = (e) => {
@@ -64,6 +68,9 @@ class Chat extends Component {
   render() {
     return (
       <div className="chat-pop">
+        {this.state.newMsg &&
+          !this.state.chatOpen &&
+          console.log('new message!!!!!!!!!')}
         {this.state.chatOpen && (
           <div className="chat-window">
             <div className="text-area">
@@ -100,7 +107,13 @@ class Chat extends Component {
           className="chat-open-button"
           onClick={this.handleChatWindow}
         >
-          <img src="../chatBlueV1.png"></img>
+          <img
+            src={
+              this.state.newMsg && !this.state.chatOpen
+                ? '/replChat-bigAlert.png'
+                : '/replChat.png'
+            }
+          ></img>
         </button>
       </div>
     )

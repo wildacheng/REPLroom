@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-// import Modal from 'react-modal'
 import {Modal} from 'react-bootstrap'
 import InviteByEmail from './inviteByEmail'
 import InviteByLink from './inviteByLink'
@@ -15,11 +14,6 @@ class Invite extends Component {
     }
   }
 
-  // componentDidMount = () => {
-  //   this.setState({
-  //     inviteByEmail: false
-  //   })
-  // }
   handleInviteByEmail = () => {
     this.setState({
       inviteByEmail: !this.state.inviteByEmail,
@@ -35,10 +29,6 @@ class Invite extends Component {
   render() {
     return (
       <div>
-        {/* <Modal isOpen = {this.props.show } >
-          <h1>This is a Modal</h1>
-          <p>This will the the Modal's body</p>
-        </Modal> */}
         <Modal
           {...this.props}
           size="lg"

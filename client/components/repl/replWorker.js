@@ -4,19 +4,15 @@ const Worker = () => {
     console.log = function (value) {
       //check if Array.isArray and JSON.stringify it
       outputStream += '  <  '
-      outputStream += value
+      outputStream += JSON.stringify(value)
       outputStream += '\n'
     }
 
-    let code = e.data[1]
+    let code = e.data
 
     let f = new Function('return ' + code)()
 
     try {
-      // setTimeout(() => {
-      //   console.log('Terminating!!!!!')
-      //   self.close();
-      // }, 10000)
       f()
     } catch (err) {
       outputStream += '  <  '
@@ -24,7 +20,6 @@ const Worker = () => {
       outputStream += ': ' + err.message
       outputStream += '\n'
     }
-
     self.postMessage(outputStream)
   }
 }
