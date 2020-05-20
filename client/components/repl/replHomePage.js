@@ -44,12 +44,12 @@ class HomePage extends Component {
 
     return (
       <div id="homepage-background">
-        {/* <p id="header">
+        <p id="header">
           <a id="inHeader">REPLroom</a>
-        </p> */}
-        <div id="header">
+        </p>
+        {/* <div id="header">
           <img className="titleImg" src="/title.png" alt="REPLroom" />
-        </div>
+        </div> */}
         <div id="form-container">
           <p>
             Welcome to REPLroom, the new app that guarantees a fab coding collab
@@ -73,7 +73,7 @@ class HomePage extends Component {
             <br />
             <br />
             <br />
-            {this.state.name.length ? (
+            {this.state.name.length && this.state.name[0] !== ' ' ? (
               <div id="input fields">
                 <label htmlFor="Join Room">
                   if (Room ID === already known) {'{enter it here}'}
@@ -87,13 +87,24 @@ class HomePage extends Component {
                   value={roomId}
                 />
                 <br />
-                <input
-                  id="joinBtn"
-                  className="button"
-                  onClick={this.joinRoom}
-                  type="submit"
-                  value="Join Room"
-                ></input>
+                {this.state.roomId.length === 6 &&
+                this.state.roomId[0] !== ' ' ? (
+                  <input
+                    id="joinBtn"
+                    className="button"
+                    onClick={this.joinRoom}
+                    type="submit"
+                    value="Join Room"
+                  ></input>
+                ) : (
+                  <p id="no-name">
+                    <em>
+                      Please enter a valid Room ID to <br />
+                      join an existing room
+                    </em>
+                  </p>
+                )}
+
                 <br />
                 <br />
                 <br />

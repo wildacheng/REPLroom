@@ -25,7 +25,6 @@ class RoomNav extends Component {
 
   render() {
     let users = this.props.users
-    console.log(this.props, 'IM PROP')
 
     return (
       <div>
