@@ -16,7 +16,7 @@ import socket from '../../socket'
 //CSS
 import './repl.css'
 
-const TIMEOUT = 2000
+const TIMEOUT = 10000
 let typingTimer
 let runtimeTimer
 
