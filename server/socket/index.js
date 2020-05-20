@@ -13,7 +13,7 @@ module.exports = (io) => {
     })
 
     socket.on('send-chat-message', (data) => {
-      socket.to(data.roomId).emit('chat-message', {
+      io.sockets.in(data.roomId).emit('chat-message', {
         message: data.message,
         name: users[data.roomId][socket.id],
       })

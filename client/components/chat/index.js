@@ -34,13 +34,13 @@ class Chat extends Component {
       message: this.state.message,
       roomId: this.props.roomId,
     })
-    this.setState({
-      message: '',
-      broadcastedMsg: [
-        ...this.state.broadcastedMsg,
-        {message: this.state.message, name: this.props.userName},
-      ],
-    })
+    // this.setState({
+    //   message: '',
+    //   broadcastedMsg: [
+    //     ...this.state.broadcastedMsg,
+    //     {message: this.state.message, name: this.props.userName},
+    //   ],
+    // })
   }
 
   handleChange = (e) => {
