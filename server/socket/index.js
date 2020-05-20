@@ -1,13 +1,10 @@
 module.exports = (io) => {
-  let users = {}
-  const whiteboard = {
-    lines: [],
-    rectangles: [],
-    circles: [],
-  }
+  //Data objects for Firestore once we migrate to Firebase:
+  const users = {}
+  const whiteboard = {}
 
   io.on('connection', (socket) => {
-    console.log(`A socket connection to the server has been made: ${socket.id}`)
+    console.log(`New socket connection: ${socket.id}`)
 
     socket.on('new-user-joined', (data) => {
       if (!users[data.roomId]) {
@@ -15,6 +12,15 @@ module.exports = (io) => {
       }
 
       users[data.roomId][socket.id] = data.name
+
+      //need this?
+      if (!whiteboard[data.roomId]) {
+        whiteboard[data.roomId] = {
+          lines: [],
+          rectangles: [],
+          cirlces: [],
+        }
+      }
     })
 
     socket.on('send-chat-message', (data) => {
@@ -35,6 +41,14 @@ module.exports = (io) => {
 
         users[data.roomId][socket.id] = data.name
 
+        if (!whiteboard[data.roomId]) {
+          whiteboard[data.roomId] = {
+            lines: [],
+            rectangles: [],
+            cirlces: [],
+          }
+        }
+
         //Emits for Room Component
         io.sockets
           .in(data.roomId)
@@ -50,8 +64,7 @@ module.exports = (io) => {
         io.sockets.in(data.roomId).emit('load result')
 
         //Emit for Whiteboard Component
-        //socket.emit('request whiteboard', socket.id)
-        io.to(socket.id).emit('draw whiteboard', whiteboard)
+        io.to(socket.id).emit('draw whiteboard', whiteboard[data.roomId])
       }
     })
 
@@ -76,8 +89,8 @@ module.exports = (io) => {
 
     //Whiteboard Events
     socket.on('add line', (data) => {
-      whiteboard.lines = data.allLines
-      io.in(data.roomId).emit('new line', data.allLines)
+      whiteboard[data.roomId].lines = data.allLines
+      io.in(data.roomId).emit('new line', whiteboard[data.roomId].lines) //data.allLines)
     })
 
     socket.on('add rect', (data) => {
@@ -89,20 +102,14 @@ module.exports = (io) => {
     })
 
     socket.on('update circs', (data) => {
-      whiteboard.circles = data.circs
+      whiteboard[data.roomId].circles = data.circs
       socket.to(data.roomId).emit('draw circs', data.circs)
     })
 
     socket.on('update rects', (data) => {
-      whiteboard.rectangles = data.rects
+      whiteboard[data.roomId].rectangles = data.rects
       socket.to(data.roomId).emit('draw rects', data.rects)
     })
-
-    // socket.on('request whiteboard', (socketId) => {
-    //   console.log('Sending WB data to', socketId)
-    //   io.to(socketId).emit('draw whiteboard', whiteboard)
-    // })
-
     //End whiteboard events
 
     socket.on('result event', (data) => {

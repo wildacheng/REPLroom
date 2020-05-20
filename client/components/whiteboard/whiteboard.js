@@ -26,6 +26,8 @@ export default function Whiteboard(props) {
   const [circles, setCircles] = useState([])
   const [lines, setLines] = useState([])
 
+  console.log('Lines on state:', lines)
+
   // ---  Helpers --- //
   const addToShapes = (shapeEl) => {
     const shps = shapes.concat(shapeEl)
@@ -92,10 +94,10 @@ export default function Whiteboard(props) {
     })
 
     socket.on('draw whiteboard', (data) => {
-      console.log('Received data:', data)
-      const rects = data.rectangles
-      const circs = data.circles
-      const allLines = data.lines
+      console.log('New arrival data:', data)
+      const rects = data.rectangles || []
+      const circs = data.circles || []
+      const allLines = data.lines || []
       setRectangles(rects)
       setCircles(circs)
       setLines(allLines)
