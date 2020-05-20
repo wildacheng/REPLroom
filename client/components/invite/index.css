@@ -1,5 +1,10 @@
 .modal-content {
+  background-color: #7de0ba;
   height: 348px;
+}
+
+.modal-header {
+  color: #434371;
 }
 
 .container {
@@ -13,8 +18,10 @@
 .container button {
   width: 80%;
   border-radius: 5px;
-  background-color: rgb(31, 108, 185);
-  color: #ffffff;
+  /* background-color: rgb(31, 108, 185);
+  color: #ffffff; */
+  background-color: #434371;
+  color: #b5f44a;
 }
 
 .container button:hover:enabled {
