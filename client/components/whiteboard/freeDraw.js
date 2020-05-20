@@ -5,7 +5,7 @@ import socket from '../../socket'
 export const addLine = (
   roomId,
   stage,
-  layer, //remove!
+  //layer,
   color,
   width,
   mode = 'inactive'

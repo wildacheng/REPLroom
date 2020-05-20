@@ -28,10 +28,13 @@ export default function Whiteboard(props) {
   const [circles, setCircles] = useState([])
   const [lines, setLines] = useState([])
 
+  console.log('The lines are', lines)
+
   // ---  Helpers --- //
   const addToShapes = (shapeEl) => {
     const shps = shapes.concat(shapeEl)
     setShapes(shps)
+    console.log('Here ya shapes:', shapes)
   }
 
   const deactivateLine = () => {
@@ -39,7 +42,7 @@ export default function Whiteboard(props) {
     addLine(
       roomId,
       stageEl.current.getStage(),
-      layerEl.current,
+      //layerEl.current,
       strokeColor,
       strokeWeight,
       'inactive'
@@ -54,7 +57,7 @@ export default function Whiteboard(props) {
       addLine(
         roomId,
         stageEl.current.getStage(),
-        layerEl.current,
+        //layerEl.current,
         color,
         strokeWeight,
         'brush'
@@ -74,7 +77,7 @@ export default function Whiteboard(props) {
       console.log('Modified line:', line)
       const allLines = lines.concat([line])
       setLines(allLines)
-      console.log('Here is all lines:', lines)
+      console.log('All lines:', lines)
       addToShapes([line.id])
     })
 
@@ -105,7 +108,7 @@ export default function Whiteboard(props) {
     addLine(
       roomId,
       stageEl.current.getStage(),
-      layerEl.current,
+      //layerEl.current,
       strokeColor,
       strokeWeight,
       'brush'

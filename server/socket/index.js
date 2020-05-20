@@ -29,8 +29,6 @@ module.exports = (io) => {
 
         users[data.roomId][socket.id] = data.name
 
-        console.log(Object.values(users[data.roomId]), 'THE USERS')
-
         io.sockets
           .in(data.roomId)
           .emit('user joined room', Object.values(users[data.roomId]))
