@@ -60,10 +60,6 @@ export default function Whiteboard(props) {
     }
   }
 
-  const sendWhiteboard = (newUser) => {
-    socket.emit('send whiteboard', {newUser, lines, rectangles, circles})
-  }
-
   // --- Lifecycle & Socket Events --- //
 
   // only open sockets once, so we place the listeners
@@ -95,18 +91,14 @@ export default function Whiteboard(props) {
       setCircles(circs)
     })
 
-    socket.on('request whiteboard', (newUser) => {
-      //send circles, rects and lines
-      sendWhiteboard(newUser)
-    })
-
     socket.on('draw whiteboard', (data) => {
+      console.log('Received data:', data)
       const rects = data.rectangles
       const circs = data.circles
-      const lines = data.lines
+      const allLines = data.lines
       setRectangles(rects)
       setCircles(circs)
-      setLines(lines)
+      setLines(allLines)
     })
   }, [])
 
