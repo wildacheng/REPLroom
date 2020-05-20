@@ -20,6 +20,7 @@ export default function Whiteboard(props) {
   const [strokeColor, setStroke] = useState('#B5F44A')
   const [strokeWeight, setWeight] = useState(3)
   const [activeLine, setActiveLine] = useState(false)
+  const [activeEraser, setActiveEraser] = useState(false)
   const [shapes, setShapes] = useState([])
   const [selectedId, selectShape] = useState(null)
   const [rectangles, setRectangles] = useState([])
@@ -36,6 +37,7 @@ export default function Whiteboard(props) {
 
   const deactivateLine = () => {
     setActiveLine(false)
+    setActiveEraser(false)
     addLine(
       roomId,
       stageEl.current.getStage(),
@@ -74,6 +76,18 @@ export default function Whiteboard(props) {
         strokeColor,
         weight,
         'brush'
+      )
+    }
+    if (activeEraser) {
+      deactivateLine()
+      setActiveEraser(true)
+      addLine(
+        roomId,
+        stageEl.current.getStage(),
+        lines,
+        strokeColor,
+        weight,
+        'erase'
       )
     }
   }
@@ -135,6 +149,7 @@ export default function Whiteboard(props) {
 
   const eraseLine = () => {
     deactivateLine()
+    setActiveEraser(true)
     addLine(
       roomId,
       stageEl.current.getStage(),
