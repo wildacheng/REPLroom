@@ -1,6 +1,5 @@
 import React, {useState, createRef, useEffect} from 'react'
 import {Stage, Layer, Line} from 'react-konva'
-import Konva from 'konva'
 import Toolbar from './toolbar'
 //Konva Components
 import {addLine} from './freeDraw'
@@ -38,7 +37,6 @@ export default function Whiteboard(props) {
     addLine(
       roomId,
       stageEl.current.getStage(),
-      //layerEl.current,
       lines,
       strokeColor,
       strokeWeight,
@@ -54,7 +52,6 @@ export default function Whiteboard(props) {
       addLine(
         roomId,
         stageEl.current.getStage(),
-        //layerEl.current,
         lines,
         color,
         strokeWeight,
@@ -70,7 +67,6 @@ export default function Whiteboard(props) {
   // (empty array does not change, so does not re-render)
   useEffect(() => {
     socket.on('new line', (allLines) => {
-      console.log('didWe get all the Lines?', allLines)
       setLines(allLines)
       //addToShapes([line.id]) //just add last?
     })
@@ -110,7 +106,6 @@ export default function Whiteboard(props) {
     addLine(
       roomId,
       stageEl.current.getStage(),
-      //layerEl.current,
       lines,
       strokeColor,
       strokeWeight,
@@ -123,7 +118,6 @@ export default function Whiteboard(props) {
     addLine(
       roomId,
       stageEl.current.getStage(),
-      //layerEl.current,
       lines,
       strokeColor,
       strokeWeight,

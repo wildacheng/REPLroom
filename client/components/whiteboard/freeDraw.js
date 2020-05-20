@@ -5,7 +5,6 @@ import socket from '../../socket'
 export const addLine = (
   roomId,
   stage,
-  //layer,
   lines,
   color,
   width,
@@ -15,7 +14,7 @@ export const addLine = (
   let lastLine
   let lineStats
   let sketchLayer
-  const lineArr = [] //lines.slice()
+  const lineArr = []
 
   if (mode === 'inactive') {
     stage.off('mousedown touchstart')
@@ -36,18 +35,14 @@ export const addLine = (
         draggable: false,
         id: `line${lines.length + lineArr.length + 1}`,
       }
-      //socket.emit('add line', {roomId, lineStats})
       lastLine = new Konva.Line(lineStats)
       sketchLayer.add(lastLine)
     })
 
     stage.on('mouseup touchend', function () {
       isPaint = false
-      //const allLines = lines.concat([lineStats])
-      //const allLines = lineArr.concat([lineStats])
       lineArr.push(lineStats)
       const allLines = lines.concat(lineArr)
-      console.log('What is allLines?', allLines)
       socket.emit('add line', {roomId, allLines})
       sketchLayer.destroy()
     })
@@ -60,8 +55,6 @@ export const addLine = (
       let newPoints = lastLine.points().concat([pos.x, pos.y])
       lastLine.points(newPoints)
       lineStats.points = newPoints
-      //socket.emit('draw line', {roomId, newPoints})
-      //layer.batchDraw()
       sketchLayer.batchDraw()
     })
   }
