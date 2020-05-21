@@ -11,6 +11,10 @@
   margin: -10px;
 }
 
+.CodeMirror-vscrollbar {
+  overflow-y: hidden;
+}
+
 .react-codemirror2 {
   height: 100%;
   min-height: 100%;
