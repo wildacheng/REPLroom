@@ -9,6 +9,8 @@ const Toolbar = (props) => {
     eraseLine,
     addRect,
     addCircle,
+    changeWeight,
+    clearBoard,
   } = props
 
   return (
@@ -52,6 +54,45 @@ const Toolbar = (props) => {
             className="colorbtn black"
             onClick={() => changeColor('#1D1D1D')}
           />
+        </div>
+      </div>
+      <div className="weightPalette">
+        <button type="button" className="toolbarBtn">
+          <img
+            className="toolbarIcon"
+            src="/whiteboard/lineWeight.png"
+            alt="line weight"
+          />
+        </button>
+        <div className="dropdownLines">
+          <button
+            type="button"
+            className="lineBtn onePointFive"
+            onClick={() => changeWeight(1)}
+          >
+            <img className="toolbarIcon" src="/whiteboard/onePt.png" />
+          </button>
+          <button
+            type="button"
+            className="lineBtn three"
+            onClick={() => changeWeight(3)}
+          >
+            <img className="toolbarIcon" src="/whiteboard/threePt.png" />
+          </button>
+          <button
+            type="button"
+            className="lineBtn six"
+            onClick={() => changeWeight(8)}
+          >
+            <img className="toolbarIcon" src="/whiteboard/sixPt.png" />
+          </button>
+          <button
+            type="button"
+            className="lineBtn twelve"
+            onClick={() => changeWeight(20)}
+          >
+            <img className="toolbarIcon" src="/whiteboard/twelvePt.png" />
+          </button>
         </div>
       </div>
       <div className="colorPalette">
@@ -148,6 +189,19 @@ const Toolbar = (props) => {
           className="toolbarIcon"
           src="/whiteboard/circle.png"
           alt="create circle"
+        />
+      </button>
+      <button
+        type="button"
+        className="toolbarBtn"
+        onClick={() => {
+          clearBoard()
+        }}
+      >
+        <img
+          className="toolbarIcon"
+          src="/whiteboard/clearBoard.png"
+          alt="clear board"
         />
       </button>
     </div>
