@@ -112,6 +112,13 @@ module.exports = (io) => {
       whiteboard[data.roomId].rectangles = data.rects
       socket.to(data.roomId).emit('draw rects', data.rects)
     })
+
+    socket.on('clear board', (data) => {
+      whiteboard[data.roomId].lines = []
+      whiteboard[data.roomId].rectangles = []
+      whiteboard[data.roomId].circles = []
+      io.sockets.in(data.roomId).emit('clear all')
+    })
     //End whiteboard events
 
     socket.on('result event', (data) => {

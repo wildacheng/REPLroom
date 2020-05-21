@@ -92,6 +92,8 @@ export default function Whiteboard(props) {
     }
   }
 
+  const clearBoard = () => {}
+
   // --- Lifecycle & Socket Events --- //
 
   // only open sockets once, so we place the listeners
