@@ -92,7 +92,9 @@ export default function Whiteboard(props) {
     }
   }
 
-  const clearBoard = () => {}
+  const clearBoard = () => {
+    socket.emit('clear board', {roomId})
+  }
 
   // --- Lifecycle & Socket Events --- //
 
@@ -133,6 +135,12 @@ export default function Whiteboard(props) {
       setRectangles(rects)
       setCircles(circs)
       setLines(allLines)
+    })
+
+    socket.on('delete whiteboard', () => {
+      setRectangles([])
+      setCircles([])
+      setLines([])
     })
   }, [])
 
@@ -209,6 +217,7 @@ export default function Whiteboard(props) {
         addRect={addRect}
         addCircle={addCircle}
         changeWeight={changeWeight}
+        clearBoard={clearBoard}
       />
       {/* This section controls drawing on the canvas "stage"--> */}
       <Stage

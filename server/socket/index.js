@@ -117,7 +117,7 @@ module.exports = (io) => {
       whiteboard[data.roomId].lines = []
       whiteboard[data.roomId].rectangles = []
       whiteboard[data.roomId].circles = []
-      io.sockets.in(data.roomId).emit('clear all')
+      io.sockets.in(data.roomId).emit('delete whiteboard')
     })
     //End whiteboard events
 

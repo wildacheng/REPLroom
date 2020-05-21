@@ -10,6 +10,7 @@ const Toolbar = (props) => {
     addRect,
     addCircle,
     changeWeight,
+    clearBoard,
   } = props
 
   return (
@@ -188,6 +189,19 @@ const Toolbar = (props) => {
           className="toolbarIcon"
           src="/whiteboard/circle.png"
           alt="create circle"
+        />
+      </button>
+      <button
+        type="button"
+        className="toolbarBtn"
+        onClick={() => {
+          clearBoard()
+        }}
+      >
+        <img
+          className="toolbarIcon"
+          src="/whiteboard/clearBoard.png"
+          alt="clear board"
         />
       </button>
     </div>
