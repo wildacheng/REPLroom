@@ -1,6 +1,5 @@
 import React, {useState, createRef, useEffect} from 'react'
 import {Stage, Layer, Line} from 'react-konva'
-import Konva from 'konva'
 import Toolbar from './toolbar'
 //Konva Components
 import {addLine} from './freeDraw'
@@ -21,6 +20,7 @@ export default function Whiteboard(props) {
   const [strokeColor, setStroke] = useState('#B5F44A')
   const [strokeWeight, setWeight] = useState(3)
   const [activeLine, setActiveLine] = useState(false)
+  const [activeEraser, setActiveEraser] = useState(false)
   const [shapes, setShapes] = useState([])
   const [selectedId, selectShape] = useState(null)
   const [rectangles, setRectangles] = useState([])
@@ -35,10 +35,10 @@ export default function Whiteboard(props) {
 
   const deactivateLine = () => {
     setActiveLine(false)
+    setActiveEraser(false)
     addLine(
       roomId,
       stageEl.current.getStage(),
-      //layerEl.current,
       lines,
       strokeColor,
       strokeWeight,
@@ -54,13 +54,44 @@ export default function Whiteboard(props) {
       addLine(
         roomId,
         stageEl.current.getStage(),
-        //layerEl.current,
         lines,
         color,
         strokeWeight,
         'brush'
       )
     }
+  }
+
+  const changeWeight = (weight) => {
+    setWeight(weight)
+    if (activeLine) {
+      deactivateLine()
+      setActiveLine(true)
+      addLine(
+        roomId,
+        stageEl.current.getStage(),
+        lines,
+        strokeColor,
+        weight,
+        'brush'
+      )
+    }
+    if (activeEraser) {
+      deactivateLine()
+      setActiveEraser(true)
+      addLine(
+        roomId,
+        stageEl.current.getStage(),
+        lines,
+        strokeColor,
+        weight,
+        'erase'
+      )
+    }
+  }
+
+  const clearBoard = () => {
+    socket.emit('clear board', {roomId})
   }
 
   // --- Lifecycle & Socket Events --- //
@@ -70,18 +101,9 @@ export default function Whiteboard(props) {
   // (empty array does not change, so does not re-render)
   useEffect(() => {
     socket.on('new line', (allLines) => {
-      console.log('didWe get all the Lines?', allLines)
       setLines(allLines)
       //addToShapes([line.id]) //just add last?
     })
-
-    //----Makes no sense that this doesnt work-->
-    // socket.on('new line', (line) => {
-    //   line.id = `line${lines.length + 1}`
-    //   const allLines = lines.concat([line])
-    //   setLines(allLines)
-    //   addToShapes([line.id])
-    // })
 
     socket.on('new rect', (rect) => {
       const rects = rectangles.concat([rect])
@@ -102,6 +124,21 @@ export default function Whiteboard(props) {
     socket.on('draw circs', (circs) => {
       setCircles(circs)
     })
+
+    socket.on('draw whiteboard', (data) => {
+      const rects = data.rectangles || []
+      const circs = data.circles || []
+      const allLines = data.lines || []
+      setRectangles(rects)
+      setCircles(circs)
+      setLines(allLines)
+    })
+
+    socket.on('delete whiteboard', () => {
+      setRectangles([])
+      setCircles([])
+      setLines([])
+    })
   }, [])
 
   // ---  Whiteboard Tools  ---//
@@ -110,7 +147,6 @@ export default function Whiteboard(props) {
     addLine(
       roomId,
       stageEl.current.getStage(),
-      //layerEl.current,
       lines,
       strokeColor,
       strokeWeight,
@@ -120,10 +156,10 @@ export default function Whiteboard(props) {
 
   const eraseLine = () => {
     deactivateLine()
+    setActiveEraser(true)
     addLine(
       roomId,
       stageEl.current.getStage(),
-      //layerEl.current,
       lines,
       strokeColor,
       strokeWeight,
@@ -177,6 +213,8 @@ export default function Whiteboard(props) {
         eraseLine={eraseLine}
         addRect={addRect}
         addCircle={addCircle}
+        changeWeight={changeWeight}
+        clearBoard={clearBoard}
       />
       {/* This section controls drawing on the canvas "stage"--> */}
       <Stage
