@@ -104,7 +104,8 @@ export default class Room extends Component {
     return (
       <div className="room">
         <ToastNotification
-          body={`${this.state.newUser} has joined!`}
+          header="Notification"
+          body={`${this.state.newUser} has joined the room!`}
           show={this.state.show}
           setShow={this.setShow}
         />
