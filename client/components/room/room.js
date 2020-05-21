@@ -10,7 +10,7 @@ import Chat from '../chat'
 import socket from '../../socket'
 import 'bootstrap/dist/css/bootstrap.min.css'
 //ToastNotification
-import ToastNewUser from '../toastNotification/toastNewUser'
+import ToastNotification from '../toastNotification'
 
 export default class Room extends Component {
   constructor(props) {
@@ -103,7 +103,7 @@ export default class Room extends Component {
   render() {
     return (
       <div className="room">
-        <ToastNewUser
+        <ToastNotification
           body={`${this.state.newUser} has joined!`}
           show={this.state.show}
           setShow={this.setShow}
