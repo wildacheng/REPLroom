@@ -16,7 +16,7 @@ const Rectangle = ({shapeProps, isSelected, onSelect, onChange}) => {
   return (
     <Fragment>
       <Rect
-        onClick={onSelect}
+        onClick={() => onSelect()}
         ref={shapeRef}
         {...shapeProps}
         draggable={!!isSelected}
