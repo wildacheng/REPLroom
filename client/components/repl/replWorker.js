@@ -13,10 +13,10 @@ const Worker = () => {
 
     let code = e.data
 
-    let f = new Function('return ' + code)()
+    let func = new Function('return ' + code)()
 
     try {
-      f()
+      func()
     } catch (err) {
       outputStream += '  <  '
       outputStream += err.name
