@@ -44,12 +44,12 @@ class HomePage extends Component {
 
     return (
       <div id="homepage-background">
-        <p id="header">
+        {/* <p id="header">
           <a id="inHeader">REPLroom</a>
-        </p>
-        {/* <div id="header">
-          <img className="titleImg" src="/title.png" alt="REPLroom" />
-        </div> */}
+        </p> */}
+        <div id="header">
+          <img className="titleImg" src="/retroTitle.gif" alt="REPLroom" />
+        </div>
         <div id="form-container">
           <p>
             Welcome to REPLroom, the new app that guarantees a fab coding collab
