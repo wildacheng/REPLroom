@@ -47,8 +47,11 @@ class HomePage extends Component {
         {/* <p id="header">
           <a id="inHeader">REPLroom</a>
         </p> */}
-        <div id="header">
+        {/* <div id="header">
           <img className="titleImg" src="/retroTitle.gif" alt="REPLroom" />
+        </div> */}
+        <div id="header">
+          <img className="titleImg" src="/promptTitle.gif" alt="REPLroom" />
         </div>
         <div id="form-container">
           <p>
