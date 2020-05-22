@@ -4,9 +4,8 @@ import {withRouter} from 'react-router'
 //Code Mirror
 import {Controlled as Codemirror} from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
-//import 'codemirror/theme/monokai.css'
 import 'codemirror/theme/material-palenight.css'
-import 'codemirror/mode/javascript/javascript.js' //look into this
+import 'codemirror/mode/javascript/javascript.js'
 //local scripts
 import workerScript from './replWorker'
 import WorkerOutput from './replTerminal'
@@ -167,7 +166,6 @@ class Repl extends Component {
       viewportMargin: Infinity,
       extraKeys: {
         Enter: (e) => {
-          console.log(e)
           e.replaceSelection('\n', 'end')
         },
       },

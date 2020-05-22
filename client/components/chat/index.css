@@ -20,13 +20,10 @@
   max-height: 200px;
   padding: 5px 10px;
   font-size: 14px;
-  color: #79aea3;
-  background-color: #434371;
+  color: #acd8cf;
+  background-color: #303061;
   overflow: auto;
   border-radius: 10px;
-  letter-spacing: -1px;
-  font-weight: 500;
-  font-family: 'Courier New', Courier, monospace;
 }
 
 .chat-open-button {
