@@ -44,25 +44,20 @@ class HomePage extends Component {
 
     return (
       <div id="homepage-background">
-        {/* <p id="header">
-          <a id="inHeader">REPLroom</a>
-        </p> */}
-        {/* <div id="header">
-          <img className="titleImg" src="/retroTitle.gif" alt="REPLroom" />
-        </div> */}
         <div id="header">
-          <img className="titleImg" src="/promptTitle.gif" alt="REPLroom" />
+          <img className="titleImg" src="/retroTitle.gif" alt="REPLroom" />
         </div>
         <div id="form-container">
           <p>
             Welcome to REPLroom, the new app that guarantees a fab coding collab
-            experience. <br />
-            Before getting started, please enter the following information:
+            experience.
+            {/*  This is obvious, don't need to say: <br />
+            Before getting started, please enter the following information: */}
           </p>
           <form>
             <label htmlFor="name">
               <label></label>
-              First, {'<input>'} your name here:
+              First, {'<input>'} your name:
             </label>
             <br />
             <input
@@ -100,13 +95,11 @@ class HomePage extends Component {
                   ></input>
                 ) : (
                   <p id="no-name">
-                    <em>
-                      Please enter a valid Room ID to <br />
-                      join an existing room
-                    </em>
+                    {/* <em>
+                       Redundant: Please enter a valid Room ID to <br /> join an existing room
+                    </em> */}
                   </p>
                 )}
-
                 <br />
                 <br />
                 <br />
@@ -124,7 +117,7 @@ class HomePage extends Component {
               </div>
             ) : (
               <p id="no-name">
-                <em>Please enter your name before proceeding</em>
+                {/* Reduntant: <em>Please enter your name before proceeding</em> */}
               </p>
             )}
           </form>
