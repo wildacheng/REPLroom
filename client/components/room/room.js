@@ -9,6 +9,8 @@ import Chat from '../chat'
 //SOCKET
 import socket from '../../socket'
 import 'bootstrap/dist/css/bootstrap.min.css'
+//ToastNotification
+import ToastNotification from '../toastNotification'
 
 export default class Room extends Component {
   constructor(props) {
@@ -18,7 +20,9 @@ export default class Room extends Component {
       currentUser: this.props.location.state
         ? this.props.location.state.name
         : '',
+      newUser: '',
       roomId: this.props.match.params.roomId,
+      show: false,
       width: '50%', //width of left pane
     }
   }
@@ -48,8 +52,18 @@ export default class Room extends Component {
     })
   }
 
-  joinUser = (users) => {
-    this.setState({users: users})
+  setShow = (val) => {
+    this.setState({
+      show: val,
+    })
+  }
+
+  joinUser = (data) => {
+    this.setState({
+      users: data.users,
+      newUser: data.name,
+      show: true,
+    })
   }
 
   updateUsersForAll = (users) => {
@@ -89,6 +103,12 @@ export default class Room extends Component {
   render() {
     return (
       <div className="room">
+        <ToastNotification
+          header="Notification"
+          body={`${this.state.newUser} has joined the room!`}
+          show={this.state.show}
+          setShow={this.setShow}
+        />
         <RoomNav
           roomId={this.props.match.params.roomId}
           users={this.state.users}
