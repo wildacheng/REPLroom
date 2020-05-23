@@ -45,7 +45,7 @@ class HomePage extends Component {
     return (
       <div id="homepage-background">
         <div id="header">
-          <img className="titleImg" src="/retroTitle.gif" alt="REPLroom" />
+          <img className="titleImg" src="/neonTitle.gif" alt="REPLroom" />
         </div>
         <div id="form-container">
           <p>
