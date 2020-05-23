@@ -22,6 +22,12 @@ export const addLine = (
     const allLines = lines.concat(lineArr)
     socket.emit('add line', {roomId, allLines})
     sketchLayer.destroy()
+    //destroy any layers added by undetected mouseleaves
+    const children = stage.getChildren()
+    while (children.length > 1) {
+      children[children.length - 1].destroy()
+      console.log(stage.getChildren())
+    }
   }
 
   if (mode === 'inactive') {
@@ -37,14 +43,13 @@ export const addLine = (
       lineStats = {
         stroke: mode === 'brush' ? color : '#232025',
         strokeWidth: mode === 'brush' ? width : width * 2,
-        // globalCompositeOperation:
-        //   mode === 'brush' ? 'source-over' : 'destination-out',
         points: [pos.x, pos.y],
         draggable: false,
         id: `line${lines.length + lineArr.length + 1}`,
       }
       lastLine = new Konva.Line(lineStats)
       sketchLayer.add(lastLine)
+      console.log('See layers on stage?', stage)
     })
 
     stage.on('mouseup touchend', function () {
