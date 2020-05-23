@@ -40,12 +40,6 @@ header {
   background-color: #434371;
 }
 
-img .invitebtn {
-  height: 14px;
-  width: 14px;
-  background-color: antiquewhite;
-}
-
 .logo {
   cursor: pointer;
   padding-left: 10px;

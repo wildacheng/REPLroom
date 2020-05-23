@@ -78,7 +78,7 @@ class Repl extends Component {
         currentlyTyping: '',
       })
       socket.emit('stop typing', this.props.match.params.roomId)
-    }, 5000)
+    }, 1500) //orginal: 5000
   }
 
   sendCode = () => {
@@ -159,12 +159,14 @@ class Repl extends Component {
   }
 
   render() {
+    //Options for CodeMirror
     const options = {
       lineNumbers: true,
       lineWrapping: true,
       mode: 'javascript',
       theme: 'material-palenight',
       viewportMargin: Infinity,
+      tabSize: 2,
       extraKeys: {
         Enter: (e) => {
           console.log(e)

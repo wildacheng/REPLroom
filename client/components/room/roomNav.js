@@ -53,7 +53,7 @@ class RoomNav extends Component {
               className="headerbtn invitebtn"
               onClick={this.handleInvite}
             >
-              <img src="/add.png" className="invitebtn" />
+              <img src="/add.png" />
               Invite
             </button>
             <Invite
