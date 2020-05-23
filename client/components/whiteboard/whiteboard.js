@@ -138,7 +138,7 @@ export default function Whiteboard(props) {
       setRectangles([])
       setCircles([])
       setLines([])
-      console.log('Lines are,', lines)
+      deactivateLine()
     })
   }, [])
 
