@@ -29,13 +29,15 @@ class RoomNav extends Component {
     return (
       <div>
         <header>
-          <div className="leftSide">
+          <div>
             <img
               className="logo"
               src="/logo.png"
               alt="logo"
               onClick={() => this.props.history.push('/')}
             />
+          </div>
+          <div>
             <div className="dropdown">
               <button className="dropbtn headerbtn" type="button">
                 Collaborators
@@ -46,13 +48,12 @@ class RoomNav extends Component {
                 ))}
               </div>
             </div>
-          </div>
-          <div>
             <button
               type="button"
               className="headerbtn invitebtn"
               onClick={this.handleInvite}
             >
+              <img src="/add.png" className="invitebtn" />
               Invite
             </button>
             <Invite
