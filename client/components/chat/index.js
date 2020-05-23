@@ -68,9 +68,6 @@ class Chat extends Component {
   render() {
     return (
       <div className="chat-pop">
-        {this.state.newMsg &&
-          !this.state.chatOpen &&
-          console.log('new message!!!!!!!!!')}
         {this.state.chatOpen && (
           <div className="chat-window">
             <div className="text-area">
@@ -80,7 +77,7 @@ class Chat extends Component {
                     <span className="chat-name">{`${
                       item.name.charAt(0).toUpperCase() + item.name.slice(1)
                     }`}</span>
-                    <span>{`:${item.message}`}</span>
+                    <span>{`: ${item.message}`}</span>
                   </div>
                 )
               })}
