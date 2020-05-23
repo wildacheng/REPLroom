@@ -59,13 +59,15 @@ export const addLine = (
         return
       }
       const pos = stage.getPointerPosition()
-      if (pos.x < 5 || pos.y < 15) {
-        console.log('Line done!')
-        endDraw()
-      }
       let newPoints = lastLine.points().concat([pos.x, pos.y])
       lastLine.points(newPoints)
       lineStats.points = newPoints
+
+      //Stop drawing if pen goes outside the stage
+      if (pos.x < 10 || pos.y < 18 || pos.y > stage.getHeight() - 10) {
+        endDraw()
+      }
+
       sketchLayer.batchDraw()
     })
   }
