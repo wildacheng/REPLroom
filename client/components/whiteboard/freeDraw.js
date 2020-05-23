@@ -16,6 +16,14 @@ export const addLine = (
   let sketchLayer
   const lineArr = []
 
+  const endDraw = () => {
+    isPaint = false
+    lineArr.push(lineStats)
+    const allLines = lines.concat(lineArr)
+    socket.emit('add line', {roomId, allLines})
+    sketchLayer.destroy()
+  }
+
   if (mode === 'inactive') {
     stage.off('mousedown touchstart')
     stage.off('mouseup touchend')
@@ -40,11 +48,10 @@ export const addLine = (
     })
 
     stage.on('mouseup touchend', function () {
-      isPaint = false
-      lineArr.push(lineStats)
-      const allLines = lines.concat(lineArr)
-      socket.emit('add line', {roomId, allLines})
-      sketchLayer.destroy()
+      if (!isPaint) {
+        return
+      }
+      endDraw()
     })
 
     stage.on('mousemove touchmove', function () {
@@ -52,6 +59,10 @@ export const addLine = (
         return
       }
       const pos = stage.getPointerPosition()
+      if (pos.x < 5 || pos.y < 15) {
+        console.log('Line done!')
+        endDraw()
+      }
       let newPoints = lastLine.points().concat([pos.x, pos.y])
       lastLine.points(newPoints)
       lineStats.points = newPoints
