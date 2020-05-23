@@ -50,7 +50,7 @@ class RoomNav extends Component {
           <div>
             <button
               type="button"
-              className="headerbtn"
+              className="headerbtn invitebtn"
               onClick={this.handleInvite}
             >
               Invite

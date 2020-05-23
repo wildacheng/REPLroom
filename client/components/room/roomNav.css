@@ -20,14 +20,23 @@ header {
   font-size: 16px;
   color: #70ee9c;
   text-decoration: none;
-  background-color: #434371;
   border: none;
   padding: 15px 32px;
   margin: 0;
   text-align: center;
-  text-decoration: none;
   display: inline-block;
   cursor: pointer;
+}
+
+.dropbtn {
+  background-color: Transparent;
+}
+
+.invitebtn {
+  background-color: #434371;
+}
+
+.dropbtn:hover {
 }
 
 .logo {
@@ -53,10 +62,13 @@ header {
 }
 
 .dropdown-content {
+  right: 0;
   display: none;
   position: absolute;
-  background-color: #79aea3;
-  color: #434371;
+  /* background-color: #79aea3; */
+  /* color: #434371; */
+  background-color: #434371bb;
+  color: #b5f44a;
   padding: 12px 16px;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
@@ -71,7 +83,8 @@ header {
 }
 
 .dropdown:hover .dropbtn {
-  background-color: #79aea3;
+  /* background-color: #79aea3; */
+  background-color: #434371;
   color: #b5f44a;
 }
 
