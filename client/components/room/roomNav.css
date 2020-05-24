@@ -17,17 +17,27 @@ header {
   font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS',
     sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 17px;
   color: #70ee9c;
   text-decoration: none;
-  background-color: #434371;
   border: none;
-  padding: 15px 32px;
+  padding: 15px;
   margin: 0;
   text-align: center;
-  text-decoration: none;
   display: inline-block;
   cursor: pointer;
+}
+
+.headerbtn:hover {
+  color: #b5f44a;
+}
+
+.dropbtn {
+  background-color: Transparent;
+}
+
+.invitebtn {
+  background-color: #434371;
 }
 
 .logo {
@@ -35,8 +45,6 @@ header {
   padding-left: 10px;
   padding-top: 1px;
   padding-bottom: 2px;
-  /* height: 40px;
-  width: 46px; */
   display: block;
 }
 
@@ -53,10 +61,11 @@ header {
 }
 
 .dropdown-content {
+  right: 0;
   display: none;
   position: absolute;
-  background-color: #79aea3;
-  color: #434371;
+  background-color: #434371bb;
+  color: #70ee9c;
   padding: 12px 16px;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
@@ -71,8 +80,7 @@ header {
 }
 
 .dropdown:hover .dropbtn {
-  background-color: #79aea3;
-  color: #b5f44a;
+  background-color: #434371;
 }
 
 .name-fields {

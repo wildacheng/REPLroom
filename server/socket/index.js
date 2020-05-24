@@ -95,7 +95,7 @@ module.exports = (io) => {
     //Whiteboard Events
     socket.on('add line', (data) => {
       whiteboard[data.roomId].lines = data.allLines
-      io.in(data.roomId).emit('new line', whiteboard[data.roomId].lines) //data.allLines)
+      io.in(data.roomId).emit('new line', whiteboard[data.roomId].lines)
     })
 
     socket.on('add rect', (data) => {

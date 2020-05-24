@@ -16,6 +16,20 @@ export const addLine = (
   let sketchLayer
   const lineArr = []
 
+  const endDraw = () => {
+    isPaint = false
+    lineArr.push(lineStats)
+    const allLines = lines.concat(lineArr)
+    socket.emit('add line', {roomId, allLines})
+    sketchLayer.destroy()
+    //destroy any layers added by undetected mouseleaves
+    const children = stage.getChildren()
+    while (children.length > 1) {
+      children[children.length - 1].destroy()
+      console.log(stage.getChildren())
+    }
+  }
+
   if (mode === 'inactive') {
     stage.off('mousedown touchstart')
     stage.off('mouseup touchend')
@@ -29,22 +43,20 @@ export const addLine = (
       lineStats = {
         stroke: mode === 'brush' ? color : '#232025',
         strokeWidth: mode === 'brush' ? width : width * 2,
-        // globalCompositeOperation:
-        //   mode === 'brush' ? 'source-over' : 'destination-out',
         points: [pos.x, pos.y],
         draggable: false,
         id: `line${lines.length + lineArr.length + 1}`,
       }
       lastLine = new Konva.Line(lineStats)
       sketchLayer.add(lastLine)
+      console.log('See layers on stage?', stage)
     })
 
     stage.on('mouseup touchend', function () {
-      isPaint = false
-      lineArr.push(lineStats)
-      const allLines = lines.concat(lineArr)
-      socket.emit('add line', {roomId, allLines})
-      sketchLayer.destroy()
+      if (!isPaint) {
+        return
+      }
+      endDraw()
     })
 
     stage.on('mousemove touchmove', function () {
@@ -55,6 +67,12 @@ export const addLine = (
       let newPoints = lastLine.points().concat([pos.x, pos.y])
       lastLine.points(newPoints)
       lineStats.points = newPoints
+
+      //Stop drawing if pen goes outside the stage
+      if (pos.x < 10 || pos.y < 18 || pos.y > stage.getHeight() - 10) {
+        endDraw()
+      }
+
       sketchLayer.batchDraw()
     })
   }
