@@ -22,8 +22,7 @@ class InviteByEmail extends Component {
     sendEmail({
       firstName: this.state.firstName,
       email: this.state.email,
-      url: 'http://replroom.herokuapp.com/',
-      roomId: this.props.roomId,
+      url: `http://replroom.herokuapp.com/${this.props.roomId}`,
     })()
     this.setState({
       firstName: '',

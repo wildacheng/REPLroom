@@ -7,7 +7,6 @@ export const sendEmail = (data) => {
         firstName: data.firstName,
         email: data.email,
         url: data.url,
-        roomId: data.roomId,
       })
     } catch (error) {
       console.error(error)
