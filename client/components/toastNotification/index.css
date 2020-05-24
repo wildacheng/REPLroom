@@ -2,6 +2,10 @@
   position: fixed;
   right: 0;
   top: 0;
+  color: #484041;
+  font-size: 16px;
+  background-color: #70ee9c;
+  z-index: 6;
 }
 
 .toast-container .toast-header button {
