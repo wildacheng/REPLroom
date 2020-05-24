@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer')
 module.exports = router
 
 router.post('/', async (req, res, next) => {
-  const {firstName, email, url, roomId} = req.body
+  const {firstName, email, url} = req.body
   try {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
