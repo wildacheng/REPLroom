@@ -17,7 +17,7 @@ router.post('/', async (req, res, next) => {
       from: 'replroom@gmail.com',
       to: email,
       subject: 'Invitation from REPLroom',
-      text: `Hello ${firstName} your friend invited you to join REPLroom for collaborative coding \n Please go the url ${url} and enter the following \n RoomId: ${roomId} \n to join your friends and have a fun time coding!`,
+      text: `Hello ${firstName}, \n Your friend invited you to join REPLroom for collaborative coding. \n Please go the url ${url} to join your friends and have a fun time coding!`,
     }
 
     transporter.sendMail(mailOptions, function (error, info) {
