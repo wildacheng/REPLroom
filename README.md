@@ -42,3 +42,11 @@ To build video calling feature we used [OpenTok][opentoklink] which is built on 
 
 [opentoklink]: https://www.vonage.com/communications-apis/campaigns/tokbox-is-now-vonage-apis/?utm_source=google-paid-search&utm_medium=cpc&utm_content=OpenTok_Exact&utm_term=opentok&utm_campaign=AMER-Brand-OpenTok-Exact&CMP=OBR-VONAGE-API-PFX-GOO-AMER-BRAND-OPENTOK-EXACT&pi_ad_id=430477772841&keyword=opentok&device=c&matchtype=e&network=g&ca.kw=opentok&ca.mt=e&ca.network=g&cb.device=c&ca.cr=430477772841&ca.target=kwd-305272246216&ca.pos=&ca.ref=Google&adtest=&gclid=CjwKCAjw8df2BRA3EiwAvfZWaEp3vkKpqh8v98qGruHBPakIowej0YFPlICnmRLvgueC7mpSgQK3zxoCuHsQAvD_BwE&gclsrc=aw.ds
 [webrtclink]: https://webrtc.org/
+
+### Chat
+
+- **Socket.io**
+
+User can chat to the people in the same virtual room. To allow real time transmission of chat messages we heavily used [Socket.io][socket.iolink]. After the user types in the chat box, he can press `send` button or hit enter to send his message. As soon the user performs any of the two actions, the chat message is captured in the local state and an event along with the chat message is sent to Sockets. On the backend, we check the room id from where the message is initiated and then broadcast the message to all the people in the same virtual room. It was essential to check the room from where the chat is initiated as there can be multiple rooms open at the same time and we want to broadcast the chat message only to the room it belongs to.
+
+[socket.iolink]: https://socket.io/
