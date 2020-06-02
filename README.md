@@ -50,3 +50,7 @@ To build video calling feature we used [OpenTok][opentoklink] which is built on 
 User can chat to the people in the same virtual room. To allow real time transmission of chat messages we heavily used [Socket.io][socket.iolink]. Socket.io is a fullstack library. It allows real-time, bidirectional, event based communication between client and the server. Unlike HTTP, server can also initiate a call in Socket.io. As the user types in the chat box, the message is captured in the local state. After that, he can press `send` button or hit enter to send his message. As soon the user performs either of the two actions, an event based transmission is initiated from the front-end. That event is read at the backend by sockets, it indentifies the room id from where the chat was initiated and then initate another event to broadcast the messge in the same virtual room. Front-end reads the event from backend and then displays the messge to all the people in that room. It was essential to check the room from where the chat is initiated as there can be multiple rooms open at the same time and we want to broadcast the chat message only to the room it belongs to.
 
 [socket.iolink]: https://socket.io/
+
+Let's start to code together [here][replroomlink]
+
+[replroomlink]: https://replroom.herokuapp.com/
