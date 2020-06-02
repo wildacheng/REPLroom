@@ -32,6 +32,12 @@ So, before the code can be evaluated by our Web Worker, we generate a Syntax Tre
 
 Now, the parsed Syntax Tree must be transformed back into JavaScript. [Escodegen]:https://github.com/estools/escodegen accomplishes this for us. Thus, our parsing function, which takes in the user's JavaScript, also returns JavaScript.
 
+- **Web Worker**
+
+Now, after the code is parsed, we send the parsed code to [WebWorker][webworkerlink]. Web worker is a process that executes the code seperately from the main thread. We used WebWorker to run the code as it runs as a seperate thread in the background and does not affect the main thread and the main thread can continue working as normal. Once the web worker is done running the code, it sends the result back to the main thread where it is stored in the local state and then displayed on terminal. Main thread and web worker communicated through messages.
+
+[webworkerlink]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
+
 ### Video Call
 
 To provide a more seamless experience we incorportated video call so that the user get a better experience in the virtual scenario. All the people in the same virtual room can connect through video call.
