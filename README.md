@@ -49,14 +49,6 @@ To build video calling feature we used [OpenTok][opentoklink] which is built on 
 [opentoklink]: https://www.vonage.com/communications-apis/campaigns/tokbox-is-now-vonage-apis/?utm_source=google-paid-search&utm_medium=cpc&utm_content=OpenTok_Exact&utm_term=opentok&utm_campaign=AMER-Brand-OpenTok-Exact&CMP=OBR-VONAGE-API-PFX-GOO-AMER-BRAND-OPENTOK-EXACT&pi_ad_id=430477772841&keyword=opentok&device=c&matchtype=e&network=g&ca.kw=opentok&ca.mt=e&ca.network=g&cb.device=c&ca.cr=430477772841&ca.target=kwd-305272246216&ca.pos=&ca.ref=Google&adtest=&gclid=CjwKCAjw8df2BRA3EiwAvfZWaEp3vkKpqh8v98qGruHBPakIowej0YFPlICnmRLvgueC7mpSgQK3zxoCuHsQAvD_BwE&gclsrc=aw.ds
 [webrtclink]: https://webrtc.org/
 
-### Chat
-
-- **Socket.io**
-
-User can chat to the people in the same virtual room. To allow real time transmission of chat messages we heavily used [Socket.io][socket.iolink]. Socket.io is a fullstack library. It allows real-time, bidirectional, event based communication between client and the server. Unlike HTTP, server can also initiate a call in Socket.io. As the user types in the chat box, the message is captured in the local state. After that, he can press `send` button or hit enter to send his message. As soon the user performs either of the two actions, an event based transmission is initiated from the front-end. That event is read at the backend by sockets, it indentifies the room id from where the chat was initiated and then initate another event to broadcast the messge in the same virtual room. Front-end reads the event from backend and then displays the messge to all the people in that room. It was essential to check the room from where the chat is initiated as there can be multiple rooms open at the same time and we want to broadcast the chat message only to the room it belongs to.
-
-[socket.iolink]: https://socket.io/
-
 Let's start to code together [here][replroomlink]
 
 [replroomlink]: https://replroom.herokuapp.com/
