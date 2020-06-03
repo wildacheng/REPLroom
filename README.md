@@ -18,19 +18,26 @@ Once the code is passed to the Web Worker, it is evaluated using the Esprima and
 
 - **CodeMirror**
 
-Users interact with the REPL by typing code into a text editor. Both this editor, as well as the console output below it, are [CodeMirror]:https://codemirror.net/ components imported via [`react-codemirror2`]:https://github.com/scniro/react-codemirror2. Options and styles are set for each CodeMirror independently to control properties, such as syntax highlighting, line numbers, and whether the Mirror is writeable or read-only, among other things.
+Users interact with the REPL by typing code into a text editor. Both this editor, as well as the console output below it, are [CodeMirror][codeMirrorLink] components imported via [`react-codemirror2`][reactCM2link]. Options and styles are set for each CodeMirror independently to control properties, such as syntax highlighting, line numbers, and whether the Mirror is writeable or read-only, among other things.
 
 After a user writes their code and hits the 'Run' button, the click-handler captures the user's code currently stored on State, and passes it to a parsing function.
+
+[codeMirrorLink]: https://codemirror.net/
+[reactCM2link]: https://github.com/scniro/react-codemirror2
 
 - **Esprima**
 
 We expect JavaScript to be entered into our REPL, but it's still necessary to pass the user's code through a JavaScript parsing function in order to capture the outputs a user would expect from a Node terminal. In reality, everything is happening in the browser.
 
-So, before the code can be evaluated by our Web Worker, we generate a Syntax Tree from the user's code using [Esprima]:https://esprima.org/. With the tree in hand, the parsing function looks for any expression statements the user has inputed and transforms the final statement (if not a console log) into a console log so that our Web Worker can then capture it's value in an output stream.
+So, before the code can be evaluated by our Web Worker, we generate a Syntax Tree from the user's code using [Esprima][esprimaLink]. With the tree in hand, the parsing function looks for any expression statements the user has inputed and transforms the final statement (if not a console log) into a console log so that our Web Worker can then capture it's value in an output stream.
+
+[esprimaLink]: https://esprima.org/
 
 - **Escodegen**
 
-Now, the parsed Syntax Tree must be transformed back into JavaScript. [Escodegen]:https://github.com/estools/escodegen accomplishes this for us. Thus, our parsing function, which takes in the user's JavaScript, also returns JavaScript.
+Now, the parsed Syntax Tree must be transformed back into JavaScript. [Escodegen][escodegenLink] accomplishes this for us. Thus, our parsing function, which takes in the user's JavaScript, also returns JavaScript.
+
+[escodegenLink]: https://github.com/estools/escodegen
 
 - **Web Worker**
 
