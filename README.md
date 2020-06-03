@@ -64,6 +64,20 @@ User can chat to the people in the same virtual room. To allow real time transmi
 
 [socketlink]: https://socket.io/
 
-Let's start to code together [here][replroomlink]
+### Whiteboard
+
+A dynamic whiteboard shares screen space with our REPL, and can take up more or less of the screen thanks to the [React Split Pane][rspLink] component, which allows panes to be resized by dragging their edges.
+
+[rspLink]: https://www.npmjs.com/package/react-split-pane
+
+- **Konva**
+
+The [Konva][konvaLink] framework, along with [React-Konva][reactKonvaLink], provide robust libraries needed for rendering HTML5 Canvas elements in a React frontend. React-Konva furnishes us with React Component wrappers for the Stage and Layer (which abstract the Canvas context), as well as Ellipses, Rectangles and Trasformers that provide draggable, configurable bounds. Pure Konva is necessary for responding to free-drawing events.
+
+[konvaLink]: https://konvajs.org/
+[reactKonvaLink]: https://github.com/konvajs/react-konva
+
+Get started coding together in [REPLroom][replroomlink]!
 
 [replroomlink]: https://replroom.herokuapp.com/
+
