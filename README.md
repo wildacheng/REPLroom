@@ -18,19 +18,26 @@ Once the code is passed to the Web Worker, it is evaluated using the Esprima and
 
 - **CodeMirror**
 
-Users interact with the REPL by typing code into a text editor. Both this editor, as well as the console output below it, are [CodeMirror]:https://codemirror.net/ components imported via [`react-codemirror2`]:https://github.com/scniro/react-codemirror2. Options and styles are set for each CodeMirror independently to control properties, such as syntax highlighting, line numbers, and whether the Mirror is writeable or read-only, among other things.
+Users interact with the REPL by typing code into a text editor. Both this editor, as well as the console output below it, are [CodeMirror][codeMirrorLink] components imported via [`react-codemirror2`][reactCM2link]. Options and styles are set for each CodeMirror independently to control properties, such as syntax highlighting, line numbers, and whether the Mirror is writeable or read-only, among other things.
 
 After a user writes their code and hits the 'Run' button, the click-handler captures the user's code currently stored on State, and passes it to a parsing function.
+
+[codeMirrorLink]: https://codemirror.net/
+[reactCM2link]: https://github.com/scniro/react-codemirror2
 
 - **Esprima**
 
 We expect JavaScript to be entered into our REPL, but it's still necessary to pass the user's code through a JavaScript parsing function in order to capture the outputs a user would expect from a Node terminal. In reality, everything is happening in the browser.
 
-So, before the code can be evaluated by our Web Worker, we generate a Syntax Tree from the user's code using [Esprima]:https://esprima.org/. With the tree in hand, the parsing function looks for any expression statements the user has inputed and transforms the final statement (if not a console log) into a console log so that our Web Worker can then capture it's value in an output stream.
+So, before the code can be evaluated by our Web Worker, we generate a Syntax Tree from the user's code using [Esprima][esprimaLink]. With the tree in hand, the parsing function looks for any expression statements the user has inputed and transforms the final statement (if not a console log) into a console log so that our Web Worker can then capture it's value in an output stream.
+
+[esprimaLink]: https://esprima.org/
 
 - **Escodegen**
 
-Now, the parsed Syntax Tree must be transformed back into JavaScript. [Escodegen]:https://github.com/estools/escodegen accomplishes this for us. Thus, our parsing function, which takes in the user's JavaScript, also returns JavaScript.
+Now, the parsed Syntax Tree must be transformed back into JavaScript. [Escodegen][escodegenLink] accomplishes this for us. Thus, our parsing function, which takes in the user's JavaScript, also returns JavaScript.
+
+[escodegenLink]: https://github.com/estools/escodegen
 
 - **Web Worker**
 
@@ -57,6 +64,20 @@ User can chat to the people in the same virtual room. To allow real time transmi
 
 [socketlink]: https://socket.io/
 
-Let's start to code together [here][replroomlink]
+### Whiteboard
+
+A dynamic whiteboard shares screen space with our REPL, and can take up more or less of the screen thanks to the [React Split Pane][rspLink] component, which allows panes to be resized by dragging their edges.
+
+[rspLink]: https://www.npmjs.com/package/react-split-pane
+
+- **Konva**
+
+The [Konva][konvaLink] framework, along with [React-Konva][reactKonvaLink], provide robust libraries needed for rendering HTML5 Canvas elements in a React frontend. React-Konva furnishes us with React Component wrappers for the Stage and Layer (which abstract the Canvas context), as well as Ellipses, Rectangles and Trasformers that provide draggable, configurable bounds. Pure Konva is necessary for responding to free-drawing events.
+
+[konvaLink]: https://konvajs.org/
+[reactKonvaLink]: https://github.com/konvajs/react-konva
+
+Get started coding together in [REPLroom][replroomlink]!
 
 [replroomlink]: https://replroom.herokuapp.com/
+
